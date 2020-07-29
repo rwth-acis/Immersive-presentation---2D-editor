@@ -1,0 +1,231 @@
+﻿<Window x:Class="_2D_Editor.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:_2D_Editor"
+        mc:Ignorable="d"
+        Title="2D Editor"
+        Background="#FFF5F5F6" Icon="Images/icon.png">
+    <Window.CommandBindings>
+        <CommandBinding Command="local:CustomCommands.Exit" CanExecute="ExitCommand_CanExecute" Executed="ExitCommand_Executed"/>
+        <CommandBinding Command="New" CanExecute="NewCommand_CanExecute" Executed="NewCommand_Executed"/>
+        <CommandBinding Command="Open" CanExecute="OpenCommand_CanExecute" Executed="OpenCommand_Executed"/>
+        <CommandBinding Command="Save" CanExecute="SaveCommand_CanExecute" Executed="SaveCommand_Executed"/>
+        <CommandBinding Command="SaveAs" CanExecute="SaveAsCommand_CanExecute" Executed="SaveAsCommand_Executed"/>
+        <CommandBinding Command="Copy" CanExecute="CopyCommand_CanExecute" Executed="CopyCommand_Executed"/>
+        <CommandBinding Command="Paste" CanExecute="PasteCommand_CanExecute" Executed="PasteCommand_Executed"/>
+        <CommandBinding Command="local:CustomCommands.Present" CanExecute="PresentCommand_CanExecute" Executed="PresentCommand_Executed"/>
+        <CommandBinding Command="local:CustomCommands.PresentProperties" CanExecute="PresentPropertiesCommand_CanExecute" Executed="PresentPropertiesCommand_Executed"/>
+        <CommandBinding Command="Help" CanExecute="HelpCommand_CanExecute" Executed="HelpCommand_Executed"/>
+    </Window.CommandBindings>
+    <DockPanel Background="#FFF5F5F6">
+        <!--The menu at the top-->
+        <Menu DockPanel.Dock="Top" Background="#b0bec9">
+            <MenuItem Header="_File">
+                <MenuItem Command="New"/>
+                <MenuItem Command="Open"/>
+                <MenuItem Command="Save"/>
+                <MenuItem Command="SaveAs"/>
+                <Separator/>
+                <MenuItem Command="local:CustomCommands.Exit"/>
+            </MenuItem>
+            <MenuItem Header="_Edit">
+                <MenuItem Command="Cut"/>
+                <MenuItem Command="Copy"/>
+                <MenuItem Command="Paste"/>
+            </MenuItem>
+            <MenuItem Header="Present">
+                <MenuItem Command="local:CustomCommands.Present"/>
+                <MenuItem Command="local:CustomCommands.PresentProperties"/>
+            </MenuItem>
+            <MenuItem Command="Help"/>
+        </Menu>
+        <!--Top area-->
+        <!--The toolbox-->
+        <Border DockPanel.Dock="Top" Background="#e3f2fd" BorderBrush="#808e9b" BorderThickness="0,0,0,0.5" >
+            <StackPanel Orientation="Horizontal" Height="50" Margin="10,5,0,5">
+                <!--Textbox for adding text-->
+                <StackPanel Width="50">
+                    <Image Source="/Images/text_box.png" Stretch="Uniform" Width="30"/>
+                    <TextBlock>Text Box</TextBlock>
+                </StackPanel>
+                <!--Imagebox for adding Images-->
+                <StackPanel Width="50" Height="50">
+                    <Image Source="/Images/picture.png" Stretch="Uniform" Width="30"/>
+                    <TextBlock>Text Box</TextBlock>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+        <!--Buttom Area-->
+        <StatusBar DockPanel.Dock="Bottom" Background="#b0bec9">
+            <StatusBarItem>
+                <Label>
+                    <TextBlock>Hallo Statusbar</TextBlock>
+                </Label>
+            </StatusBarItem>
+        </StatusBar>
+        <!--Right Area-->
+        <Border DockPanel.Dock="Right" BorderBrush="#808e9b" BorderThickness="0.5,0,0,0">
+            <StackPanel x:Name="propertiesView" Background="#FFE1E2E1">
+                <Border x:Name="complete_toggle_button">
+                    <StackPanel Orientation="Horizontal">
+                        <Canvas Width="30" Height="30">
+                            <Rectangle x:Name="rec_toogle_button" Width="30" Height="30" Canvas.Left="0" Canvas.Top="0" Fill="#FFF5F5F6" Visibility="Hidden" />
+                            <Image Source="Images/toggle_hide.png" Canvas.Left="0" Canvas.Top="0"  Width="30" Height="30" MouseLeftButtonDown="Toggle_Toolbox_LeftMouseDown" MouseEnter="Toggle_Toolbox_MouseEnter" MouseLeave="Toggle_Toolbox_MouseLeave"/>
+                        </Canvas>
+                    </StackPanel>
+                </Border>
+                <Border x:Name="propertieViewHiddenName" Visibility="Collapsed" HorizontalAlignment="Center" Margin="0,5,0,0">
+                    <TextBlock>
+                        Element properties
+                        <TextBlock.LayoutTransform>
+                            <RotateTransform Angle="90" />
+                        </TextBlock.LayoutTransform>
+                    </TextBlock>
+                </Border>
+                <Border x:Name="propertiesViewContent" Width="300">
+                    <Label>
+                        <TextBlock>Properties here.</TextBlock>
+                    </Label>
+                </Border>
+            </StackPanel>
+        </Border>
+        <!--Center area-->
+        <Grid ShowGridLines="False">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+                <ColumnDefinition Width="2*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="3*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <!--  Left Stage preview scroll sidebar-->
+            <Border Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="1" BorderBrush="#808e9b" BorderThickness="0,0,0.5,0">
+                <ScrollViewer>
+                    <StackPanel Orientation="Vertical" Background="#FFE1E2E1">
+                        <Border Background="#FFE7E7E7" BorderBrush="#808e9b" Margin="5" BorderThickness="0.5">
+                            <Viewbox Stretch="Uniform">
+                                <Canvas Background="White" Width="1280" Height="720">
+
+                                </Canvas>
+                            </Viewbox>
+                        </Border>
+                        <Border Background="#FFE7E7E7" BorderBrush="#808e9b" Margin="5" BorderThickness="0.5">
+                            <Viewbox Stretch="Uniform">
+                                <Canvas Background="White" Width="1280" Height="720">
+
+                                </Canvas>
+                            </Viewbox>
+                        </Border>
+                        <Border Background="#FFE7E7E7" BorderBrush="#808e9b" Margin="5" BorderThickness="0.5">
+                            <Viewbox Stretch="Uniform">
+                                <Canvas Background="White" Width="1280" Height="720">
+
+                                </Canvas>
+                            </Viewbox>
+                        </Border>
+                        <Border Background="#FFE7E7E7" BorderBrush="#808e9b" Margin="5" BorderThickness="0.5">
+                            <Viewbox Stretch="Uniform">
+                                <Canvas Background="White" Width="1280" Height="720">
+
+                                </Canvas>
+                            </Viewbox>
+                        </Border>
+                        <Border Background="#FFE7E7E7" BorderBrush="#808e9b" Margin="5" BorderThickness="0.5">
+                            <Viewbox Stretch="Uniform">
+                                <Canvas Background="White" Width="1280" Height="720">
+
+                                </Canvas>
+                            </Viewbox>
+                        </Border>
+                        <Border Background="#FFE7E7E7" BorderBrush="#808e9b" Margin="5" BorderThickness="0.5">
+                            <Viewbox Stretch="Uniform">
+                                <Canvas Background="White" Width="1280" Height="720">
+
+                                </Canvas>
+                            </Viewbox>
+                        </Border>
+                        <Border Background="#FFE7E7E7" BorderBrush="#808e9b" Margin="5" BorderThickness="0.5">
+                            <Viewbox Stretch="Uniform">
+                                <Canvas Background="White" Width="1280" Height="720">
+
+                                </Canvas>
+                            </Viewbox>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+            <!-- Canvas preview-->
+            <Border Grid.Row="0" Grid.RowSpan="1" Grid.Column="1" Grid.ColumnSpan="2"  Margin="5">
+                <Viewbox Stretch="Uniform">
+                    <Border BorderBrush="#808e9b" BorderThickness="0.5">
+                        <Canvas Background="#ffffff" Width="1920" Height="1080">
+
+                        </Canvas>
+                    </Border>
+                </Viewbox>
+            </Border>
+            <!--Drag & Drop Scene-->
+            <Border Grid.Row="1" Grid.RowSpan="1" Grid.Column="1" Grid.ColumnSpan="1" Background="#ffffff" BorderBrush="#808e9b" Margin="5" BorderThickness="0.5">
+                <ScrollViewer>
+                    <StackPanel>
+                        <Label Content="Scene 3D-models"></Label>
+                        <WrapPanel Orientation="Horizontal" Background="White" Margin="5" AllowDrop="True">
+                            <!--Template for the view of a 3D model in the Drag & Drop section-->
+                            <!--1. dummy-->
+                            <StackPanel Width="100" Margin="0,0,5,5">
+                                <Border Width="50" Height="50">
+                                    <Image Source="/Images/3d_box.png" Stretch="Uniform"/>
+                                </Border>
+                                <Label Width="100">
+                                    <TextBlock TextTrimming="CharacterEllipsis" ToolTip="MyCubeIsTheBestCubeIHaveEverSeen.obj" TextAlignment="Center">MyCubeIsTheBestCubeIHaveEverSeen.obj</TextBlock>
+                                </Label>
+                            </StackPanel>
+                            <!--2. dummy-->
+                            <StackPanel Width="100" Margin="0,0,5,5" HorizontalAlignment="Center">
+                                <Border Width="50" Height="50">
+                                    <Image Source="/Images/3d_box.png" Stretch="Uniform"/>
+                                </Border>
+                                <Label Width="100" HorizontalAlignment="Center">
+                                    <TextBlock TextTrimming="CharacterEllipsis" ToolTip="House.obj" TextAlignment="Center">House.obj</TextBlock>
+                                </Label>
+                            </StackPanel>
+                            <!--3. dummy-->
+                            <StackPanel Width="100" Margin="0,0,5,5" HorizontalAlignment="Center">
+                                <Border Width="50" Height="50">
+                                    <Image Source="/Images/3d_box.png" Stretch="Uniform"/>
+                                </Border>
+                                <Label Width="100">
+                                    <TextBlock TextTrimming="CharacterEllipsis" ToolTip="3D_Wave.obj" TextAlignment="Center">3D_Wave.obj</TextBlock>
+                                </Label>
+                            </StackPanel>
+                        </WrapPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+            <!--Drag & Drop Handout-->
+            <Border Grid.Row="1" Grid.RowSpan="1" Grid.Column="2" Grid.ColumnSpan="1" Background="#ffffff" BorderBrush="#808e9b" Margin="5" BorderThickness="0.5" >
+                <ScrollViewer>
+                    <StackPanel>
+                        <Label Content="Scene 3D-models"></Label>
+                        <WrapPanel Orientation="Horizontal" Background="White" Margin="5" AllowDrop="True">
+                            <!--Template for the view of a 3D model in the Drag & Drop section-->
+                            <!--1. dummy-->
+                            <StackPanel Width="100" Margin="0,0,5,5">
+                                <Border Width="50" Height="50">
+                                    <Image Source="/Images/3d_box.png" Stretch="Uniform"/>
+                                </Border>
+                                <Label Width="100">
+                                    <TextBlock TextTrimming="CharacterEllipsis" ToolTip="MyCubeIsTheBestCubeIHaveEverSeen.obj" TextAlignment="Center">MyCubeIsTheBestCubeIHaveEverSeen.obj</TextBlock>
+                                </Label>
+                            </StackPanel>
+                        </WrapPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+    </DockPanel>
+</Window>
