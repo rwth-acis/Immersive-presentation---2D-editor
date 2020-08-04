@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ImmersivePresentation;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -43,9 +44,14 @@ namespace _2D_Editor
             }
 		}
 
+		public PresentationHandling presentationHandler;
+
         public MainWindow()
         {
             InitializeComponent();
+
+			//Initialize the Presentation handler
+			presentationHandler = new PresentationHandling();
 		}
 
 		private void ExitCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -67,7 +73,8 @@ namespace _2D_Editor
 
 		private void NewCommand_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			MessageBox.Show("Custom New Command");
+			//Create a new Presentation
+			presentationHandler.createNewPresentation("fakeJWT");
 		}
 		//open Command
 		private void OpenCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)

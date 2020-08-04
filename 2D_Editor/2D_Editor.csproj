@@ -69,6 +69,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PresentationHandling.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -111,6 +112,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\toggle_show.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ImmersivePresentation\ImmersivePresentation.csproj">
+      <Project>{7C1CD851-2A83-42F1-9EE1-99BB7CDB40CE}</Project>
+      <Name>ImmersivePresentation</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
