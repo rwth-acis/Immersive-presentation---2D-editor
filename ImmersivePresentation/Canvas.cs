@@ -9,6 +9,7 @@ namespace ImmersivePresentation
         public DateTime timeOfCreation { get; set; }
         public List<Element2D> elements { get; set; }
 
+        public Canvas() { }
         public Canvas(string pCanvasId)
         {
             canvasId = pCanvasId;

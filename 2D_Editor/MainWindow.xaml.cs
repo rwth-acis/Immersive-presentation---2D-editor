@@ -84,7 +84,7 @@ namespace _2D_Editor
 
 		private void OpenCommand_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			MessageBox.Show("Custom Open Command");
+			presentationHandler.loadPresentation();
 		}
 		//save Command
 		private void SaveCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -94,7 +94,7 @@ namespace _2D_Editor
 
 		private void SaveCommand_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			MessageBox.Show("Custom Save Command");
+			presentationHandler.saveOpenPresentation();
 		}
 		//save as Command
 		private void SaveAsCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)

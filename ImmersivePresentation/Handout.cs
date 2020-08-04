@@ -9,6 +9,7 @@ namespace ImmersivePresentation
         public DateTime timeOfCreation { get; set; }
         public List<Element3D> elements { get; set; }
 
+        public Handout() { }
         public Handout(string pHandoutId)
         {
             handoutId = pHandoutId;

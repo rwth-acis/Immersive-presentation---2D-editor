@@ -10,6 +10,10 @@ namespace ImmersivePresentation
         public Scene scene { get; set; }
         public Handout handout { get; set; }
 
+        public Stage()
+        {
+
+        }
         public Stage(string pStageId)
         {
             stageId = pStageId;

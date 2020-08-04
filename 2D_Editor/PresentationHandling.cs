@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO.Compression;
 
 namespace _2D_Editor
 {
@@ -51,8 +52,37 @@ namespace _2D_Editor
                 createCleanDirectory(tempPresDir + tempSub2D);
                 createCleanDirectory(tempPresDir + tempSub3D);
 
+                saveOpenPresentation(); 
+            }
+        }
+
+        public void saveOpenPresentation()
+        {
+            if(openPresentation != null)
+            {
                 //save the new presentation as json
                 dataSerializer.SerializeAsJson(openPresentation, tempPresDir + presentationJsonFilename);
+
+                //save the ziped new presentation where the user wanted it to be
+                ZipFile.CreateFromDirectory(tempPresDir, presentationSavingPath);
+            }
+        }
+
+        public void loadPresentation()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Title = "Open a Presentation";
+            openFileDialog.Filter = "Presentation (*.pres)|*.pres|Zip (*.zip)|*.zip";
+            if(openFileDialog.ShowDialog() == true)
+            {
+                //Load zip extracted in temp
+                String filePath = openFileDialog.FileName.ToString();
+                tempDirBase = Path.GetTempPath().ToString();
+                createCleanDirectory(tempPresDir);
+                ZipFile.ExtractToDirectory(filePath, tempPresDir);
+
+                //Deserialize json
+                openPresentation = dataSerializer.DeserializerJson(typeof(Presentation), tempPresDir + presentationJsonFilename) as Presentation;
             }
         }
 

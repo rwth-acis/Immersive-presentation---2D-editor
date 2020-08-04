@@ -17,6 +17,10 @@ namespace ImmersivePresentation
         public DateTime timeOfCreation { get; set; }
         public List<Stage> stages { get; set; }
 
+        public Presentation()
+        {
+
+        }
         public Presentation(string pJwt, string pPresentationName)
         {
             //ToDo: Get a presentationId and ownerId from the coordinator via Rest API

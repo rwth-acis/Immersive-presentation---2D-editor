@@ -9,6 +9,10 @@ namespace ImmersivePresentation
         public DateTime timeOfCreation { get; set; }
         public List<Element3D> elements { get; set; }
 
+        public Scene()
+        {
+
+        }
         public Scene(string pSceneId)
         {
             sceneId = pSceneId;
