@@ -4,8 +4,13 @@ using System.Text;
 
 namespace ImmersivePresentation
 {
-    class Element
+    public class Element
     {
         public string elementId { get; set; }
+
+        public Element()
+        {
+            elementId = "";
+        }
     }
 }
