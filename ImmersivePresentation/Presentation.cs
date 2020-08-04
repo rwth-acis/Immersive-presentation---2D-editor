@@ -42,10 +42,5 @@ namespace ImmersivePresentation
 
 
         }
-
-        public void StoreAsJSON(string file)
-        {
-
-        }
     }
 }

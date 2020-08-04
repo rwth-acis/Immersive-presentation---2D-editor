@@ -14,10 +14,16 @@ namespace _2D_Editor
         public Presentation openPresentation { get; set; }
         public string presentationSavingPath { get; set; }
         public string presentationName { get; set; }
-        public string tempfolder { get; set; }
+        public string tempDirBase { get; set; } //Path to the start of the temporary folder of the actual windows user 
+        public const string tempSuffix = "ImPres\\presentation\\";
+        public string tempPresDir { get {
+                return tempDirBase + tempSuffix;
+            } } //Path where the presentation content is stored and the json of the presentation.
         public const string presentationJsonFilename = "presentation.json";
         public const string tempSub2D = "2DMedia\\";
         public const string tempSub3D = "3DMedia\\";
+
+        private DataSerializer dataSerializer = new DataSerializer();
 
         public PresentationHandling()
         {
@@ -39,13 +45,14 @@ namespace _2D_Editor
                 openPresentation = new Presentation(pJwt, presentationName);
 
                 //create a working directory in the users temp
-                tempfolder = Path.GetTempPath().ToString() + "ImPres\\";
-                Console.WriteLine(tempfolder);
-                createCleanDirectory(tempfolder);
-                createCleanDirectory(tempfolder + tempSub2D);
-                createCleanDirectory(tempfolder + tempSub3D);
+                tempDirBase = Path.GetTempPath().ToString();
+                Console.WriteLine(tempPresDir);
+                createCleanDirectory(tempPresDir);
+                createCleanDirectory(tempPresDir + tempSub2D);
+                createCleanDirectory(tempPresDir + tempSub3D);
 
-                openPresentation.StoreAsJSON(tempfolder + presentationJsonFilename);
+                //save the new presentation as json
+                dataSerializer.SerializeAsJson(openPresentation, tempPresDir + presentationJsonFilename);
             }
         }
 
