@@ -85,9 +85,11 @@
                     </TextBlock>
                 </Border>
                 <Border x:Name="propertiesViewContent" Width="300">
-                    <Label>
-                        <TextBlock>Properties here.</TextBlock>
-                    </Label>
+                    <StackPanel>
+                        <Label>
+                            <TextBlock>Properties here.</TextBlock>
+                        </Label>
+                    </StackPanel>
                 </Border>
             </StackPanel>
         </Border>
