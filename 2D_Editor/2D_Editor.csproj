@@ -157,6 +157,17 @@
       <Name>ImmersivePresentation</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\arrow_up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\arrow_down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\plus.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

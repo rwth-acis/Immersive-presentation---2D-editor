@@ -68,28 +68,35 @@ namespace _2D_Editor
 
 		public MainWindow(StartMode pMode, string pPath)
         {
-            switch (pMode)
+			InitializeComponent();
+
+			switch (pMode)
             {
 				case StartMode.New:
                     {
-
+						presentationHandler = new PresentationHandling(pMode, pPath);
+						connectPresentationWithUI();
 						break;
                     }
 				case StartMode.Open:
                     {
-
+						presentationHandler = new PresentationHandling(pMode, pPath);
+						connectPresentationWithUI();
 						break;
                     }
 				default:
                     {
-
+						presentationHandler = new PresentationHandling();
+						connectPresentationWithUI();
 						break;
                     }
             }
-
-			InitializeComponent();
-
         }
+
+		private void connectPresentationWithUI()
+        {
+			stageList.ItemsSource = presentationHandler.openPresentation.stages;
+		}
 
 		private void ExitCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
@@ -111,7 +118,7 @@ namespace _2D_Editor
 		private void NewCommand_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
 			//Create a new Presentation
-			presentationHandler.createNewPresentation("fakeJWT");
+			presentationHandler.createAndGetLocationOfNewPresentation("fakeJWT");
 		}
 		//open Command
 		private void OpenCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -121,7 +128,7 @@ namespace _2D_Editor
 
 		private void OpenCommand_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			presentationHandler.loadPresentation();
+			presentationHandler.loadPresentationAndGetLocation();
 		}
 		//save Command
 		private void SaveCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -212,6 +219,33 @@ namespace _2D_Editor
         private void AnalogClock_TimeChanged(object sender, TimeChangedEventArgs e)
         {
 			//Console.WriteLine(e.NewTime);
+        }
+
+        private void stageList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+			//ToDo: robust error handling in case it is not a Stage
+			Stage selectedStage = stageList.SelectedItem as Stage;
+			presentationHandler.selectedStage = selectedStage;
+        }
+
+        private void addStageButton_LeftMouseDown(object sender, MouseButtonEventArgs e)
+        {
+			presentationHandler.addNewStage();
+        }
+
+        private void deleteSelectedStage_LeftMouseDown(object sender, MouseButtonEventArgs e)
+        {
+			presentationHandler.deleteSelectedStage();
+        }
+
+        private void moveSelectedStageUp_LeftMouseDown(object sender, MouseButtonEventArgs e)
+        {
+			presentationHandler.moveSelectedStageUp();
+        }
+
+        private void moveSelectedStageDown_LeftMouseDown(object sender, MouseButtonEventArgs e)
+        {
+			presentationHandler.moveSelectedStageDown();
         }
     }
 

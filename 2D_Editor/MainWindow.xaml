@@ -112,7 +112,23 @@
             <Border Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="1" BorderBrush="#808e9b" BorderThickness="0,0,0.5,0">
                 <ScrollViewer>
                     <StackPanel Orientation="Vertical" Background="#FFE1E2E1">
-                        <ListBox x:Name="stageList" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                        <Border>
+                            <WrapPanel>
+                                <Border Margin="5">
+                                    <Image Source="Images/plus.png" Width="20" Height="20" MouseLeftButtonDown="addStageButton_LeftMouseDown"/>
+                                </Border>
+                                <Border Margin="5">
+                                    <Image Source="Images/delete.png" Width="20" Height="20" MouseLeftButtonDown="deleteSelectedStage_LeftMouseDown"/>
+                                </Border>
+                                <Border Margin="5">
+                                    <Image Source="Images/arrow_up.png" Width="20" Height="20" MouseLeftButtonDown="moveSelectedStageUp_LeftMouseDown"/>
+                                </Border>
+                                <Border Margin="5">
+                                    <Image Source="Images/arrow_down.png" Width="20" Height="20" MouseLeftButtonDown="moveSelectedStageDown_LeftMouseDown"/>
+                                </Border>
+                            </WrapPanel>
+                        </Border>
+                        <ListBox x:Name="stageList" SelectionChanged="stageList_SelectionChanged" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <Border Background="#FFE7E7E7" BorderBrush="#808e9b" Margin="5" BorderThickness="0.5">
