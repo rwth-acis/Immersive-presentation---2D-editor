@@ -8,7 +8,7 @@ using System.Windows.Controls;
 
 namespace _2D_Editor.CustomControls
 {
-    public class ButtonWithImage : Control
+    public class ButtonWithImage : Button
     {
         static ButtonWithImage()
         {

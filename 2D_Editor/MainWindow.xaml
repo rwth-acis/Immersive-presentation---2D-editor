@@ -22,6 +22,7 @@
         <CommandBinding Command="local:CustomCommands.PresentProperties" CanExecute="PresentPropertiesCommand_CanExecute" Executed="PresentPropertiesCommand_Executed"/>
         <CommandBinding Command="Help" CanExecute="HelpCommand_CanExecute" Executed="HelpCommand_Executed"/>
     </Window.CommandBindings>
+
     <DockPanel Background="#FFF5F5F6">
         <!--The menu at the top-->
         <Menu DockPanel.Dock="Top" Background="#b0bec9">
@@ -92,8 +93,6 @@
                         <Label>
                             <TextBlock>Properties here.</TextBlock>
                         </Label>
-                        <custom:AnalogClock ShowSeconds="False" TimeChanged="AnalogClock_TimeChanged"/>
-                        <custom:ButtonWithImage/>
                     </StackPanel>
                 </Border>
             </StackPanel>
@@ -113,55 +112,21 @@
             <Border Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="1" BorderBrush="#808e9b" BorderThickness="0,0,0.5,0">
                 <ScrollViewer>
                     <StackPanel Orientation="Vertical" Background="#FFE1E2E1">
-                        <Border Background="#FFE7E7E7" BorderBrush="#808e9b" Margin="5" BorderThickness="0.5">
-                            <Viewbox Stretch="Uniform">
-                                <Canvas Background="White" Width="1280" Height="720">
-
-                                </Canvas>
-                            </Viewbox>
-                        </Border>
-                        <Border Background="#FFE7E7E7" BorderBrush="#808e9b" Margin="5" BorderThickness="0.5">
-                            <Viewbox Stretch="Uniform">
-                                <Canvas Background="White" Width="1280" Height="720">
-
-                                </Canvas>
-                            </Viewbox>
-                        </Border>
-                        <Border Background="#FFE7E7E7" BorderBrush="#808e9b" Margin="5" BorderThickness="0.5">
-                            <Viewbox Stretch="Uniform">
-                                <Canvas Background="White" Width="1280" Height="720">
-
-                                </Canvas>
-                            </Viewbox>
-                        </Border>
-                        <Border Background="#FFE7E7E7" BorderBrush="#808e9b" Margin="5" BorderThickness="0.5">
-                            <Viewbox Stretch="Uniform">
-                                <Canvas Background="White" Width="1280" Height="720">
-
-                                </Canvas>
-                            </Viewbox>
-                        </Border>
-                        <Border Background="#FFE7E7E7" BorderBrush="#808e9b" Margin="5" BorderThickness="0.5">
-                            <Viewbox Stretch="Uniform">
-                                <Canvas Background="White" Width="1280" Height="720">
-
-                                </Canvas>
-                            </Viewbox>
-                        </Border>
-                        <Border Background="#FFE7E7E7" BorderBrush="#808e9b" Margin="5" BorderThickness="0.5">
-                            <Viewbox Stretch="Uniform">
-                                <Canvas Background="White" Width="1280" Height="720">
-
-                                </Canvas>
-                            </Viewbox>
-                        </Border>
-                        <Border Background="#FFE7E7E7" BorderBrush="#808e9b" Margin="5" BorderThickness="0.5">
-                            <Viewbox Stretch="Uniform">
-                                <Canvas Background="White" Width="1280" Height="720">
-
-                                </Canvas>
-                            </Viewbox>
-                        </Border>
+                        <ListBox x:Name="stageList" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Background="#FFE7E7E7" BorderBrush="#808e9b" Margin="5" BorderThickness="0.5">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding stageId}"/>
+                                            <Viewbox Stretch="Uniform">
+                                                <Canvas Background="White" Width="1280" Height="720">
+                                                </Canvas>
+                                            </Viewbox>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
                     </StackPanel>
                 </ScrollViewer>
             </Border>

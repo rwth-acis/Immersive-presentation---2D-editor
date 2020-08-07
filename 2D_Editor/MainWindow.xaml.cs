@@ -2,6 +2,7 @@
 using ImmersivePresentation;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,12 @@ using System.Windows.Shapes;
 
 namespace _2D_Editor
 {
+	public enum StartMode
+	{
+		Open,
+		New
+	}
+
 	/// <summary>
 	/// Interaktionslogik für MainWindow.xaml
 	/// </summary>
@@ -53,7 +60,36 @@ namespace _2D_Editor
 
 			//Initialize the Presentation handler
 			presentationHandler = new PresentationHandling();
+
+			//connect Presentation in Presentation handler to UI
+			stageList.ItemsSource = presentationHandler.openPresentation.stages;
+			presentationHandler.openPresentation.stages.Add(new Stage("Test Stage"));
 		}
+
+		public MainWindow(StartMode pMode, string pPath)
+        {
+            switch (pMode)
+            {
+				case StartMode.New:
+                    {
+
+						break;
+                    }
+				case StartMode.Open:
+                    {
+
+						break;
+                    }
+				default:
+                    {
+
+						break;
+                    }
+            }
+
+			InitializeComponent();
+
+        }
 
 		private void ExitCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
@@ -175,7 +211,7 @@ namespace _2D_Editor
 
         private void AnalogClock_TimeChanged(object sender, TimeChangedEventArgs e)
         {
-			Console.WriteLine(e.NewTime);
+			//Console.WriteLine(e.NewTime);
         }
     }
 

@@ -5,9 +5,14 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:ButtonWithImage">
-                    <StackPanel>
-                        <Label>Hallo</Label>
-                    </StackPanel>
+                    <Border >
+                        <StackPanel Orientation="Horizontal">
+                            <Canvas Width="30" Height="30">
+                                <Rectangle Width="30" Height="30" Canvas.Left="0" Canvas.Top="0" Fill="Azure" Visibility="Visible" />
+                                <Image Source="/Images/toggle_hide.png" Canvas.Left="0" Canvas.Top="0"  Width="30" Height="30"/>
+                            </Canvas>
+                        </StackPanel>
+                    </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

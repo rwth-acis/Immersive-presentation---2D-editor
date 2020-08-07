@@ -1,0 +1,14 @@
+﻿<Window x:Class="_2D_Editor.WelcomeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:_2D_Editor"
+        mc:Ignorable="d"
+        Title="WelcomeWindow" Height="450" Width="800">
+    <Grid>
+        <Button Content="Open Presentation" HorizontalAlignment="Left" Margin="465,268,0,0" VerticalAlignment="Top" Width="200" Height="60" Click="OpenPres_Click"/>
+        <Button Content="New Presentation" HorizontalAlignment="Left" Margin="145,268,0,0" VerticalAlignment="Top" Width="200" Height="60" Click="NewPres_Click"/>
+
+    </Grid>
+</Window>

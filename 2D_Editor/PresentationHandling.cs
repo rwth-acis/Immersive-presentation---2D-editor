@@ -29,6 +29,7 @@ namespace _2D_Editor
         public PresentationHandling()
         {
             openPresentation = null;
+            openPresentation = new Presentation("fakeJWT", "DemoPresentation");
         }
 
         public void createNewPresentation(string pJwt)

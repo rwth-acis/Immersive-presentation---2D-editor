@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Xml.Linq;
 
 namespace ImmersivePresentation
@@ -15,7 +16,7 @@ namespace ImmersivePresentation
         //ToDo: maybe not needed because stored in the editor
         private string tempFilePath { get; set; }
         public DateTime timeOfCreation { get; set; }
-        public List<Stage> stages { get; set; }
+        public ObservableCollection<Stage> stages { get; set; }
 
         public Presentation()
         {
@@ -32,7 +33,7 @@ namespace ImmersivePresentation
             timeOfCreation = DateTime.Now;
 
             //Create a new Stage
-            stages = new List<Stage>();
+            stages = new ObservableCollection<Stage>();
             stages.Add(new Stage(presentationId + "-1"));
 
             //Initialize the folder structure in temp
