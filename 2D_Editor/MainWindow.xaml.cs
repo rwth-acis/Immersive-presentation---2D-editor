@@ -1,4 +1,5 @@
-﻿using ImmersivePresentation;
+﻿using _2D_Editor.CustomControls;
+using ImmersivePresentation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -171,6 +172,11 @@ namespace _2D_Editor
         {
 			rec_toogle_button.Visibility = Visibility.Hidden;
 		}
+
+        private void AnalogClock_TimeChanged(object sender, TimeChangedEventArgs e)
+        {
+			Console.WriteLine(e.NewTime);
+        }
     }
 
 

@@ -4,6 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:_2D_Editor"
+    
+        xmlns:custom="clr-namespace:_2D_Editor.CustomControls"
+        
         mc:Ignorable="d"
         Title="2D Editor"
         Background="#FFF5F5F6" Icon="Images/icon.png">
@@ -89,6 +92,8 @@
                         <Label>
                             <TextBlock>Properties here.</TextBlock>
                         </Label>
+                        <custom:AnalogClock ShowSeconds="False" TimeChanged="AnalogClock_TimeChanged"/>
+                        <custom:ButtonWithImage/>
                     </StackPanel>
                 </Border>
             </StackPanel>
