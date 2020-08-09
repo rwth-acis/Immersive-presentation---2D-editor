@@ -32,6 +32,11 @@ namespace _2D_Editor
                 {
                     WindowsSceneListBox.ItemsSource = value.scene.elements;
                 }
+                //update the handout listbox
+                if (WindowsHandoutListBox != null)
+                {
+                    WindowsHandoutListBox.ItemsSource = value.handout.elements;
+                }
             } 
         }
         public int indexOfSelectedStage { 
@@ -42,6 +47,7 @@ namespace _2D_Editor
             }
         public ListBox WindowsStageListBox { get; set; }
         public ListBox WindowsSceneListBox { get; set; }
+        public ListBox WindowsHandoutListBox { get; set; }
         public string presentationSavingPath { get; set; }
         public string presentationName { get; set; }
         public string tempDirBase { get; set; } //Path to the start of the temporary folder of the actual windows user 
@@ -288,12 +294,12 @@ namespace _2D_Editor
         }
         public void delete3DElementFromScene()
         {
-            if(WindowsSceneListBox.SelectedIndex > 0)
+            if(WindowsSceneListBox.SelectedIndex >= 0)
             {
                 //ToDo better error handling when it is not a Element3D
                 Element3D elementToDelete = WindowsSceneListBox.Items[WindowsSceneListBox.SelectedIndex] as Element3D;
 
-                MessageBox.Show(tempPresDir + elementToDelete.relativePath);
+               
                 //clean temp
                 if(elementToDelete.relativePath != "" && File.Exists(tempPresDir + elementToDelete.relativePath))
                 {
@@ -301,6 +307,55 @@ namespace _2D_Editor
                 }
                 //remove element
                 SelectedStage.scene.elements.Remove(elementToDelete);
+            }
+        }
+
+        //Handout 3D Elements
+        public void add3DElementToHandout()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Title = "Select a 3D Model";
+            openFileDialog.Filter = "Objects (*.obj)|*.obj|Others (*.*)|*.*";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string sourcePath = openFileDialog.FileName.ToString();
+                string nameOfFile = Path.GetFileNameWithoutExtension(sourcePath);
+                string extension = Path.GetExtension(sourcePath);
+                string targetTepFolder = tempPresDir + tempSub3D + tempSubSubHandout;
+                string relativeFolderPath = tempSub3D + tempSubSubHandout;
+
+                if (File.Exists(targetTepFolder + nameOfFile + extension))
+                {
+                    nameOfFile = nameOfFile + "_copy";
+                }
+
+                try
+                {
+                    File.Copy(sourcePath, targetTepFolder + nameOfFile + extension);
+                    Element3D newElement = new Element3D(relativeFolderPath + nameOfFile + extension);
+                    SelectedStage.handout.elements.Add(newElement);
+                }
+                catch
+                {
+                    MessageBox.Show("Sorry - We were not able to add this model.");
+                    //ToDo show error in status bar
+                }
+            }
+        }
+        public void delete3DElementFromHandout()
+        {
+            if (WindowsHandoutListBox.SelectedIndex >= 0)
+            {
+                //ToDo better error handling when it is not a Element3D
+                Element3D elementToDelete = WindowsHandoutListBox.Items[WindowsHandoutListBox.SelectedIndex] as Element3D;
+
+                //clean temp
+                if (elementToDelete.relativePath != "" && File.Exists(tempPresDir + elementToDelete.relativePath))
+                {
+                    File.Delete(tempPresDir + elementToDelete.relativePath);
+                }
+                //remove element
+                SelectedStage.handout.elements.Remove(elementToDelete);
             }
         }
     }

@@ -103,6 +103,7 @@ namespace _2D_Editor
 			stageList.ItemsSource = presentationHandler.openPresentation.stages;
 			presentationHandler.WindowsStageListBox = stageList;
 			presentationHandler.WindowsSceneListBox = sceneElemetsListbox;
+			presentationHandler.WindowsHandoutListBox = handoutElemetsListbox;
 		}
 
 		private void ExitCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -263,6 +264,16 @@ namespace _2D_Editor
         private void sceneDelete3DElement_LeftMouseDown(object sender, MouseButtonEventArgs e)
         {
 			presentationHandler.delete3DElementFromScene();
+        }
+
+        private void handoutAdd3DElement_LeftMouseDown(object sender, MouseButtonEventArgs e)
+        {
+			presentationHandler.add3DElementToHandout();
+        }
+
+        private void handoutDelete3DElement_LeftMouseDown(object sender, MouseButtonEventArgs e)
+        {
+			presentationHandler.delete3DElementFromHandout();
         }
     }
 
