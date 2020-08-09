@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace ImmersivePresentation
@@ -16,6 +17,32 @@ namespace ImmersivePresentation
         public double yScale { get; set; }
         public double zScale { get; set; }
 
+        public string relativePath { get; set; }
+        public string filename { 
+            get
+            {
+                try
+                {
+                    if(relativePath != "")
+                    {
+                        return Path.GetFileNameWithoutExtension(relativePath);
+                    }
+                    else
+                    {
+                        return "3D Element";
+                    }
+                }
+                catch
+                {
+                    return "3D Element";
+                }
+            }
+            set
+            {
+
+            }
+        }
+
         public Element3D() : base()
         {
             //Default Position
@@ -28,8 +55,23 @@ namespace ImmersivePresentation
             zScale = 20;
         }
 
-        public Element3D(double pXPosition, double pYPosition, double pZPosition) : base()
+        public Element3D(string pRelativePath) : base()
         {
+            relativePath = pRelativePath;
+            //Default Position
+            xPosition = 0;
+            yPosition = 0;
+            zPosition = 20;
+            //Default Scale
+            xScale = 20;
+            yScale = 20;
+            zScale = 20;
+        }
+
+        public Element3D(string pRelativePath, double pXPosition, double pYPosition, double pZPosition) : base()
+        {
+            relativePath = pRelativePath;
+
             xPosition = pXPosition;
             yPosition = pYPosition;
             zPosition = pZPosition;
@@ -39,8 +81,10 @@ namespace ImmersivePresentation
             zScale = 20;
         }
 
-        public Element3D(double pXPosition, double pYPosition, double pZPosition, double pXScale, double pYScale, double pZScale) : base()
+        public Element3D(string pRelativePath, double pXPosition, double pYPosition, double pZPosition, double pXScale, double pYScale, double pZScale) : base()
         {
+            relativePath = pRelativePath;
+
             xPosition = pXPosition;
             yPosition = pYPosition;
             zPosition = pZPosition;

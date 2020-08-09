@@ -17,7 +17,7 @@ namespace _2D_Editor
             set 
             {
                 _selectedStage = value;
-                //ToDo set value as selected in the stage listbox
+                //upate the stage listbox
                 if (WindowsStageListBox != null)
                 {
                     int listboxIndex = WindowsStageListBox.Items.IndexOf(value);
@@ -26,6 +26,11 @@ namespace _2D_Editor
                         WindowsStageListBox.SelectedIndex = listboxIndex;
                         WindowsStageListBox.ScrollIntoView(value);
                     }
+                }
+                //update the scene listbox
+                if(WindowsSceneListBox != null)
+                {
+                    WindowsSceneListBox.ItemsSource = value.scene.elements;
                 }
             } 
         }
@@ -36,6 +41,7 @@ namespace _2D_Editor
             } 
             }
         public ListBox WindowsStageListBox { get; set; }
+        public ListBox WindowsSceneListBox { get; set; }
         public string presentationSavingPath { get; set; }
         public string presentationName { get; set; }
         public string tempDirBase { get; set; } //Path to the start of the temporary folder of the actual windows user 
@@ -46,6 +52,8 @@ namespace _2D_Editor
         public const string presentationJsonFilename = "presentation.json";
         public const string tempSub2D = "2DMedia\\";
         public const string tempSub3D = "3DMedia\\";
+        public const string tempSubSubScene = "Scene\\";
+        public const string tempSubSubHandout = "Handout\\";
 
         private DataSerializer dataSerializer = new DataSerializer();
 
@@ -112,6 +120,8 @@ namespace _2D_Editor
             createCleanDirectory(tempPresDir);
             createCleanDirectory(tempPresDir + tempSub2D);
             createCleanDirectory(tempPresDir + tempSub3D);
+            createCleanDirectory(tempPresDir + tempSub3D + tempSubSubScene);
+            createCleanDirectory(tempPresDir + tempSub3D + tempSubSubHandout);
         }
 
         public void saveOpenPresentation()
@@ -152,6 +162,7 @@ namespace _2D_Editor
 
             //Deserialize json
             openPresentation = dataSerializer.DeserializerJson(typeof(Presentation), tempPresDir + presentationJsonFilename) as Presentation;
+            presentationSavingPath = pPath;
         }
 
         public void createCleanDirectory(string pDirectoryPath)
@@ -240,6 +251,44 @@ namespace _2D_Editor
                 SelectedStage = saveStage;
                 //ToDo: Maybe the selected Index in the List View must change as well?
             }
+        }
+
+        //Scene 3D Elements
+        public void add3DElementToScene()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Title = "Select a 3D Model";
+            openFileDialog.Filter = "Objects (*.obj)|*.obj|Others (*.*)|*.*";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string sourcePath = openFileDialog.FileName.ToString();
+                string nameOfFile = Path.GetFileNameWithoutExtension(sourcePath);
+                string extension = Path.GetExtension(sourcePath);
+                string targetTepFolder = tempPresDir + tempSub3D + tempSubSubScene;
+                string relativeFolderPath = tempSub3D + tempSubSubScene;
+
+                if (File.Exists(targetTepFolder + nameOfFile + extension))
+                {
+                    nameOfFile = nameOfFile + "_copy";
+                }
+
+
+                try
+                {
+                    File.Copy(sourcePath, targetTepFolder + nameOfFile + extension);
+                    Element3D newElement = new Element3D(relativeFolderPath + nameOfFile + extension);
+                    SelectedStage.scene.elements.Add(newElement);
+                }
+                catch
+                {
+                    MessageBox.Show("Sorry - We were not able to add this model.");
+                    //ToDo show error in status bar
+                }
+            }
+        }
+        public void delete3DElementFromScene()
+        {
+
         }
     }
 }

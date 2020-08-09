@@ -91,12 +91,18 @@ namespace _2D_Editor
 						break;
                     }
             }
-        }
+			//set initial stage selection to first stage
+			if (presentationHandler.openPresentation.stages.Count > 0)
+			{
+				presentationHandler.SelectedStage = presentationHandler.openPresentation.stages[0];
+			}
+		}
 
 		private void connectPresentationWithUI()
         {
 			stageList.ItemsSource = presentationHandler.openPresentation.stages;
 			presentationHandler.WindowsStageListBox = stageList;
+			presentationHandler.WindowsSceneListBox = sceneElemetsListbox;
 		}
 
 		private void ExitCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -247,6 +253,11 @@ namespace _2D_Editor
         private void moveSelectedStageDown_LeftMouseDown(object sender, MouseButtonEventArgs e)
         {
 			presentationHandler.moveSelectedStageDown();
+        }
+
+        private void sceneAdd3DElement_LeftMouseDown(object sender, MouseButtonEventArgs e)
+        {
+			presentationHandler.add3DElementToScene();
         }
     }
 

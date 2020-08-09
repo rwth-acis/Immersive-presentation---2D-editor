@@ -162,41 +162,43 @@
             </Border>
             <!--Drag & Drop Scene-->
             <Border Grid.Row="1" Grid.RowSpan="1" Grid.Column="1" Grid.ColumnSpan="1" Background="#ffffff" BorderBrush="#808e9b" Margin="5" BorderThickness="0.5">
-                <ScrollViewer>
-                    <StackPanel>
-                        <Label Content="Scene 3D-models"></Label>
-                        <WrapPanel Orientation="Horizontal" Background="White" Margin="5" AllowDrop="True">
-                            <!--Template for the view of a 3D model in the Drag & Drop section-->
-                            <!--1. dummy-->
-                            <StackPanel Width="100" Margin="0,0,5,5">
-                                <Border Width="50" Height="50">
-                                    <Image Source="/Images/3d_box.png" Stretch="Uniform"/>
-                                </Border>
-                                <Label Width="100">
-                                    <TextBlock TextTrimming="CharacterEllipsis" ToolTip="MyCubeIsTheBestCubeIHaveEverSeen.obj" TextAlignment="Center">MyCubeIsTheBestCubeIHaveEverSeen.obj</TextBlock>
-                                </Label>
-                            </StackPanel>
-                            <!--2. dummy-->
-                            <StackPanel Width="100" Margin="0,0,5,5" HorizontalAlignment="Center">
-                                <Border Width="50" Height="50">
-                                    <Image Source="/Images/3d_box.png" Stretch="Uniform"/>
-                                </Border>
-                                <Label Width="100" HorizontalAlignment="Center">
-                                    <TextBlock TextTrimming="CharacterEllipsis" ToolTip="House.obj" TextAlignment="Center">House.obj</TextBlock>
-                                </Label>
-                            </StackPanel>
-                            <!--3. dummy-->
-                            <StackPanel Width="100" Margin="0,0,5,5" HorizontalAlignment="Center">
-                                <Border Width="50" Height="50">
-                                    <Image Source="/Images/3d_box.png" Stretch="Uniform"/>
-                                </Border>
-                                <Label Width="100">
-                                    <TextBlock TextTrimming="CharacterEllipsis" ToolTip="3D_Wave.obj" TextAlignment="Center">3D_Wave.obj</TextBlock>
-                                </Label>
-                            </StackPanel>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <!--Toolbar for Scene 3D Elements-->
+                    <Border Grid.Row="0">
+                        <WrapPanel>
+                            <Border Margin="5">
+                                <Image Source="Images/plus.png" Width="20" Height="20" MouseLeftButtonDown="sceneAdd3DElement_LeftMouseDown"/>
+                            </Border>
+                            <Border Margin="5">
+                                <Image Source="Images/delete.png" Width="20" Height="20" />
+                            </Border>
                         </WrapPanel>
-                    </StackPanel>
-                </ScrollViewer>
+                    </Border>
+                    <ListBox x:Name="sceneElemetsListbox" Grid.Row="1">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel>
+                                </WrapPanel>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Width="100" Margin="0,0,5,5">
+                                    <Border Width="50" Height="50">
+                                        <Image Source="/Images/3d_box.png" Stretch="Uniform"/>
+                                    </Border>
+                                    <Label Width="100">
+                                        <TextBlock TextTrimming="CharacterEllipsis"  TextAlignment="Center" Text="{Binding filename}" />
+                                    </Label>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Grid>
             </Border>
             <!--Drag & Drop Handout-->
             <Border Grid.Row="1" Grid.RowSpan="1" Grid.Column="2" Grid.ColumnSpan="1" Background="#ffffff" BorderBrush="#808e9b" Margin="5" BorderThickness="0.5" >
