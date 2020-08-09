@@ -1,26 +1,41 @@
 ﻿using ImmersivePresentation;
 using Microsoft.Win32;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO.Compression;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace _2D_Editor
 {
     public class PresentationHandling
     {
         public Presentation openPresentation { get; set; }
-        public Stage selectedStage { get; set; }
+        private Stage _selectedStage;
+        public Stage SelectedStage {
+            get { return _selectedStage; } 
+            set 
+            {
+                _selectedStage = value;
+                //ToDo set value as selected in the stage listbox
+                if (WindowsStageListBox != null)
+                {
+                    int listboxIndex = WindowsStageListBox.Items.IndexOf(value);
+                    if(listboxIndex >= 0 && listboxIndex < WindowsStageListBox.Items.Count)
+                    {
+                        WindowsStageListBox.SelectedIndex = listboxIndex;
+                        WindowsStageListBox.ScrollIntoView(value);
+                    }
+                }
+            } 
+        }
         public int indexOfSelectedStage { 
             get
             {
-                return openPresentation.stages.IndexOf(selectedStage);
+                return openPresentation.stages.IndexOf(SelectedStage);
             } 
             }
+        public ListBox WindowsStageListBox { get; set; }
         public string presentationSavingPath { get; set; }
         public string presentationName { get; set; }
         public string tempDirBase { get; set; } //Path to the start of the temporary folder of the actual windows user 
@@ -82,7 +97,7 @@ namespace _2D_Editor
 
             openPresentation = new Presentation(pJwt, presentationName);
             //ToDo: check more robust whether there exist a stage[0]
-            selectedStage = openPresentation.stages[0];
+            SelectedStage = openPresentation.stages[0];
 
             //create a working directory in the users temp
             createWorkingDir();
@@ -177,6 +192,7 @@ namespace _2D_Editor
         {
             Stage newStage = new Stage("DemoName");
             openPresentation.stages.Insert(indexOfSelectedStage + 1, newStage);
+            SelectedStage = newStage;
         }
         public void deleteSelectedStage()
         {
@@ -184,14 +200,14 @@ namespace _2D_Editor
             if(openPresentation.stages.Count > 1)
             {
                 int saveIndexOfSelection = indexOfSelectedStage;
-                openPresentation.stages.Remove(selectedStage);
+                openPresentation.stages.Remove(SelectedStage);
                 if(saveIndexOfSelection <= openPresentation.stages.Count - 1)
                 {
-                    selectedStage = openPresentation.stages[saveIndexOfSelection];
+                    SelectedStage = openPresentation.stages[saveIndexOfSelection];
                 }
                 else
                 {
-                    selectedStage = openPresentation.stages[openPresentation.stages.Count - 1];
+                    SelectedStage = openPresentation.stages[openPresentation.stages.Count - 1];
                 }
             }
             else
@@ -206,10 +222,10 @@ namespace _2D_Editor
             if(indexOfSelectedStage > 0)
             {
                 int saveIndex = indexOfSelectedStage;
-                Stage saveStage = selectedStage;
-                openPresentation.stages.Remove(selectedStage);
+                Stage saveStage = SelectedStage;
+                openPresentation.stages.Remove(SelectedStage);
                 openPresentation.stages.Insert(saveIndex - 1, saveStage);
-                selectedStage = saveStage;
+                SelectedStage = saveStage;
                 //ToDo: Maybe the selected Index in the List View must change as well?
             }
         }
@@ -218,10 +234,10 @@ namespace _2D_Editor
             if (indexOfSelectedStage < openPresentation.stages.Count -1 && indexOfSelectedStage >= 0)
             {
                 int saveIndex = indexOfSelectedStage;
-                Stage saveStage = selectedStage;
-                openPresentation.stages.Remove(selectedStage);
+                Stage saveStage = SelectedStage;
+                openPresentation.stages.Remove(SelectedStage);
                 openPresentation.stages.Insert(saveIndex + 1, saveStage);
-                selectedStage = saveStage;
+                SelectedStage = saveStage;
                 //ToDo: Maybe the selected Index in the List View must change as well?
             }
         }

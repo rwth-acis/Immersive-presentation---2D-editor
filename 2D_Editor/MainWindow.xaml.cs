@@ -96,6 +96,7 @@ namespace _2D_Editor
 		private void connectPresentationWithUI()
         {
 			stageList.ItemsSource = presentationHandler.openPresentation.stages;
+			presentationHandler.WindowsStageListBox = stageList;
 		}
 
 		private void ExitCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -225,7 +226,7 @@ namespace _2D_Editor
         {
 			//ToDo: robust error handling in case it is not a Stage
 			Stage selectedStage = stageList.SelectedItem as Stage;
-			presentationHandler.selectedStage = selectedStage;
+			presentationHandler.SelectedStage = selectedStage;
         }
 
         private void addStageButton_LeftMouseDown(object sender, MouseButtonEventArgs e)

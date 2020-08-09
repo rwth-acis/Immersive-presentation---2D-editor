@@ -109,30 +109,34 @@
                 <RowDefinition Height="*"></RowDefinition>
             </Grid.RowDefinitions>
             <!--  Left Stage preview scroll sidebar-->
-            <Border Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="1" BorderBrush="#808e9b" BorderThickness="0,0,0.5,0">
-                <ScrollViewer>
-                    <StackPanel Orientation="Vertical" Background="#FFE1E2E1">
-                        <Border>
-                            <WrapPanel>
-                                <Border Margin="5">
-                                    <Image Source="Images/plus.png" Width="20" Height="20" MouseLeftButtonDown="addStageButton_LeftMouseDown"/>
-                                </Border>
-                                <Border Margin="5">
-                                    <Image Source="Images/delete.png" Width="20" Height="20" MouseLeftButtonDown="deleteSelectedStage_LeftMouseDown"/>
-                                </Border>
-                                <Border Margin="5">
-                                    <Image Source="Images/arrow_up.png" Width="20" Height="20" MouseLeftButtonDown="moveSelectedStageUp_LeftMouseDown"/>
-                                </Border>
-                                <Border Margin="5">
-                                    <Image Source="Images/arrow_down.png" Width="20" Height="20" MouseLeftButtonDown="moveSelectedStageDown_LeftMouseDown"/>
-                                </Border>
-                            </WrapPanel>
-                        </Border>
+            <Border Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="1" BorderBrush="#808e9b" BorderThickness="0,0,0.5,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <Grid Background="#FFE1E2E1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Border Grid.Row="0">
+                        <WrapPanel>
+                            <Border Margin="5">
+                                <Image Source="Images/plus.png" Width="20" Height="20" MouseLeftButtonDown="addStageButton_LeftMouseDown"/>
+                            </Border>
+                            <Border Margin="5">
+                                <Image Source="Images/delete.png" Width="20" Height="20" MouseLeftButtonDown="deleteSelectedStage_LeftMouseDown"/>
+                            </Border>
+                            <Border Margin="5">
+                                <Image Source="Images/arrow_up.png" Width="20" Height="20" MouseLeftButtonDown="moveSelectedStageUp_LeftMouseDown"/>
+                            </Border>
+                            <Border Margin="5">
+                                <Image Source="Images/arrow_down.png" Width="20" Height="20" MouseLeftButtonDown="moveSelectedStageDown_LeftMouseDown"/>
+                            </Border>
+                        </WrapPanel>
+                    </Border>
+                    <Border Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                         <ListBox x:Name="stageList" SelectionChanged="stageList_SelectionChanged" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <Border Background="#FFE7E7E7" BorderBrush="#808e9b" Margin="5" BorderThickness="0.5">
-                                        <StackPanel>
+                                        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                             <TextBlock Text="{Binding stageId}"/>
                                             <Viewbox Stretch="Uniform">
                                                 <Canvas Background="White" Width="1280" Height="720">
@@ -143,8 +147,8 @@
                                 </DataTemplate>
                             </ListBox.ItemTemplate>
                         </ListBox>
-                    </StackPanel>
-                </ScrollViewer>
+                    </Border>
+                </Grid>
             </Border>
             <!-- Canvas preview-->
             <Border Grid.Row="0" Grid.RowSpan="1" Grid.Column="1" Grid.ColumnSpan="2"  Margin="5">
