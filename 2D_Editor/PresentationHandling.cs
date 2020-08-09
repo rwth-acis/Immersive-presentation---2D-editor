@@ -288,7 +288,20 @@ namespace _2D_Editor
         }
         public void delete3DElementFromScene()
         {
+            if(WindowsSceneListBox.SelectedIndex > 0)
+            {
+                //ToDo better error handling when it is not a Element3D
+                Element3D elementToDelete = WindowsSceneListBox.Items[WindowsSceneListBox.SelectedIndex] as Element3D;
 
+                MessageBox.Show(tempPresDir + elementToDelete.relativePath);
+                //clean temp
+                if(elementToDelete.relativePath != "" && File.Exists(tempPresDir + elementToDelete.relativePath))
+                {
+                    File.Delete(tempPresDir + elementToDelete.relativePath);
+                }
+                //remove element
+                SelectedStage.scene.elements.Remove(elementToDelete);
+            }
         }
     }
 }

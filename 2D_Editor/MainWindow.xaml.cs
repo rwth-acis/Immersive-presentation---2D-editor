@@ -259,6 +259,11 @@ namespace _2D_Editor
         {
 			presentationHandler.add3DElementToScene();
         }
+
+        private void sceneDelete3DElement_LeftMouseDown(object sender, MouseButtonEventArgs e)
+        {
+			presentationHandler.delete3DElementFromScene();
+        }
     }
 
 

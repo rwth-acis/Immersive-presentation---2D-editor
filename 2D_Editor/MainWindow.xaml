@@ -174,7 +174,7 @@
                                 <Image Source="Images/plus.png" Width="20" Height="20" MouseLeftButtonDown="sceneAdd3DElement_LeftMouseDown"/>
                             </Border>
                             <Border Margin="5">
-                                <Image Source="Images/delete.png" Width="20" Height="20" />
+                                <Image Source="Images/delete.png" Width="20" Height="20" MouseLeftButtonDown="sceneDelete3DElement_LeftMouseDown"/>
                             </Border>
                         </WrapPanel>
                     </Border>
