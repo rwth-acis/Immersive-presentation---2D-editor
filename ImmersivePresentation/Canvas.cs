@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace ImmersivePresentation
 {
@@ -7,14 +8,14 @@ namespace ImmersivePresentation
     {
         public string canvasId { get; set; }
         public DateTime timeOfCreation { get; set; }
-        public List<Element2D> elements { get; set; }
+        public ObservableCollection<Element2D> elements { get; set; }
 
         public Canvas() { }
         public Canvas(string pCanvasId)
         {
             canvasId = pCanvasId;
             timeOfCreation = DateTime.Now;
-            elements = new List<Element2D>();
+            elements = new ObservableCollection<Element2D>();
         }
     }
 }

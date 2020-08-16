@@ -104,6 +104,7 @@ namespace _2D_Editor
 			presentationHandler.WindowsStageListBox = stageList;
 			presentationHandler.WindowsSceneListBox = sceneElemetsListbox;
 			presentationHandler.WindowsHandoutListBox = handoutElemetsListbox;
+			presentationHandler.WindowsCanvasPreview = canvasPreview;
 		}
 
 		private void ExitCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -275,6 +276,33 @@ namespace _2D_Editor
         {
 			presentationHandler.delete3DElementFromHandout();
         }
+
+        private void canvasAddText_LeftMouseDown(object sender, MouseButtonEventArgs e)
+        {
+			presentationHandler.addNewText();
+        }
+
+        private void canvasAddImage_LeftMouseDown(object sender, MouseButtonEventArgs e)
+        {
+			presentationHandler.addNewImage();
+        }
+
+        private void canvasImage_LeftMouseDown(object sender, MouseButtonEventArgs e)
+        {
+			presentationHandler.canvas2DElementSelected(((Image)sender).Tag);
+			e.Handled = true;
+        }
+
+        private void PreviewCanvas_LeftMouseDown(object sender, MouseButtonEventArgs e)
+        {
+			presentationHandler.canvasBackgroundClicked();
+        }
+
+        private void canvasLabel_LeftMouseDown(object sender, MouseButtonEventArgs e)
+        {
+			presentationHandler.canvas2DElementSelected(((Label)sender).Tag);
+			e.Handled = true;
+		}
     }
 
 

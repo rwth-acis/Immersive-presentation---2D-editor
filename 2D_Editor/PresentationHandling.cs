@@ -1,8 +1,10 @@
 ﻿using ImmersivePresentation;
 using Microsoft.Win32;
 using System;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.IO.Compression;
+using System.Net.Http.Headers;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -37,8 +39,15 @@ namespace _2D_Editor
                 {
                     WindowsHandoutListBox.ItemsSource = value.handout.elements;
                 }
+                //update the canvas ItemsControl
+                if(WindowsCanvasPreview != null)
+                {
+                    WindowsCanvasPreview.ItemsSource = value.canvas.elements;
+                    Console.WriteLine("Canvas Preview Itemsource updated.");
+                }
             } 
         }
+        public ObservableCollection<Element2D> selectedCanvasElements;
         public int indexOfSelectedStage { 
             get
             {
@@ -48,6 +57,8 @@ namespace _2D_Editor
         public ListBox WindowsStageListBox { get; set; }
         public ListBox WindowsSceneListBox { get; set; }
         public ListBox WindowsHandoutListBox { get; set; }
+        public ItemsControl WindowsCanvasPreview { get; set; }
+
         public string presentationSavingPath { get; set; }
         public string presentationName { get; set; }
         public string tempDirBase { get; set; } //Path to the start of the temporary folder of the actual windows user 
@@ -67,6 +78,7 @@ namespace _2D_Editor
         {
             openPresentation = null;
             openPresentation = new Presentation("fakeJWT", "DemoPresentation");
+            selectedCanvasElements = new ObservableCollection<Element2D>();
         }
 
         public PresentationHandling(StartMode pMode, string pPath)
@@ -89,6 +101,7 @@ namespace _2D_Editor
                         break;
                     }
             }
+            selectedCanvasElements = new ObservableCollection<Element2D>();
         }
 
         public void createAndGetLocationOfNewPresentation(string pJwt)
@@ -357,6 +370,87 @@ namespace _2D_Editor
                 //remove element
                 SelectedStage.handout.elements.Remove(elementToDelete);
             }
+        }
+
+        //Canvas
+
+        public void addNewText()
+        {
+            Text2D newText = new Text2D();
+            SelectedStage.canvas.elements.Add(newText);
+        }
+        public void addNewImage()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Title = "Select an image.";
+            openFileDialog.Filter = "PNG (*.png)|*.png|Bitmap (*.bmp)|*.bmp|JPEG (*.jpeg)|*.jpeg|JPG (*.jpg)|*.jpg|Others (*.*)|*.*";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string sourcePath = openFileDialog.FileName.ToString();
+                string nameOfFile = Path.GetFileNameWithoutExtension(sourcePath);
+                string extension = Path.GetExtension(sourcePath);
+                string targetTepFolder = tempPresDir + tempSub2D;
+                string relativeFolderPath = tempSub2D;
+
+                if (File.Exists(targetTepFolder + nameOfFile + extension))
+                {
+                    nameOfFile = nameOfFile + "_copy";
+                }
+
+
+                try
+                {
+                    File.Copy(sourcePath, targetTepFolder + nameOfFile + extension);
+                    Image2D newImage = new Image2D(relativeFolderPath + nameOfFile + extension);
+                    SelectedStage.canvas.elements.Add(newImage);
+                }
+                catch
+                {
+                    MessageBox.Show("Sorry - We were not able to add this image.");
+                    //ToDo show error in status bar
+                }
+            }
+        }
+        public void canvas2DElementSelected(object element)
+        {
+            //select the concrete Type of Element
+            if (typeof(Element2D).IsInstanceOfType(element))
+            {
+                Element2D selectedElement = (Element2D)element;
+                setSelectedCanvasElement(selectedElement);
+                return;
+            }
+
+            //No matching Type found
+            //ToDo show error in Statusbar
+            MessageBox.Show("The selected object was not detected.");
+        }
+        public void addSelectedCanvasElement(Element2D element)
+        {
+            element.highlighted = true;
+            selectedCanvasElements.Add(element);
+        }
+        public void setSelectedCanvasElement(Element2D element)
+        {
+            foreach(Element2D elem in selectedCanvasElements)
+            {
+                elem.highlighted = false;
+            }
+            selectedCanvasElements = new ObservableCollection<Element2D>();
+            element.highlighted = true;
+            selectedCanvasElements.Add(element);
+        }
+        public void unselectAllCanvasElements()
+        {
+            foreach (Element2D elem in selectedCanvasElements)
+            {
+                elem.highlighted = false;
+            }
+            selectedCanvasElements = new ObservableCollection<Element2D>();
+        }
+        public void canvasBackgroundClicked()
+        {
+            unselectAllCanvasElements();
         }
     }
 }
