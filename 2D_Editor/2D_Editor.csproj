@@ -72,6 +72,7 @@
     <Compile Include="Converters\BoolToThickness.cs" />
     <Compile Include="Converters\PercentageToAbsolute.cs" />
     <Compile Include="Converters\RelativePathToImageSource.cs" />
+    <Compile Include="Converters\StringToFontsize.cs" />
     <Compile Include="WelcomeWindow.xaml.cs">
       <DependentUpon>WelcomeWindow.xaml</DependentUpon>
     </Compile>

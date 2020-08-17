@@ -28,6 +28,7 @@
         <converters:PercentageToAbsolute x:Key="RelativePosToAbsolutePos"/>
         <converters:RelativePathToImageSource x:Key="RelativePathToImageSource"/>
         <converters:BoolToThickness x:Key="BoolToThickness"/>
+        <converters:StringToFontsize x:Key="StringToFontsize"/>
     </Window.Resources>
 
     <DockPanel Background="#FFF5F5F6">
@@ -100,6 +101,67 @@
                         <Label>
                             <TextBlock>Element Properties.</TextBlock>
                         </Label>
+                        <ItemsControl x:Name="propertiesEditingList">
+                            <ItemsControl.Resources>
+                                <DataTemplate DataType="{x:Type impres:Image2D}">
+                                    <Border BorderBrush="Black" BorderThickness="1">
+                                        <StackPanel Margin="5">
+                                            <Label>Image Source</Label>
+                                            <Button Tag="{Binding }" Click="PropertyEditorImageSource_Clicked">Change Image</Button>
+                                            <Separator/>
+                                            <Label>X Position</Label>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBox Text="{Binding xPosition, UpdateSourceTrigger=PropertyChanged}"/>
+                                                <Label>%</Label>
+                                            </StackPanel>
+                                            <Separator/>
+                                            <Label>Y Position</Label>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBox Text="{Binding yPosition, UpdateSourceTrigger=PropertyChanged}"/>
+                                                <Label>%</Label>
+                                            </StackPanel>
+                                            <Separator/>
+                                            <Label>X Scale</Label>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBox Text="{Binding xScale, UpdateSourceTrigger=PropertyChanged}"/>
+                                                <Label>%</Label>
+                                            </StackPanel>
+                                            <Separator/>
+                                            <Label>YScale</Label>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBox Text="{Binding yScale, UpdateSourceTrigger=PropertyChanged}"/>
+                                                <Label>%</Label>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                                <DataTemplate DataType="{x:Type impres:Text2D}">
+                                    <Border BorderBrush="Black" BorderThickness="1">
+                                        <StackPanel Margin="5">
+                                            <Label>Text</Label>
+                                            <TextBox Text="{Binding content}"/>
+                                            <Separator/>
+                                            <Label>X Position</Label>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBox Text="{Binding xPosition, UpdateSourceTrigger=PropertyChanged}"/>
+                                                <Label>%</Label>
+                                            </StackPanel>
+                                            <Separator/>
+                                            <Label>Y Position</Label>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBox Text="{Binding yPosition, UpdateSourceTrigger=PropertyChanged}"/>
+                                                <Label>%</Label>
+                                            </StackPanel>
+                                            <Separator/>
+                                            <Label>Fontsize</Label>
+                                            <StackPanel Orientation="Horizontal">
+                                                <TextBox Text="{Binding fontsize, UpdateSourceTrigger=PropertyChanged}"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.Resources>
+                        </ItemsControl>
                     </StackPanel>
                 </Border>
             </StackPanel>
@@ -142,12 +204,43 @@
                         <ListBox x:Name="stageList" SelectionChanged="stageList_SelectionChanged" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <Border Background="#FFE7E7E7" BorderBrush="#808e9b" Margin="5" BorderThickness="0.5">
+                                    <Border Background="#FFE7E7E7" BorderBrush="#808e9b" Margin="5" BorderThickness="1">
                                         <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                            <TextBlock Text="{Binding stageId}"/>
+                                            <!--<TextBlock Text="{Binding stageId}"/>-->
                                             <Viewbox Stretch="Uniform">
-                                                <Canvas Background="White" Width="1280" Height="720">
-                                                </Canvas>
+                                                <ItemsControl x:Name="canvasPreview" ItemsSource="{Binding canvas.elements}">
+                                                    <ItemsControl.Resources>
+                                                        <DataTemplate DataType="{x:Type impres:Image2D}">
+                                                            <Border BorderBrush="Blue" BorderThickness="{Binding highlighted, Converter={StaticResource BoolToThickness}}">
+                                                                <Image Width="{Binding xScale, Converter={StaticResource RelativePosToAbsolutePos}, ConverterParameter=1920}" 
+                                                                    Height="{Binding yScale, Converter={StaticResource RelativePosToAbsolutePos}, ConverterParameter=1080}" 
+                                                                    Source="{Binding relativeImageSource, Converter={StaticResource RelativePathToImageSource}}"
+                                                                    Stretch="Fill"
+                                                                    Tag="{Binding }"/>
+                                                            </Border>
+                                                        </DataTemplate>
+                                                        <DataTemplate DataType="{x:Type impres:Text2D}">
+                                                            <Border BorderBrush="Blue" BorderThickness="{Binding highlighted, Converter={StaticResource BoolToThickness}}">
+                                                                <Label Content="{Binding content}" 
+                                                                    Canvas.Left="{Binding xPosition, Converter={StaticResource RelativePosToAbsolutePos}, ConverterParameter=1920}" 
+                                                                    Canvas.Top="{Binding yPosition, Converter={StaticResource RelativePosToAbsolutePos}, ConverterParameter=1080}"
+                                                                    FontSize="{Binding fontsize}"
+                                                                    Tag="{Binding }"/>
+                                                            </Border>
+                                                        </DataTemplate>
+                                                    </ItemsControl.Resources>
+                                                    <ItemsControl.ItemsPanel>
+                                                        <ItemsPanelTemplate>
+                                                            <Canvas Background="#ffffff" Width="1920" Height="1080"></Canvas>
+                                                        </ItemsPanelTemplate>
+                                                    </ItemsControl.ItemsPanel>
+                                                    <ItemsControl.ItemContainerStyle>
+                                                        <Style TargetType="ContentPresenter">
+                                                            <Setter Property="Canvas.Left" Value="{Binding xPosition, Converter={StaticResource RelativePosToAbsolutePos}, ConverterParameter=1920}" />
+                                                            <Setter Property="Canvas.Top" Value="{Binding yPosition, Converter={StaticResource RelativePosToAbsolutePos}, ConverterParameter=1080}" />
+                                                        </Style>
+                                                    </ItemsControl.ItemContainerStyle>
+                                                </ItemsControl>
                                             </Viewbox>
                                         </StackPanel>
                                     </Border>
@@ -166,7 +259,7 @@
                                 <DataTemplate DataType="{x:Type impres:Image2D}">
                                     <Border BorderBrush="Blue" BorderThickness="{Binding highlighted, Converter={StaticResource BoolToThickness}}">
                                         <Image Width="{Binding xScale, Converter={StaticResource RelativePosToAbsolutePos}, ConverterParameter=1920}" 
-                                           Height="{Binding xScale, Converter={StaticResource RelativePosToAbsolutePos}, ConverterParameter=1080}" 
+                                           Height="{Binding yScale, Converter={StaticResource RelativePosToAbsolutePos}, ConverterParameter=1080}" 
                                            Source="{Binding relativeImageSource, Converter={StaticResource RelativePathToImageSource}}"
                                            Stretch="Fill"
                                            Tag="{Binding }"

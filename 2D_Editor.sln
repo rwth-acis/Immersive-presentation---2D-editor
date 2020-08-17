@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2D_Editor", "2D_Editor\2D_Editor.csproj", "{0D033C58-F36B-49CF-8E43-644EA3000EF6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImmersivePresentation", "ImmersivePresentation\ImmersivePresentation.csproj", "{7C1CD851-2A83-42F1-9EE1-99BB7CDB40CE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ImmersivePresentation", "ImmersivePresentation\ImmersivePresentation.csproj", "{7C1CD851-2A83-42F1-9EE1-99BB7CDB40CE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoordinatorConnectorLibrary", "CoordinatorConnectorLibrary\CoordinatorConnectorLibrary.csproj", "{BE5A1C42-90B3-4839-AB01-4D2B8DB97431}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{7C1CD851-2A83-42F1-9EE1-99BB7CDB40CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C1CD851-2A83-42F1-9EE1-99BB7CDB40CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C1CD851-2A83-42F1-9EE1-99BB7CDB40CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE5A1C42-90B3-4839-AB01-4D2B8DB97431}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE5A1C42-90B3-4839-AB01-4D2B8DB97431}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE5A1C42-90B3-4839-AB01-4D2B8DB97431}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE5A1C42-90B3-4839-AB01-4D2B8DB97431}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

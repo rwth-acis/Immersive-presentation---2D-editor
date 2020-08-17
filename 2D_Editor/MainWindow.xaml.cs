@@ -105,6 +105,7 @@ namespace _2D_Editor
 			presentationHandler.WindowsSceneListBox = sceneElemetsListbox;
 			presentationHandler.WindowsHandoutListBox = handoutElemetsListbox;
 			presentationHandler.WindowsCanvasPreview = canvasPreview;
+			presentationHandler.WindowsPropertyList = propertiesEditingList;
 		}
 
 		private void ExitCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -303,6 +304,11 @@ namespace _2D_Editor
 			presentationHandler.canvas2DElementSelected(((Label)sender).Tag);
 			e.Handled = true;
 		}
+
+        private void PropertyEditorImageSource_Clicked(object sender, RoutedEventArgs e)
+        {
+			presentationHandler.changeImageSource((Image2D)((Button)sender).Tag);
+        }
     }
 
 

@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:_2D_Editor"
         mc:Ignorable="d"
-        Title="WelcomeWindow" Height="450" Width="800">
+        Title="WelcomeWindow" Height="450" Width="800"
+        Icon="Images/icon.png">
     <Grid>
         <Button Content="Open Presentation" HorizontalAlignment="Left" Margin="465,268,0,0" VerticalAlignment="Top" Width="200" Height="60" Click="OpenPres_Click"/>
         <Button Content="New Presentation" HorizontalAlignment="Left" Margin="145,268,0,0" VerticalAlignment="Top" Width="200" Height="60" Click="NewPres_Click"/>

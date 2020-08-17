@@ -8,8 +8,32 @@ namespace ImmersivePresentation
     public class Element2D : Element
     {
         //The Position describes where the left top corner of the element will be positioned. The value is in percentage (50 is in the middle).
-        public double xPosition { get; set; }
-        public double yPosition { get; set; }
+        private double _xPosition;
+        public double xPosition
+        {
+            get
+            {
+                return _xPosition;
+            }
+            set
+            {
+                _xPosition = value;
+                OnProperyChanged("xPosition");
+            }
+        }
+        public double _yPosition;
+        public double yPosition
+        {
+            get
+            {
+                return _yPosition;
+            }
+            set
+            {
+                _yPosition = value;
+                OnProperyChanged("yPosition");
+            }
+        }
         private bool _highlighted;
         public bool highlighted
         {

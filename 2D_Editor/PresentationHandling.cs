@@ -1,5 +1,6 @@
 ﻿using ImmersivePresentation;
 using Microsoft.Win32;
+using Newtonsoft.Json;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -18,6 +19,10 @@ namespace _2D_Editor
             get { return _selectedStage; } 
             set 
             {
+                if(value == null)
+                {
+                    return;
+                }
                 _selectedStage = value;
                 //upate the stage listbox
                 if (WindowsStageListBox != null)
@@ -58,6 +63,19 @@ namespace _2D_Editor
         public ListBox WindowsSceneListBox { get; set; }
         public ListBox WindowsHandoutListBox { get; set; }
         public ItemsControl WindowsCanvasPreview { get; set; }
+        private ItemsControl _WindowsPropertyList;
+        public ItemsControl WindowsPropertyList
+        {
+            get
+            {
+                return _WindowsPropertyList;
+            }
+            set
+            {
+                _WindowsPropertyList = value;
+                _WindowsPropertyList.ItemsSource = selectedCanvasElements;
+            }
+        }
 
         public string presentationSavingPath { get; set; }
         public string presentationName { get; set; }
@@ -72,7 +90,8 @@ namespace _2D_Editor
         public const string tempSubSubScene = "Scene\\";
         public const string tempSubSubHandout = "Handout\\";
 
-        private DataSerializer dataSerializer = new DataSerializer();
+        //private DataSerializer dataSerializer = new DataSerializer();
+        private JsonSerializerSettings jsonSettings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
 
         public PresentationHandling()
         {
@@ -148,7 +167,8 @@ namespace _2D_Editor
             if(openPresentation != null)
             {
                 //save the new presentation as json
-                dataSerializer.SerializeAsJson(openPresentation, tempPresDir + presentationJsonFilename);
+                //*dataSerializer.SerializeAsJson(openPresentation, tempPresDir + presentationJsonFilename);
+                File.WriteAllText(tempPresDir + presentationJsonFilename, JsonConvert.SerializeObject(openPresentation, jsonSettings));
 
                 //save the ziped new presentation where the user wanted it to be
                 if (File.Exists(presentationSavingPath))
@@ -180,7 +200,8 @@ namespace _2D_Editor
             ZipFile.ExtractToDirectory(filePath, tempPresDir);
 
             //Deserialize json
-            openPresentation = dataSerializer.DeserializerJson(typeof(Presentation), tempPresDir + presentationJsonFilename) as Presentation;
+            //*openPresentation = dataSerializer.DeserializerJson(typeof(Presentation), tempPresDir + presentationJsonFilename) as Presentation;
+            openPresentation = JsonConvert.DeserializeObject<Presentation>(File.ReadAllText(tempPresDir + presentationJsonFilename), jsonSettings);
             presentationSavingPath = pPath;
         }
 
@@ -286,10 +307,14 @@ namespace _2D_Editor
                 string targetTepFolder = tempPresDir + tempSub3D + tempSubSubScene;
                 string relativeFolderPath = tempSub3D + tempSubSubScene;
 
-                if (File.Exists(targetTepFolder + nameOfFile + extension))
+                string appendix = "";
+                int appendixCount = 0;
+                while (File.Exists(targetTepFolder + nameOfFile + appendix + extension))
                 {
-                    nameOfFile = nameOfFile + "_copy";
+                    appendixCount = appendixCount + 1;
+                    appendix = "_" + appendixCount;
                 }
+                nameOfFile = nameOfFile + appendix;
 
 
                 try
@@ -298,9 +323,10 @@ namespace _2D_Editor
                     Element3D newElement = new Element3D(relativeFolderPath + nameOfFile + extension);
                     SelectedStage.scene.elements.Add(newElement);
                 }
-                catch
+                catch(Exception e)
                 {
                     MessageBox.Show("Sorry - We were not able to add this model.");
+                    Console.WriteLine(e);
                     //ToDo show error in status bar
                 }
             }
@@ -337,10 +363,14 @@ namespace _2D_Editor
                 string targetTepFolder = tempPresDir + tempSub3D + tempSubSubHandout;
                 string relativeFolderPath = tempSub3D + tempSubSubHandout;
 
-                if (File.Exists(targetTepFolder + nameOfFile + extension))
+                string appendix = "";
+                int appendixCount = 0;
+                while (File.Exists(targetTepFolder + nameOfFile + appendix + extension))
                 {
-                    nameOfFile = nameOfFile + "_copy";
+                    appendixCount = appendixCount + 1;
+                    appendix = "_" + appendixCount;
                 }
+                nameOfFile = nameOfFile + appendix;
 
                 try
                 {
@@ -429,6 +459,7 @@ namespace _2D_Editor
         {
             element.highlighted = true;
             selectedCanvasElements.Add(element);
+            WindowsPropertyList.ItemsSource = selectedCanvasElements;
         }
         public void setSelectedCanvasElement(Element2D element)
         {
@@ -439,6 +470,7 @@ namespace _2D_Editor
             selectedCanvasElements = new ObservableCollection<Element2D>();
             element.highlighted = true;
             selectedCanvasElements.Add(element);
+            WindowsPropertyList.ItemsSource = selectedCanvasElements;
         }
         public void unselectAllCanvasElements()
         {
@@ -447,10 +479,51 @@ namespace _2D_Editor
                 elem.highlighted = false;
             }
             selectedCanvasElements = new ObservableCollection<Element2D>();
+            WindowsPropertyList.ItemsSource = selectedCanvasElements;
         }
         public void canvasBackgroundClicked()
         {
             unselectAllCanvasElements();
+        }
+        public void changeImageSource(Image2D element)
+        {
+            //save old relativeImageSource to remove the source when the new one is added
+            string oldRelativePath = element.relativeImageSource;
+            //Add reference to new Image
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Title = "Select an image.";
+            openFileDialog.Filter = "PNG (*.png)|*.png|Bitmap (*.bmp)|*.bmp|JPEG (*.jpeg)|*.jpeg|JPG (*.jpg)|*.jpg|Others (*.*)|*.*";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string sourcePath = openFileDialog.FileName.ToString();
+                string nameOfFile = Path.GetFileNameWithoutExtension(sourcePath);
+                string extension = Path.GetExtension(sourcePath);
+                string targetTepFolder = tempPresDir + tempSub2D;
+                string relativeFolderPath = tempSub2D;
+
+                if (File.Exists(targetTepFolder + nameOfFile + extension))
+                {
+                    nameOfFile = nameOfFile + "_copy";
+                }
+
+
+                try
+                {
+                    File.Copy(sourcePath, targetTepFolder + nameOfFile + extension);
+                    element.relativeImageSource = relativeFolderPath + nameOfFile + extension;
+                }
+                catch
+                {
+                    MessageBox.Show("Sorry - We were not able to add this image.");
+                    //ToDo show error in status bar
+                }
+
+                //Delete old File from temp
+                if (File.Exists(tempPresDir + oldRelativePath))
+                {
+                    File.Delete(tempPresDir + oldRelativePath);
+                }
+            }
         }
     }
 }

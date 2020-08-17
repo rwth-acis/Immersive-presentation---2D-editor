@@ -36,7 +36,11 @@ namespace _2D_Editor.Converters
             string completePath = tempPresDir + relpath;
 
             if (!File.Exists(completePath)) return errorImage();
-            BitmapImage newBitmap = new BitmapImage(new Uri(completePath));
+            BitmapImage newBitmap = new BitmapImage();
+            newBitmap.BeginInit();
+            newBitmap.UriSource = new Uri(completePath);
+            newBitmap.CacheOption = BitmapCacheOption.OnLoad;
+            newBitmap.EndInit();
             return newBitmap;
         }
 
