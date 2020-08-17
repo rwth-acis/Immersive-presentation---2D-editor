@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using CoordinatorConnectorLibrary;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,9 +21,35 @@ namespace _2D_Editor
     /// </summary>
     public partial class WelcomeWindow : Window
     {
+
+        private bool _loggedIn;
+        public bool loggedIn
+        {
+            get
+            {
+                return _loggedIn;
+            }
+            set
+            {
+                _loggedIn = value;
+                if (value)
+                {
+                    loginForm.Visibility = Visibility.Collapsed;
+                    selectPresentation.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    loginForm.Visibility = Visibility.Visible;
+                    selectPresentation.Visibility = Visibility.Collapsed;
+                }
+            }
+        }
+
+        private CoordinatorConnection connection;
         public WelcomeWindow()
         {
             InitializeComponent();
+            loggedIn = false;
         }
 
         private void OpenPres_Click(object sender, RoutedEventArgs e)
@@ -50,6 +77,25 @@ namespace _2D_Editor
                 this.Visibility = Visibility.Hidden;
                 myMainWindow.Show();
             }
+        }
+
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            connection = new CoordinatorConnection(inputEmail.Text, inputPassword.Password);
+            if (connection.login())
+            {
+                loggedIn = true;
+            }
+            else
+            {
+                loggedIn = false;
+
+            }
+        }
+
+        private void ErrorBoxClose_LeftMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            errorBox.Visibility = Visibility.Collapsed;
         }
     }
 }

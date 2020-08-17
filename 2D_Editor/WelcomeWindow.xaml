@@ -3,13 +3,61 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        
+        xmlns:converters="clr-namespace:_2D_Editor.Converters"
         xmlns:local="clr-namespace:_2D_Editor"
         mc:Ignorable="d"
         Title="WelcomeWindow" Height="450" Width="800"
         Icon="Images/icon.png">
-    <Grid>
-        <Button Content="Open Presentation" HorizontalAlignment="Left" Margin="465,268,0,0" VerticalAlignment="Top" Width="200" Height="60" Click="OpenPres_Click"/>
-        <Button Content="New Presentation" HorizontalAlignment="Left" Margin="145,268,0,0" VerticalAlignment="Top" Width="200" Height="60" Click="NewPres_Click"/>
-
+    <Window.Resources>
+        <converters:BoolToVisibility x:Key="BoolToVisibillity"/>
+    </Window.Resources>
+    <Grid Margin="0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="8*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+            <Border x:Name="loginForm" BorderThickness="1" Background="White" Visibility="Visible">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock FontSize="30">Login</TextBlock>
+                        <TextBlock VerticalAlignment="Bottom"
+                                   Margin="15, 0, 0, 0"
+                                   TextDecorations="Underline"
+                                   Foreground="Blue"
+                                   >Register</TextBlock>
+                    </StackPanel>
+                    <Separator/>
+                    <Border x:Name="errorBox" Background="#ff715e" BorderBrush="#ab2e1d" BorderThickness="2" Margin="0, 10, 0, 0" Visibility="Collapsed">
+                        <DockPanel>
+                            <TextBlock x:Name="errorMessage" DockPanel.Dock="Left"  Foreground="White" Margin="5, 2, 0, 2" Text="Error"/>
+                            <TextBlock DockPanel.Dock="Right"  Foreground="White" HorizontalAlignment="Right" Margin="0, 2, 5, 2" Cursor="Hand" Text="X" MouseLeftButtonDown="ErrorBoxClose_LeftMouseDown"/>
+                        </DockPanel>
+                    </Border>
+                    <TextBlock Margin="0, 10, 0, 0">Email</TextBlock>
+                    <TextBox x:Name="inputEmail"/>
+                    <TextBlock Margin="0, 10, 0, 0">Password</TextBlock>
+                    <PasswordBox x:Name="inputPassword" />
+                    <Button Margin="0, 20, 0, 0" Click="LoginButton_Click">Login</Button>
+                </StackPanel>
+            </Border>
+            <Border x:Name="selectPresentation" BorderThickness="1" Margin="0, 30, 0, 0" Visibility="Collapsed">
+                <StackPanel>
+                    <TextBlock FontSize="20">Choose a presentation.</TextBlock>
+                    <Grid Margin="0, 10, 0, 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Button Grid.Column="0" Content="New" Margin="5,0" Click="NewPres_Click" />
+                        <Button Grid.Column="1" Content="Open" Margin="5, 0" Click="OpenPres_Click" />
+                        <Button Grid.Column="2" Content="Download" Margin="5, 0"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+        </StackPanel>
     </Grid>
 </Window>

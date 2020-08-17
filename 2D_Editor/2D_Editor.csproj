@@ -70,6 +70,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\BoolToThickness.cs" />
+    <Compile Include="Converters\BoolToVisibility.cs" />
     <Compile Include="Converters\PercentageToAbsolute.cs" />
     <Compile Include="Converters\RelativePathToImageSource.cs" />
     <Compile Include="Converters\StringToFontsize.cs" />
@@ -156,6 +157,10 @@
     <Resource Include="Images\toggle_show.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CoordinatorConnectorLibrary\CoordinatorConnectorLibrary.csproj">
+      <Project>{BE5A1C42-90B3-4839-AB01-4D2B8DB97431}</Project>
+      <Name>CoordinatorConnectorLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ImmersivePresentation\ImmersivePresentation.csproj">
       <Project>{7C1CD851-2A83-42F1-9EE1-99BB7CDB40CE}</Project>
       <Name>ImmersivePresentation</Name>
