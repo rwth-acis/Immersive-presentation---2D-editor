@@ -32,7 +32,7 @@ namespace _2D_Editor
             set
             {
                 _loggedIn = value;
-                if (value)
+                if (value == true)
                 {
                     loginForm.Visibility = Visibility.Collapsed;
                     selectPresentation.Visibility = Visibility.Visible;
@@ -49,7 +49,14 @@ namespace _2D_Editor
         public WelcomeWindow()
         {
             InitializeComponent();
+            if(Properties.Settings.Default.userEmail != string.Empty && Properties.Settings.Default.userPassword != string.Empty)
+            {
+                inputEmail.Text = Properties.Settings.Default.userEmail;
+                inputPassword.Password = Properties.Settings.Default.userPassword;
+                inputRemember.IsChecked = Properties.Settings.Default.userRemember;
+            }
             loggedIn = false;
+            connection = new CoordinatorConnection();
         }
 
         private void OpenPres_Click(object sender, RoutedEventArgs e)
@@ -79,23 +86,72 @@ namespace _2D_Editor
             }
         }
 
+        private void DownloadButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Not available yet");
+        }
+
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            connection = new CoordinatorConnection(inputEmail.Text, inputPassword.Password);
-            if (connection.login())
+            //Indicate activity
+            loadingSpinner.Visibility = Visibility.Visible;
+            //Save input
+            string inpEmail = inputEmail.Text;
+            string inpPassword = inputPassword.Password;
+            bool inpRemember = (inputRemember.IsChecked == true);
+            if (connection.login(inpEmail, inpPassword))
             {
                 loggedIn = true;
+                //Save Logindata when user wants to
+                if(inpRemember == true)
+                {
+                    Properties.Settings.Default.userEmail = inpEmail;
+                    Properties.Settings.Default.userPassword = inpPassword;
+                    Properties.Settings.Default.userRemember = inpRemember;
+                    Properties.Settings.Default.Save();
+                }
+                else
+                {
+                    Properties.Settings.Default.userEmail = "";
+                    Properties.Settings.Default.userPassword = "";
+                    Properties.Settings.Default.userRemember = false;
+                    Properties.Settings.Default.Save();
+                }
             }
             else
             {
                 loggedIn = false;
-
+                errorMessage.Text = "Invalid Login Data.";
+                errorBox.Visibility = Visibility.Visible;
             }
+            loadingSpinner.Visibility = Visibility.Hidden;
         }
 
         private void ErrorBoxClose_LeftMouseDown(object sender, MouseButtonEventArgs e)
         {
             errorBox.Visibility = Visibility.Collapsed;
+        }
+
+        private void Register_Clicked(object sender, MouseButtonEventArgs e)
+        {
+            loginForm.Visibility = Visibility.Collapsed;
+            registerForm.Visibility = Visibility.Visible;
+        }
+
+        private void Login_Clicked(object sender, MouseButtonEventArgs e)
+        {
+            loginForm.Visibility = Visibility.Visible;
+            registerForm.Visibility = Visibility.Collapsed;
+        }
+
+        private void RegisterErrorClose_Clicked(object sender, MouseButtonEventArgs e)
+        {
+            registerErrorBox.Visibility = Visibility.Collapsed;
+        }
+
+        private void RegisterSuccess_Clicked(object sender, MouseButtonEventArgs e)
+        {
+            registerSuccessMessage.Visibility = Visibility.Collapsed;
         }
     }
 }
