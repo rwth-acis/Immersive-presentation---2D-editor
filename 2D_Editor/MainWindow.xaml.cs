@@ -1,4 +1,5 @@
 ﻿using _2D_Editor.CustomControls;
+using CoordinatorConnectorLibrary;
 using ImmersivePresentation;
 using System;
 using System.Collections.Generic;
@@ -59,14 +60,14 @@ namespace _2D_Editor
             InitializeComponent();
 
 			//Initialize the Presentation handler
-			presentationHandler = new PresentationHandling();
+			presentationHandler = new PresentationHandling(new CoordinatorConnection());
 
 			//connect Presentation in Presentation handler to UI
 			stageList.ItemsSource = presentationHandler.openPresentation.stages;
 			presentationHandler.openPresentation.stages.Add(new Stage("Test Stage"));
 		}
 
-		public MainWindow(StartMode pMode, string pPath)
+		public MainWindow(CoordinatorConnection pConnection, StartMode pMode, string pPath)
         {
 			InitializeComponent();
 
@@ -74,19 +75,19 @@ namespace _2D_Editor
             {
 				case StartMode.New:
                     {
-						presentationHandler = new PresentationHandling(pMode, pPath);
+						presentationHandler = new PresentationHandling(pConnection, pMode, pPath);
 						connectPresentationWithUI();
 						break;
                     }
 				case StartMode.Open:
                     {
-						presentationHandler = new PresentationHandling(pMode, pPath);
+						presentationHandler = new PresentationHandling(pConnection, pMode, pPath);
 						connectPresentationWithUI();
 						break;
                     }
 				default:
                     {
-						presentationHandler = new PresentationHandling();
+						presentationHandler = new PresentationHandling(pConnection);
 						connectPresentationWithUI();
 						break;
                     }

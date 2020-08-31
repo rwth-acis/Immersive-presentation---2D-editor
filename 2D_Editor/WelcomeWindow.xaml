@@ -63,13 +63,6 @@
                                    >Login</TextBlock>
                     </StackPanel>
                     <Separator/>
-                    <TextBlock Margin="0, 10, 0, 0">Email</TextBlock>
-                    <TextBox x:Name="inputRegisterEmail"/>
-                    <TextBlock Margin="0, 10, 0, 0">Password</TextBlock>
-                    <PasswordBox x:Name="inputRegisterPassword" />
-                    <TextBlock Margin="0, 10, 0, 0">Repeat Password</TextBlock>
-                    <PasswordBox x:Name="inputRegisterPasswordCheck" />
-                    <Button Margin="0, 20, 0, 0" Click="LoginButton_Click">Register</Button>
                     <Border x:Name="registerErrorBox" Background="#ff715e" BorderBrush="#ab2e1d" BorderThickness="2" Margin="0, 10, 0, 0" Visibility="Collapsed">
                         <DockPanel>
                             <TextBlock x:Name="registerErrorMessage" DockPanel.Dock="Left"  Foreground="White" Margin="5, 2, 0, 2" Text="Error"/>
@@ -82,6 +75,13 @@
                             <TextBlock DockPanel.Dock="Right"  Foreground="White" HorizontalAlignment="Right" Margin="0, 2, 5, 2" Cursor="Hand" Text="X" MouseLeftButtonDown="RegisterSuccess_Clicked"/>
                         </DockPanel>
                     </Border>
+                    <TextBlock Margin="0, 10, 0, 0">Email</TextBlock>
+                    <TextBox x:Name="inputRegisterEmail"/>
+                    <TextBlock Margin="0, 10, 0, 0">Password</TextBlock>
+                    <PasswordBox x:Name="inputRegisterPassword" />
+                    <TextBlock Margin="0, 10, 0, 0">Repeat Password</TextBlock>
+                    <PasswordBox x:Name="inputRegisterPasswordCheck" />
+                    <Button Margin="0, 20, 0, 0" Click="RegisterButton_Clicked">Register</Button>
                     <Border x:Name="registerLoadingSpinner" Width="30" Margin="0, 10, 0, 0" Visibility="Hidden">
                         <fa:ImageAwesome Icon="Spinner" Spin="True" SpinDuration="4"/>
                     </Border>

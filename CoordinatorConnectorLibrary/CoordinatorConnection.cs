@@ -5,6 +5,8 @@ using RestSharp;
 using RestSharp.Serialization.Json;
 using System.Net;
 using Newtonsoft.Json.Linq;
+using System.Numerics;
+using System.IO;
 
 namespace CoordinatorConnectorLibrary
 {
@@ -15,6 +17,7 @@ namespace CoordinatorConnectorLibrary
         private int iduser;
         private string token;
         private DateTime tokenExp;
+        private bool loggedIn;
 
         public RestClient client;
 
@@ -28,6 +31,7 @@ namespace CoordinatorConnectorLibrary
             client = new RestClient("http://binarybros.de");
             //ToDo: set a good timeout value
             client.Timeout = -1;
+            loggedIn = false;
         }
 
         public void setPassword(string pPassword)
@@ -55,8 +59,6 @@ namespace CoordinatorConnectorLibrary
             {
 
                 JObject output = JObject.Parse(response.Content);
-                Console.WriteLine(output["token"]);
-                Console.WriteLine(output["user"]);
 
                 JToken helpJToken;
                 if (!output.TryGetValue("token", out helpJToken)) return false;
@@ -69,7 +71,7 @@ namespace CoordinatorConnectorLibrary
                 JObject user = JObject.Parse(helpJToken.ToString());
                 if (!user.TryGetValue("iduser", out helpJToken)) return false;
                 if (!int.TryParse(helpJToken.ToString(), out iduser)) return false;
-
+                loggedIn = true;
                 return true;
             }
             catch
@@ -77,5 +79,75 @@ namespace CoordinatorConnectorLibrary
                 return false;
             }
         }    
+        public void logout()
+        {
+            loggedIn = false;
+        }
+        public bool checkExp()
+        {
+            if (!loggedIn) return false;
+            if(tokenExp < DateTime.Now.AddMinutes(15))
+            {
+                return login(email, password);
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        public string register(string pEmail, string pPassword)
+        {
+            //Build and execute Request
+            var request = new RestRequest("/auth/register", Method.POST);
+            request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
+            request.AddParameter("email", pEmail.ToString());
+            request.AddParameter("password", pPassword.ToString());
+            IRestResponse response = client.Execute(request);
+            if ((response.StatusCode == HttpStatusCode.OK)) return "";
+
+            try
+            {
+                //Error Handling
+                JObject output = JObject.Parse(response.Content);
+                JToken helpJToken;
+                if (!output.TryGetValue("message", out helpJToken)) return "Intern Error. Try again later.";
+                string message = helpJToken.ToString();
+                //ToDo log the recieved error code
+
+                return message;
+            }
+            catch
+            {
+                return "Intern Error. Try again later.";
+            }
+            
+        }
+
+        public string uploadPresentation(string pPath, string pId)
+        {
+            var request = new RestRequest("/presentation/upload", Method.POST);
+            if (!File.Exists(pPath)) return "File not found.";
+
+            request.AddFile("presentation", pPath);
+            request.AddParameter("idpresentation", pId);
+            IRestResponse response = client.Execute(request);
+            if ((response.StatusCode == HttpStatusCode.OK)) return "";
+            try
+            {
+                //Error Handling
+                JObject output = JObject.Parse(response.Content);
+                JToken helpJToken;
+                if (!output.TryGetValue("message", out helpJToken)) return "Intern Error. Try again later.";
+                string message = helpJToken.ToString();
+                //ToDo log the recieved error code
+
+                return message;
+            }
+            catch
+            {
+                return "Internal Error.";
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿using ImmersivePresentation;
+﻿using CoordinatorConnectorLibrary;
+using ImmersivePresentation;
 using Microsoft.Win32;
 using Newtonsoft.Json;
 using System;
@@ -93,15 +94,18 @@ namespace _2D_Editor
         //private DataSerializer dataSerializer = new DataSerializer();
         private JsonSerializerSettings jsonSettings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
 
-        public PresentationHandling()
+        private CoordinatorConnection connection;
+        public PresentationHandling(CoordinatorConnection pConnection)
         {
+            connection = pConnection;
             openPresentation = null;
             openPresentation = new Presentation("fakeJWT", "DemoPresentation");
             selectedCanvasElements = new ObservableCollection<Element2D>();
         }
 
-        public PresentationHandling(StartMode pMode, string pPath)
+        public PresentationHandling(CoordinatorConnection pConnection, StartMode pMode, string pPath)
         {
+            connection = pConnection;
             switch (pMode)
             {
                 case StartMode.New:
@@ -177,6 +181,16 @@ namespace _2D_Editor
                     File.Delete(presentationSavingPath);
                 }
                 ZipFile.CreateFromDirectory(tempPresDir, presentationSavingPath);
+                if(connection.uploadPresentation(presentationSavingPath, openPresentation.presentationId) == "")
+                {
+                    //Sucessfully uploaded
+
+                }
+                else
+                {
+                    //Error by uploading
+                    
+                }
             }
         }
 

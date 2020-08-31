@@ -66,7 +66,7 @@ namespace _2D_Editor
             openFileDialog.Filter = "Presentation (*.pres)|*.pres|Zip (*.zip)|*.zip";
             if (openFileDialog.ShowDialog() == true)
             {
-                MainWindow myMainWindow = new MainWindow(StartMode.Open, openFileDialog.FileName);
+                MainWindow myMainWindow = new MainWindow(connection, StartMode.Open, openFileDialog.FileName);
                 this.Visibility = Visibility.Hidden;
                 myMainWindow.Show();
             }
@@ -80,7 +80,7 @@ namespace _2D_Editor
             saveFileDialog.Filter = "Presentation (*.pres)|*.pres|Zip (*.zip)|*.zip";
             if (saveFileDialog.ShowDialog() == true)
             {
-                MainWindow myMainWindow = new MainWindow(StartMode.New, saveFileDialog.FileName);
+                MainWindow myMainWindow = new MainWindow(connection, StartMode.New, saveFileDialog.FileName);
                 this.Visibility = Visibility.Hidden;
                 myMainWindow.Show();
             }
@@ -95,6 +95,7 @@ namespace _2D_Editor
         {
             //Indicate activity
             loadingSpinner.Visibility = Visibility.Visible;
+            Cursor = Cursors.Wait;
             //Save input
             string inpEmail = inputEmail.Text;
             string inpPassword = inputPassword.Password;
@@ -124,6 +125,7 @@ namespace _2D_Editor
                 errorMessage.Text = "Invalid Login Data.";
                 errorBox.Visibility = Visibility.Visible;
             }
+            Cursor = Cursors.Arrow;
             loadingSpinner.Visibility = Visibility.Hidden;
         }
 
@@ -152,6 +154,43 @@ namespace _2D_Editor
         private void RegisterSuccess_Clicked(object sender, MouseButtonEventArgs e)
         {
             registerSuccessMessage.Visibility = Visibility.Collapsed;
+        }
+
+        private void RegisterButton_Clicked(object sender, RoutedEventArgs e)
+        {
+            //Indicate Activity
+            Cursor = Cursors.Wait;
+
+            string email = inputRegisterEmail.Text;
+            string password = inputRegisterPassword.Password;
+            string passwordCheck = inputRegisterPasswordCheck.Password;
+
+            //PasswordCheck guard
+            if(password != passwordCheck)
+            {
+                registerSuccessBox.Visibility = Visibility.Collapsed;
+                registerErrorMessage.Text = "The two passwords do not match.";
+                registerErrorBox.Visibility = Visibility.Visible;
+                Cursor = Cursors.Arrow;
+                return;
+            }
+            string msg = connection.register(email, password);
+            if (msg == "")
+            {
+                //Success
+                registerErrorBox.Visibility = Visibility.Collapsed;
+                registerSuccessMessage.Text = "Sucessfully registered. Please check your emails.";
+                registerSuccessBox.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                //Success
+                registerSuccessBox.Visibility = Visibility.Collapsed;
+                registerErrorMessage.Text = msg;
+                registerErrorBox.Visibility = Visibility.Visible;
+            }
+
+            Cursor = Cursors.Arrow;
         }
     }
 }
