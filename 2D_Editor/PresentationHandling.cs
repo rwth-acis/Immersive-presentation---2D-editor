@@ -9,11 +9,13 @@ using System.IO.Compression;
 using System.Net.Http.Headers;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace _2D_Editor
 {
     public class PresentationHandling
     {
+        public MainWindow mainWindow;
         public Presentation openPresentation { get; set; }
         private Stage _selectedStage;
         public Stage SelectedStage {
@@ -95,22 +97,24 @@ namespace _2D_Editor
         private JsonSerializerSettings jsonSettings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
 
         private CoordinatorConnection connection;
-        public PresentationHandling(CoordinatorConnection pConnection)
+        public PresentationHandling(CoordinatorConnection pConnection, MainWindow pMainWindow)
         {
+            mainWindow = pMainWindow;
             connection = pConnection;
             openPresentation = null;
             openPresentation = new Presentation("fakeJWT", "DemoPresentation");
             selectedCanvasElements = new ObservableCollection<Element2D>();
         }
 
-        public PresentationHandling(CoordinatorConnection pConnection, StartMode pMode, string pPath)
+        public PresentationHandling(CoordinatorConnection pConnection, StartMode pMode, string pPath, MainWindow pMainWindow)
         {
+            mainWindow = pMainWindow;
             connection = pConnection;
             switch (pMode)
             {
                 case StartMode.New:
                     {
-                        createNewPresentation("fakeJWT", pPath);
+                        createNewPresentation(pPath);
                         break;
                     }
                 case StartMode.Open:
@@ -127,7 +131,7 @@ namespace _2D_Editor
             selectedCanvasElements = new ObservableCollection<Element2D>();
         }
 
-        public void createAndGetLocationOfNewPresentation(string pJwt)
+        public void createAndGetLocationOfNewPresentation()
         {
             //Open a SaveFileDialog to get the path where the new presentation should be stored
             SaveFileDialog saveFileDialog = new SaveFileDialog();
@@ -135,18 +139,26 @@ namespace _2D_Editor
             saveFileDialog.Filter = "Presentation (*.pres)|*.pres|Zip (*.zip)|*.zip";
             if (saveFileDialog.ShowDialog() == true)
             {
-                createNewPresentation(pJwt, saveFileDialog.FileName);
+                createNewPresentation(saveFileDialog.FileName);
             }
         }
 
-        private void createNewPresentation(string pJwt, string pPath)
+        private void createNewPresentation(string pPath)
         {
             //create a new presentation
             presentationSavingPath = pPath;
             presentationName = Path.GetFileNameWithoutExtension(pPath);
 
-            openPresentation = new Presentation(pJwt, presentationName);
-            //ToDo: check more robust whether there exist a stage[0]
+            //Get presentationId from Coordinator
+            string presentationId = connection.newPresentation(presentationName);
+            if(presentationId == "")
+            {
+                //Error
+                mainWindow.StatsbarInfo.Text = "Unable to create a new file online.";
+                MessageBox.Show("We were unable to upload the presentation to the cloud. Next time you load the presentation, we will try again.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+
+            openPresentation = new Presentation(presentationId, presentationName);
             SelectedStage = openPresentation.stages[0];
 
             //create a working directory in the users temp
@@ -170,6 +182,7 @@ namespace _2D_Editor
         {
             if(openPresentation != null)
             {
+                mainWindow.StatsbarInfo.Text = "Saving ...";
                 //save the new presentation as json
                 //*dataSerializer.SerializeAsJson(openPresentation, tempPresDir + presentationJsonFilename);
                 File.WriteAllText(tempPresDir + presentationJsonFilename, JsonConvert.SerializeObject(openPresentation, jsonSettings));
@@ -181,16 +194,22 @@ namespace _2D_Editor
                     File.Delete(presentationSavingPath);
                 }
                 ZipFile.CreateFromDirectory(tempPresDir, presentationSavingPath);
-                if(connection.uploadPresentation(presentationSavingPath, openPresentation.presentationId) == "")
+                string msg = connection.uploadPresentation(presentationSavingPath, openPresentation.presentationId);
+                if (msg == "")
                 {
                     //Sucessfully uploaded
-
+                    mainWindow.StatsbarInfo.Text = "Sucessfully saved.";
                 }
                 else
                 {
                     //Error by uploading
-                    
+                    mainWindow.StatsbarInfo.Text = "Error by saving: " + msg;
                 }
+            }
+            else
+            {
+                //No Persentation open
+                mainWindow.StatsbarInfo.Text = "Can not save - No presentation is open.";
             }
         }
 
@@ -217,6 +236,13 @@ namespace _2D_Editor
             //*openPresentation = dataSerializer.DeserializerJson(typeof(Presentation), tempPresDir + presentationJsonFilename) as Presentation;
             openPresentation = JsonConvert.DeserializeObject<Presentation>(File.ReadAllText(tempPresDir + presentationJsonFilename), jsonSettings);
             presentationSavingPath = pPath;
+
+            //check whether the presentation has been uploaded before
+            if(openPresentation.presentationId == "")
+            {
+                string presentationId = connection.newPresentation(Path.GetFileNameWithoutExtension(pPath));
+                if (presentationId != "") openPresentation.presentationId = presentationId;
+            }
         }
 
         public void createCleanDirectory(string pDirectoryPath)

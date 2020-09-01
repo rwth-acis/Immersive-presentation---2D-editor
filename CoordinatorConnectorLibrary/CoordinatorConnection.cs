@@ -126,13 +126,16 @@ namespace CoordinatorConnectorLibrary
 
         public string uploadPresentation(string pPath, string pId)
         {
-            var request = new RestRequest("/presentation/upload", Method.POST);
+            if (!checkExp()) return "Upload failed - Session expired.";
             if (!File.Exists(pPath)) return "File not found.";
 
+            var request = new RestRequest("/presentation/upload", Method.POST);
+            request.AddHeader("Authorization", "Bearer " + token);
             request.AddFile("presentation", pPath);
             request.AddParameter("idpresentation", pId);
             IRestResponse response = client.Execute(request);
             if ((response.StatusCode == HttpStatusCode.OK)) return "";
+            Console.WriteLine("Upload Error by Parameters: " + pPath + " " + pId + " " + token);
             try
             {
                 //Error Handling
@@ -147,6 +150,41 @@ namespace CoordinatorConnectorLibrary
             catch
             {
                 return "Internal Error.";
+            }
+        }
+
+        public string newPresentation(string name)
+        {
+            if(!checkExp()) return "";
+            var request = new RestRequest("/presentation", Method.POST);
+            request.AddHeader("Authorization", "Bearer " + token);
+            request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
+            request.AddParameter("name", "NewPres");
+            IRestResponse response = client.Execute(request);
+            if ((response.StatusCode == HttpStatusCode.OK))
+            {
+                //Handle presentationId
+                //Deserialize Response
+                try
+                {
+
+                    JObject output = JObject.Parse(response.Content);
+
+                    JToken helpJToken;
+                    if (!output.TryGetValue("idpresentation", out helpJToken)) return "";
+                    string idPresentation = helpJToken.ToString();
+                    Console.WriteLine("ID: " + idPresentation);
+                    return idPresentation;
+                }
+                catch
+                {
+                    return "";
+                }
+            }
+            else
+            {
+                //No Id recieved
+                return "";
             }
         }
     }

@@ -22,10 +22,9 @@ namespace ImmersivePresentation
         {
 
         }
-        public Presentation(string pJwt, string pPresentationName)
+        public Presentation(string pPresentationId, string pPresentationName)
         {
-            //ToDo: Get a presentationId and ownerId from the coordinator via Rest API
-            presentationId = "DemoPres1";
+            presentationId = pPresentationId;
             ownerId = "DemoOwner1";
 
             //Initialize all parameters
@@ -37,15 +36,6 @@ namespace ImmersivePresentation
             stages.Add(new Stage(presentationId + "-1"));
 
             //Initialize the folder structure in temp
-        }
-
-        public Presentation(string pPresentationFilePath)
-        {
-            //ToDo: Unizip the Presentation
-
-            //Deserialize the JSON
-
-
         }
     }
 }

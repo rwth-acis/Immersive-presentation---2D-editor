@@ -60,7 +60,7 @@ namespace _2D_Editor
             InitializeComponent();
 
 			//Initialize the Presentation handler
-			presentationHandler = new PresentationHandling(new CoordinatorConnection());
+			presentationHandler = new PresentationHandling(new CoordinatorConnection(), this);
 
 			//connect Presentation in Presentation handler to UI
 			stageList.ItemsSource = presentationHandler.openPresentation.stages;
@@ -75,19 +75,19 @@ namespace _2D_Editor
             {
 				case StartMode.New:
                     {
-						presentationHandler = new PresentationHandling(pConnection, pMode, pPath);
+						presentationHandler = new PresentationHandling(pConnection, pMode, pPath, this);
 						connectPresentationWithUI();
 						break;
                     }
 				case StartMode.Open:
                     {
-						presentationHandler = new PresentationHandling(pConnection, pMode, pPath);
+						presentationHandler = new PresentationHandling(pConnection, pMode, pPath, this);
 						connectPresentationWithUI();
 						break;
                     }
 				default:
                     {
-						presentationHandler = new PresentationHandling(pConnection);
+						presentationHandler = new PresentationHandling(pConnection, this);
 						connectPresentationWithUI();
 						break;
                     }
@@ -129,7 +129,7 @@ namespace _2D_Editor
 		private void NewCommand_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
 			//Create a new Presentation
-			presentationHandler.createAndGetLocationOfNewPresentation("fakeJWT");
+			presentationHandler.createAndGetLocationOfNewPresentation();
 		}
 		//open Command
 		private void OpenCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
