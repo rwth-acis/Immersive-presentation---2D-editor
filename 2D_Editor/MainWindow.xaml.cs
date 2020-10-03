@@ -55,9 +55,12 @@ namespace _2D_Editor
 
 		public PresentationHandling presentationHandler;
 
-        public MainWindow()
+		public WelcomeWindow callerWindow;
+
+        public MainWindow(WelcomeWindow pCallerWindow)
         {
             InitializeComponent();
+			callerWindow = pCallerWindow;
 
 			//Initialize the Presentation handler
 			presentationHandler = new PresentationHandling(new CoordinatorConnection(), this);
@@ -67,9 +70,10 @@ namespace _2D_Editor
 			presentationHandler.openPresentation.stages.Add(new Stage("Test Stage"));
 		}
 
-		public MainWindow(CoordinatorConnection pConnection, StartMode pMode, string pPath)
+		public MainWindow(WelcomeWindow pCallerWindow, CoordinatorConnection pConnection, StartMode pMode, string pPath)
         {
 			InitializeComponent();
+			callerWindow = pCallerWindow;
 
 			switch (pMode)
             {
@@ -189,7 +193,9 @@ namespace _2D_Editor
 
 		private void PresentCommand_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			MessageBox.Show("Custom Present Command");
+			PresentationWindow presentationWindow = new PresentationWindow(this, presentationHandler, 0);
+			presentationWindow.Show();
+			this.Hide();
 		}
 		//presentProperties Command
 		private void PresentPropertiesCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -309,6 +315,11 @@ namespace _2D_Editor
         private void PropertyEditorImageSource_Clicked(object sender, RoutedEventArgs e)
         {
 			presentationHandler.changeImageSource((Image2D)((Button)sender).Tag);
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+			callerWindow.Close();
         }
     }
 

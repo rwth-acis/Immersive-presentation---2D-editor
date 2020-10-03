@@ -1,0 +1,63 @@
+﻿<Window x:Class="_2D_Editor.PresentationWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:_2D_Editor"
+        
+        xmlns:converters="clr-namespace:_2D_Editor.Converters"
+        xmlns:impres="clr-namespace:ImmersivePresentation;assembly=ImmersivePresentation"
+        
+        mc:Ignorable="d"
+        Title="PresentationWindow" Height="450" Width="800"
+        WindowState="Maximized" WindowStyle="None"
+        Closing="Window_Closing">
+    <Window.Resources>
+        <converters:PercentageToAbsolute x:Key="RelativePosToAbsolutePos"/>
+        <converters:RelativePathToImageSource x:Key="RelativePathToImageSource"/>
+        <converters:BoolToThickness x:Key="BoolToThickness"/>
+        <converters:StringToFontsize x:Key="StringToFontsize"/>
+    </Window.Resources>
+    <Grid>
+        <Border Background="Black">
+            <Viewbox Stretch="Uniform">
+                <Border BorderBrush="#808e9b" BorderThickness="0.5">
+                    <ItemsControl x:Name="canvasPreview">
+                        <ItemsControl.Resources>
+                            <DataTemplate DataType="{x:Type impres:Image2D}">
+                                <Border BorderBrush="Blue" BorderThickness="{Binding highlighted, Converter={StaticResource BoolToThickness}}">
+                                    <Image Width="{Binding xScale, Converter={StaticResource RelativePosToAbsolutePos}, ConverterParameter=1920}" 
+                                           Height="{Binding yScale, Converter={StaticResource RelativePosToAbsolutePos}, ConverterParameter=1080}" 
+                                           Source="{Binding relativeImageSource, Converter={StaticResource RelativePathToImageSource}}"
+                                           Stretch="Fill"
+                                           Tag="{Binding }"
+                                           />
+                                </Border>
+                            </DataTemplate>
+                            <DataTemplate DataType="{x:Type impres:Text2D}">
+                                <Border BorderBrush="Blue" BorderThickness="{Binding highlighted, Converter={StaticResource BoolToThickness}}">
+                                    <Label Content="{Binding content}" 
+                                           Canvas.Left="{Binding xPosition, Converter={StaticResource RelativePosToAbsolutePos}, ConverterParameter=1920}" 
+                                           Canvas.Top="{Binding yPosition, Converter={StaticResource RelativePosToAbsolutePos}, ConverterParameter=1080}"
+                                           FontSize="{Binding fontsize}"
+                                           Tag="{Binding }"/>
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.Resources>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <Canvas Background="#ffffff" Width="1920" Height="1080"></Canvas>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemContainerStyle>
+                            <Style TargetType="ContentPresenter">
+                                <Setter Property="Canvas.Left" Value="{Binding xPosition, Converter={StaticResource RelativePosToAbsolutePos}, ConverterParameter=1920}" />
+                                <Setter Property="Canvas.Top" Value="{Binding yPosition, Converter={StaticResource RelativePosToAbsolutePos}, ConverterParameter=1080}" />
+                            </Style>
+                        </ItemsControl.ItemContainerStyle>
+                    </ItemsControl>
+                </Border>
+            </Viewbox>
+        </Border>
+    </Grid>
+</Window>

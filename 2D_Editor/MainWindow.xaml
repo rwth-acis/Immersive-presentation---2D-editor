@@ -11,7 +11,8 @@
         
         mc:Ignorable="d"
         Title="2D Editor"
-        Background="#FFF5F5F6" Icon="Images/icon.png">
+        Background="#FFF5F5F6" Icon="Images/icon.png"
+        Closing="Window_Closing">
     <Window.CommandBindings>
         <CommandBinding Command="local:CustomCommands.Exit" CanExecute="ExitCommand_CanExecute" Executed="ExitCommand_Executed"/>
         <CommandBinding Command="New" CanExecute="NewCommand_CanExecute" Executed="NewCommand_Executed"/>

@@ -79,6 +79,26 @@ namespace _2D_Editor
                 _WindowsPropertyList.ItemsSource = selectedCanvasElements;
             }
         }
+        public ItemsControl PresentationWindowCanvasPreview { get; set; }
+        private int _indexPresentationStage;
+        public int indexPresentationStage { 
+            get
+            {
+                return _indexPresentationStage;
+            }
+            set
+            {
+                if (value < 0 || value >= openPresentation.stages.Count)
+                {
+                    
+                }
+                else
+                {
+                    _indexPresentationStage = value;
+                    PresentationWindowCanvasPreview.ItemsSource = openPresentation.stages[value].canvas.elements;
+                }
+            }
+        }
 
         public string presentationSavingPath { get; set; }
         public string presentationName { get; set; }
@@ -564,6 +584,38 @@ namespace _2D_Editor
                     File.Delete(tempPresDir + oldRelativePath);
                 }
             }
+        }
+
+        public void startPresentation(ItemsControl pPresentationWindowCanvasPreview, int pStageIndex)
+        {
+            //Save the presentation
+            saveOpenPresentation();
+
+            //Get the invitation Link
+
+
+            //Show the invitation Link
+
+            //Join/Create the Photon Room
+
+            //Setup PhotonRoom
+
+            PresentationWindowCanvasPreview = pPresentationWindowCanvasPreview;
+            indexPresentationStage = pStageIndex;
+
+            //
+        }
+        public void nextPresentationStage()
+        {
+            indexPresentationStage = indexPresentationStage + 1;
+            //Send new index in the Photon Room
+
+        }
+        public void previousPresentationStage()
+        {
+            indexPresentationStage = indexPresentationStage - 1;
+            //Send new index in the Photon Room
+
         }
     }
 }

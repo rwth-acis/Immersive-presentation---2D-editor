@@ -66,7 +66,7 @@ namespace _2D_Editor
             openFileDialog.Filter = "Presentation (*.pres)|*.pres|Zip (*.zip)|*.zip";
             if (openFileDialog.ShowDialog() == true)
             {
-                MainWindow myMainWindow = new MainWindow(connection, StartMode.Open, openFileDialog.FileName);
+                MainWindow myMainWindow = new MainWindow(this, connection, StartMode.Open, openFileDialog.FileName);
                 this.Visibility = Visibility.Hidden;
                 myMainWindow.Show();
             }
@@ -80,7 +80,7 @@ namespace _2D_Editor
             saveFileDialog.Filter = "Presentation (*.pres)|*.pres|Zip (*.zip)|*.zip";
             if (saveFileDialog.ShowDialog() == true)
             {
-                MainWindow myMainWindow = new MainWindow(connection, StartMode.New, saveFileDialog.FileName);
+                MainWindow myMainWindow = new MainWindow(this, connection, StartMode.New, saveFileDialog.FileName);
                 this.Visibility = Visibility.Hidden;
                 myMainWindow.Show();
             }
