@@ -42,6 +42,7 @@ namespace ImmersivePresentation
 
             }
         }
+        public string relativMaterialPath { get; set; }
 
         public Element3D() : base()
         {

@@ -384,11 +384,11 @@ namespace _2D_Editor
                     Element3D newElement = new Element3D(relativeFolderPath + availableNameOfFile + extension);
 
                     //Check for a materialfile (.mtl)
-                    string materialSourcePath = pathWithoutFilename + nameOfFile + ".mtl";
+                    string materialSourcePath = pathWithoutFilename + "\\" + nameOfFile + ".mtl";
                     if (File.Exists(materialSourcePath))
                     {
                         File.Copy(materialSourcePath, targetTepFolder + nameOfFile + appendix + ".mtl");
-
+                        newElement.relativMaterialPath = relativeFolderPath + nameOfFile + appendix + ".mtl";
                     }
                     else
                     {
@@ -418,6 +418,10 @@ namespace _2D_Editor
                 {
                     File.Delete(tempPresDir + elementToDelete.relativePath);
                 }
+                if (elementToDelete.relativMaterialPath != "" && File.Exists(tempPresDir + elementToDelete.relativMaterialPath))
+                {
+                    File.Delete(tempPresDir + elementToDelete.relativMaterialPath);
+                }
                 //remove element
                 SelectedStage.scene.elements.Remove(elementToDelete);
             }
@@ -432,6 +436,7 @@ namespace _2D_Editor
             if (openFileDialog.ShowDialog() == true)
             {
                 string sourcePath = openFileDialog.FileName.ToString();
+                string pathWithoutFilename = Path.GetDirectoryName(sourcePath);
                 string nameOfFile = Path.GetFileNameWithoutExtension(sourcePath);
                 string extension = Path.GetExtension(sourcePath);
                 string targetTepFolder = tempPresDir + tempSub3D + tempSubSubHandout;
@@ -444,12 +449,25 @@ namespace _2D_Editor
                     appendixCount = appendixCount + 1;
                     appendix = "_" + appendixCount;
                 }
-                nameOfFile = nameOfFile + appendix;
+                string availableNameOfFile = nameOfFile + appendix;
 
                 try
                 {
-                    File.Copy(sourcePath, targetTepFolder + nameOfFile + extension);
-                    Element3D newElement = new Element3D(relativeFolderPath + nameOfFile + extension);
+                    File.Copy(sourcePath, targetTepFolder + availableNameOfFile + extension);
+                    Element3D newElement = new Element3D(relativeFolderPath + availableNameOfFile + extension);
+
+                    //Check for a materialfile (.mtl)
+                    string materialSourcePath = pathWithoutFilename + "\\" + nameOfFile + ".mtl";
+                    if (File.Exists(materialSourcePath))
+                    {
+                        File.Copy(materialSourcePath, targetTepFolder + nameOfFile + appendix + ".mtl");
+                        newElement.relativMaterialPath = relativeFolderPath + nameOfFile + appendix + ".mtl";
+                    }
+                    else
+                    {
+                        MessageBox.Show("We were unable to locate a material file (.mtl) automatically. Please add the material file by hand in the property section.");
+                    }
+
                     SelectedStage.handout.elements.Add(newElement);
                 }
                 catch
@@ -470,6 +488,10 @@ namespace _2D_Editor
                 if (elementToDelete.relativePath != "" && File.Exists(tempPresDir + elementToDelete.relativePath))
                 {
                     File.Delete(tempPresDir + elementToDelete.relativePath);
+                }
+                if (elementToDelete.relativMaterialPath != "" && File.Exists(tempPresDir + elementToDelete.relativMaterialPath))
+                {
+                    File.Delete(tempPresDir + elementToDelete.relativMaterialPath);
                 }
                 //remove element
                 SelectedStage.handout.elements.Remove(elementToDelete);
