@@ -62,11 +62,11 @@ namespace ImmersivePresentation
             //Default Position
             xPosition = 0;
             yPosition = 0;
-            zPosition = 20;
+            zPosition = 0;
             //Default Scale
-            xScale = 20;
-            yScale = 20;
-            zScale = 20;
+            xScale = 1;
+            yScale = 1;
+            zScale = 1;
         }
 
         public Element3D(string pRelativePath, double pXPosition, double pYPosition, double pZPosition) : base()
