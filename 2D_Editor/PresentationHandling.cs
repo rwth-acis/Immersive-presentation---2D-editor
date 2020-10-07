@@ -518,15 +518,19 @@ namespace _2D_Editor
                 string targetTepFolder = tempPresDir + tempSub2D;
                 string relativeFolderPath = tempSub2D;
 
-                if (File.Exists(targetTepFolder + nameOfFile + extension))
+                string appendix = "";
+                int appendixCount = 0;
+                while (File.Exists(targetTepFolder + nameOfFile + appendix + extension))
                 {
-                    nameOfFile = nameOfFile + "_copy";
+                    appendixCount = appendixCount + 1;
+                    appendix = "_" + appendixCount;
                 }
+                string availableNameOfFile = nameOfFile + appendix;
 
 
                 try
                 {
-                    File.Copy(sourcePath, targetTepFolder + nameOfFile + extension);
+                    File.Copy(sourcePath, targetTepFolder + availableNameOfFile + extension);
                     Image2D newImage = new Image2D(relativeFolderPath + nameOfFile + extension);
                     SelectedStage.canvas.elements.Add(newImage);
                 }

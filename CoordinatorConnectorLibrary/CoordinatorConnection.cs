@@ -159,7 +159,7 @@ namespace CoordinatorConnectorLibrary
             var request = new RestRequest("/presentation", Method.POST);
             request.AddHeader("Authorization", "Bearer " + token);
             request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
-            request.AddParameter("name", "NewPres");
+            request.AddParameter("name", name);
             IRestResponse response = client.Execute(request);
             if ((response.StatusCode == HttpStatusCode.OK))
             {
