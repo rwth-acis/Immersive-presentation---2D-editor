@@ -331,6 +331,12 @@ namespace _2D_Editor
         {
 			presentationHandler.setSelectedElement((Element3D)((StackPanel)sender).Tag);
         }
+
+        private void Remove2DElementClicked(object sender, RoutedEventArgs e)
+        {
+			presentationHandler.remove2DElementFromCanvas((Element2D)((Button)sender).Tag);
+
+		}
     }
 
 

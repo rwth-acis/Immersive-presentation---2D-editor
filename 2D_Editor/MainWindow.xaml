@@ -113,27 +113,29 @@
                                                 <Separator/>
                                                 <Label>X Position</Label>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <TextBox Text="{Binding xPosition, UpdateSourceTrigger=PropertyChanged}"/>
+                                                    <TextBox Text="{Binding xPosition, UpdateSourceTrigger=PropertyChanged}" MinWidth="100"/>
                                                     <Label>%</Label>
                                                 </StackPanel>
                                                 <Separator/>
                                                 <Label>Y Position</Label>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <TextBox Text="{Binding yPosition, UpdateSourceTrigger=PropertyChanged}"/>
+                                                    <TextBox Text="{Binding yPosition, UpdateSourceTrigger=PropertyChanged}" MinWidth="100"/>
                                                     <Label>%</Label>
                                                 </StackPanel>
                                                 <Separator/>
                                                 <Label>X Scale</Label>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <TextBox Text="{Binding xScale, UpdateSourceTrigger=PropertyChanged}"/>
+                                                    <TextBox Text="{Binding xScale, UpdateSourceTrigger=PropertyChanged}" MinWidth="100"/>
                                                     <Label>%</Label>
                                                 </StackPanel>
                                                 <Separator/>
                                                 <Label>YScale</Label>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <TextBox Text="{Binding yScale, UpdateSourceTrigger=PropertyChanged}"/>
+                                                    <TextBox Text="{Binding yScale, UpdateSourceTrigger=PropertyChanged}" MinWidth="100"/>
                                                     <Label>%</Label>
                                                 </StackPanel>
+                                                <Separator/>
+                                                <Button Tag="{Binding }" Click="Remove2DElementClicked">Remove Element</Button>
                                             </StackPanel>
                                         </Border>
                                     </DataTemplate>
@@ -141,24 +143,26 @@
                                         <Border BorderBrush="Black" BorderThickness="1">
                                             <StackPanel Margin="5">
                                                 <Label>Text</Label>
-                                                <TextBox Text="{Binding content, UpdateSourceTrigger=PropertyChanged}"/>
+                                                <TextBox Text="{Binding content, UpdateSourceTrigger=PropertyChanged}" MinWidth="100"/>
                                                 <Separator/>
                                                 <Label>X Position</Label>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <TextBox Text="{Binding xPosition, UpdateSourceTrigger=PropertyChanged}"/>
+                                                    <TextBox Text="{Binding xPosition, UpdateSourceTrigger=PropertyChanged}" MinWidth="100"/>
                                                     <Label>%</Label>
                                                 </StackPanel>
                                                 <Separator/>
                                                 <Label>Y Position</Label>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <TextBox Text="{Binding yPosition, UpdateSourceTrigger=PropertyChanged}"/>
+                                                    <TextBox Text="{Binding yPosition, UpdateSourceTrigger=PropertyChanged}" MinWidth="100"/>
                                                     <Label>%</Label>
                                                 </StackPanel>
                                                 <Separator/>
                                                 <Label>Fontsize</Label>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <TextBox Text="{Binding fontsize, UpdateSourceTrigger=PropertyChanged}"/>
+                                                    <TextBox Text="{Binding fontsize, UpdateSourceTrigger=PropertyChanged}" MinWidth="100"/>
                                                 </StackPanel>
+                                                <Separator/>
+                                                <Button Tag="{Binding }" Click="Remove2DElementClicked">Remove Element</Button>
                                             </StackPanel>
                                         </Border>
                                     </DataTemplate>
@@ -171,55 +175,55 @@
                                                 <Separator/>
                                                 <Label>X Position</Label>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <TextBox Text="{Binding xPosition, UpdateSourceTrigger=PropertyChanged}"/>
+                                                    <TextBox Text="{Binding xPosition, UpdateSourceTrigger=PropertyChanged}" MinWidth="100"/>
                                                     <Label>m</Label>
                                                 </StackPanel>
                                                 <Separator/>
                                                 <Label>Y Position</Label>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <TextBox Text="{Binding yPosition, UpdateSourceTrigger=PropertyChanged}"/>
+                                                    <TextBox Text="{Binding yPosition, UpdateSourceTrigger=PropertyChanged}" MinWidth="100"/>
                                                     <Label>m</Label>
                                                 </StackPanel>
                                                 <Separator/>
                                                 <Label>Z Position</Label>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <TextBox Text="{Binding zPosition, UpdateSourceTrigger=PropertyChanged}"/>
+                                                    <TextBox Text="{Binding zPosition, UpdateSourceTrigger=PropertyChanged}" MinWidth="100"/>
                                                     <Label>m</Label>
                                                 </StackPanel>
                                                 <Separator/>
                                                 <Label>X Scale</Label>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <TextBox Text="{Binding xScale, UpdateSourceTrigger=PropertyChanged}"/>
+                                                    <TextBox Text="{Binding xScale, UpdateSourceTrigger=PropertyChanged}" MinWidth="100"/>
                                                     <Label>m</Label>
                                                 </StackPanel>
                                                 <Separator/>
                                                 <Label>Y Scale</Label>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <TextBox Text="{Binding yScale, UpdateSourceTrigger=PropertyChanged}"/>
+                                                    <TextBox Text="{Binding yScale, UpdateSourceTrigger=PropertyChanged}" MinWidth="100"/>
                                                     <Label>m</Label>
                                                 </StackPanel>
                                                 <Separator/>
                                                 <Label>Z Scale</Label>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <TextBox Text="{Binding zScale, UpdateSourceTrigger=PropertyChanged}"/>
+                                                    <TextBox Text="{Binding zScale, UpdateSourceTrigger=PropertyChanged}" MinWidth="100"/>
                                                     <Label>m</Label>
                                                 </StackPanel>
                                                 <Separator/>
                                                 <Label>X Rotation</Label>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <TextBox Text="{Binding xRotation, UpdateSourceTrigger=PropertyChanged}"/>
+                                                    <TextBox Text="{Binding xRotation, UpdateSourceTrigger=PropertyChanged}" MinWidth="100"/>
                                                     <Label>°</Label>
                                                 </StackPanel>
                                                 <Separator/>
                                                 <Label>Y Rotation</Label>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <TextBox Text="{Binding yRotation, UpdateSourceTrigger=PropertyChanged}"/>
+                                                    <TextBox Text="{Binding yRotation, UpdateSourceTrigger=PropertyChanged}" MinWidth="100"/>
                                                     <Label>°</Label>
                                                 </StackPanel>
                                                 <Separator/>
                                                 <Label>Z Rotation</Label>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <TextBox Text="{Binding zRotation, UpdateSourceTrigger=PropertyChanged}"/>
+                                                    <TextBox Text="{Binding zRotation, UpdateSourceTrigger=PropertyChanged}" MinWidth="100"/>
                                                     <Label>°</Label>
                                                 </StackPanel>
                                             </StackPanel>
@@ -426,7 +430,7 @@
                         </ListBox.ItemsPanel>
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <StackPanel Width="100" Margin="0,0,5,5">
+                                <StackPanel Width="100" Margin="0,0,5,5" MouseLeftButtonDown="Scene3DElementSelected" Tag="{Binding }">
                                     <Border Width="50" Height="50">
                                         <Image Source="/Images/3d_box.png" Stretch="Uniform"/>
                                     </Border>

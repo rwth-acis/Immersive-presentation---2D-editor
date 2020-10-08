@@ -531,7 +531,7 @@ namespace _2D_Editor
                 try
                 {
                     File.Copy(sourcePath, targetTepFolder + availableNameOfFile + extension);
-                    Image2D newImage = new Image2D(relativeFolderPath + nameOfFile + extension);
+                    Image2D newImage = new Image2D(relativeFolderPath + availableNameOfFile + extension);
                     SelectedStage.canvas.elements.Add(newImage);
                 }
                 catch
@@ -668,6 +668,43 @@ namespace _2D_Editor
                 {
                     MessageBox.Show("Sorry - We were not able to add this image.");
                     //ToDo show error in status bar
+                }
+            }
+        }
+
+        public void remove2DElementFromCanvas(Element2D elem)
+        {
+            unselectAllElements();
+            removeRessources(elem);
+            SelectedStage.canvas.elements.Remove(elem);
+        }
+
+        /// <summary>
+        /// Removes the resources of the element from the temporary folder
+        /// </summary>
+        /// <param name="elem">The element that contains the ressources that need to be removed</param>
+        private void removeRessources(Element elem)
+        {
+            if(elem.GetType() == typeof(Image2D))
+            {
+                Image2D img = (Image2D)elem;
+                if(File.Exists(tempPresDir + img.relativeImageSource))
+                {
+                    File.Delete(tempPresDir + img.relativeImageSource);
+                }
+                return;
+            }
+
+            if(elem.GetType() == typeof(Element3D))
+            {
+                Element3D elem3d = (Element3D)elem;
+                if (elem3d.relativePath != "" && File.Exists(tempPresDir + elem3d.relativePath))
+                {
+                    File.Delete(tempPresDir + elem3d.relativePath);
+                }
+                if (elem3d.relativMaterialPath != "" && File.Exists(tempPresDir + elem3d.relativMaterialPath))
+                {
+                    File.Delete(tempPresDir + elem3d.relativMaterialPath);
                 }
             }
         }
