@@ -34,19 +34,7 @@ namespace ImmersivePresentation
                 OnProperyChanged("yPosition");
             }
         }
-        private bool _highlighted;
-        public bool highlighted
-        {
-            get
-            {
-                return _highlighted;
-            }
-            set
-            {
-                _highlighted = value;
-                OnProperyChanged("highlighted");
-            }
-        }
+        
 
         public Element2D() : base()
         {

@@ -55,7 +55,7 @@ namespace _2D_Editor
                 }
             } 
         }
-        public ObservableCollection<Element2D> selectedCanvasElements;
+        public ObservableCollection<Element> selectedElements;
         public int indexOfSelectedStage { 
             get
             {
@@ -76,7 +76,7 @@ namespace _2D_Editor
             set
             {
                 _WindowsPropertyList = value;
-                _WindowsPropertyList.ItemsSource = selectedCanvasElements;
+                _WindowsPropertyList.ItemsSource = selectedElements;
             }
         }
         public ItemsControl PresentationWindowCanvasPreview { get; set; }
@@ -123,7 +123,7 @@ namespace _2D_Editor
             connection = pConnection;
             openPresentation = null;
             openPresentation = new Presentation("fakeJWT", "DemoPresentation");
-            selectedCanvasElements = new ObservableCollection<Element2D>();
+            selectedElements = new ObservableCollection<Element>();
         }
 
         public PresentationHandling(CoordinatorConnection pConnection, StartMode pMode, string pPath, MainWindow pMainWindow)
@@ -148,7 +148,7 @@ namespace _2D_Editor
                         break;
                     }
             }
-            selectedCanvasElements = new ObservableCollection<Element2D>();
+            selectedElements = new ObservableCollection<Element>();
         }
 
         public void createAndGetLocationOfNewPresentation()
@@ -558,28 +558,28 @@ namespace _2D_Editor
         public void addSelectedCanvasElement(Element2D element)
         {
             element.highlighted = true;
-            selectedCanvasElements.Add(element);
-            WindowsPropertyList.ItemsSource = selectedCanvasElements;
+            selectedElements.Add(element);
+            WindowsPropertyList.ItemsSource = selectedElements;
         }
         public void setSelectedCanvasElement(Element2D element)
         {
-            foreach(Element2D elem in selectedCanvasElements)
+            foreach(Element2D elem in selectedElements)
             {
                 elem.highlighted = false;
             }
-            selectedCanvasElements = new ObservableCollection<Element2D>();
+            selectedElements = new ObservableCollection<Element>();
             element.highlighted = true;
-            selectedCanvasElements.Add(element);
-            WindowsPropertyList.ItemsSource = selectedCanvasElements;
+            selectedElements.Add(element);
+            WindowsPropertyList.ItemsSource = selectedElements;
         }
         public void unselectAllCanvasElements()
         {
-            foreach (Element2D elem in selectedCanvasElements)
+            foreach (Element2D elem in selectedElements)
             {
                 elem.highlighted = false;
             }
-            selectedCanvasElements = new ObservableCollection<Element2D>();
-            WindowsPropertyList.ItemsSource = selectedCanvasElements;
+            selectedElements = new ObservableCollection<Element>();
+            WindowsPropertyList.ItemsSource = selectedElements;
         }
         public void canvasBackgroundClicked()
         {
