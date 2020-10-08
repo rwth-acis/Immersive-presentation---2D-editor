@@ -25,7 +25,7 @@ namespace ImmersivePresentation
         public Presentation(string pPresentationId, string pPresentationName)
         {
             presentationId = pPresentationId;
-            ownerId = "DemoOwner1";
+            ownerId = "";
 
             //Initialize all parameters
             name = pPresentationName;

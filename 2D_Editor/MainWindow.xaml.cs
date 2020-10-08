@@ -321,6 +321,16 @@ namespace _2D_Editor
         {
 			callerWindow.Close();
         }
+
+        private void PropertyEditorMaterialSource_Clicked(object sender, RoutedEventArgs e)
+        {
+			presentationHandler.changeMaterialSource((Element3D)((Button)sender).Tag);
+        }
+
+        private void Scene3DElementSelected(object sender, MouseButtonEventArgs e)
+        {
+			presentationHandler.setSelectedElement((Element3D)((StackPanel)sender).Tag);
+        }
     }
 
 

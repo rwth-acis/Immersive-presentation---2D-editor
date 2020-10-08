@@ -42,6 +42,10 @@ namespace CoordinatorConnectorLibrary
         {
             email = pEmail;
         }
+        public int getIdUser()
+        {
+            return iduser;
+        }
         public bool login(string pEmail, string pPassword)
         {
             email = pEmail;

@@ -144,7 +144,6 @@ namespace _2D_Editor
                     }
                 default:
                     {
-                        openPresentation = new Presentation("fakeJWT", "DemoPresentation");
                         break;
                     }
             }
@@ -179,6 +178,7 @@ namespace _2D_Editor
             }
 
             openPresentation = new Presentation(presentationId, presentationName);
+            openPresentation.ownerId = connection.getIdUser().ToString();
             SelectedStage = openPresentation.stages[0];
 
             //create a working directory in the users temp
@@ -547,7 +547,7 @@ namespace _2D_Editor
             if (typeof(Element2D).IsInstanceOfType(element))
             {
                 Element2D selectedElement = (Element2D)element;
-                setSelectedCanvasElement(selectedElement);
+                setSelectedElement(selectedElement);
                 return;
             }
 
@@ -555,15 +555,15 @@ namespace _2D_Editor
             //ToDo show error in Statusbar
             MessageBox.Show("The selected object was not detected.");
         }
-        public void addSelectedCanvasElement(Element2D element)
+        public void addSelectedElement(Element element)
         {
             element.highlighted = true;
             selectedElements.Add(element);
             WindowsPropertyList.ItemsSource = selectedElements;
         }
-        public void setSelectedCanvasElement(Element2D element)
+        public void setSelectedElement(Element element)
         {
-            foreach(Element2D elem in selectedElements)
+            foreach(Element elem in selectedElements)
             {
                 elem.highlighted = false;
             }
@@ -572,9 +572,9 @@ namespace _2D_Editor
             selectedElements.Add(element);
             WindowsPropertyList.ItemsSource = selectedElements;
         }
-        public void unselectAllCanvasElements()
+        public void unselectAllElements()
         {
-            foreach (Element2D elem in selectedElements)
+            foreach (Element elem in selectedElements)
             {
                 elem.highlighted = false;
             }
@@ -583,7 +583,7 @@ namespace _2D_Editor
         }
         public void canvasBackgroundClicked()
         {
-            unselectAllCanvasElements();
+            unselectAllElements();
         }
         public void changeImageSource(Image2D element)
         {
@@ -601,16 +601,20 @@ namespace _2D_Editor
                 string targetTepFolder = tempPresDir + tempSub2D;
                 string relativeFolderPath = tempSub2D;
 
-                if (File.Exists(targetTepFolder + nameOfFile + extension))
+                string appendix = "";
+                int appendixCount = 0;
+                while (File.Exists(targetTepFolder + nameOfFile + appendix + extension))
                 {
-                    nameOfFile = nameOfFile + "_copy";
+                    appendixCount = appendixCount + 1;
+                    appendix = "_" + appendixCount;
                 }
+                string availableNameOfFile = nameOfFile + appendix;
 
 
                 try
                 {
-                    File.Copy(sourcePath, targetTepFolder + nameOfFile + extension);
-                    element.relativeImageSource = relativeFolderPath + nameOfFile + extension;
+                    File.Copy(sourcePath, targetTepFolder + availableNameOfFile + extension);
+                    element.relativeImageSource = relativeFolderPath + availableNameOfFile + extension;
                 }
                 catch
                 {
@@ -622,6 +626,48 @@ namespace _2D_Editor
                 if (File.Exists(tempPresDir + oldRelativePath))
                 {
                     File.Delete(tempPresDir + oldRelativePath);
+                }
+            }
+        }
+
+        public void changeMaterialSource(Element3D elem)
+        {
+            //save old relativ material path to remove the source when the new one is added
+            string oldRelativePath = elem.relativMaterialPath;
+            //Add reference to new Image
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Title = "Select a Material.";
+            openFileDialog.Filter = "Material (*.mtl)|*.mtl|Others (*.*)|*.*";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string sourcePath = openFileDialog.FileName.ToString();
+                //The name of the material file needs to be the same as the one of the obj file
+                string nameOfFile = Path.GetFileNameWithoutExtension(elem.relativePath);
+                string extension = Path.GetExtension(sourcePath);
+                string targetTepFolder = tempPresDir + tempSub3D;
+                string relativeFolderPath = tempSub3D;
+
+                //Delete old File from temp
+                if (File.Exists(tempPresDir + oldRelativePath))
+                {
+                    File.Delete(tempPresDir + oldRelativePath);
+                }
+
+                try
+                {
+                    //delete here again because there could be another file extension than mtl in the future
+                    if(File.Exists(targetTepFolder + nameOfFile + extension))
+                    {
+                        File.Delete(targetTepFolder + nameOfFile + extension);
+                    }
+                    File.Copy(sourcePath, targetTepFolder + nameOfFile + extension);
+                    elem.relativMaterialPath = relativeFolderPath + nameOfFile + extension;
+                    elem.originalMatName = Path.GetFileName(sourcePath);
+                }
+                catch
+                {
+                    MessageBox.Show("Sorry - We were not able to add this image.");
+                    //ToDo show error in status bar
                 }
             }
         }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ImmersivePresentation
 {
-    public class Element3D
+    public class Element3D : Element
     {
         //The Position describes where the center of the element will be positioned. The value is in percentage (0 is in the middle)
         public double xPosition { get; set; }
@@ -48,6 +48,27 @@ namespace ImmersivePresentation
             }
         }
         public string relativMaterialPath { get; set; }
+        public string matName
+        {
+            get
+            {
+                return Path.GetFileName(relativMaterialPath);
+            }
+        }
+
+        private string _originalMatName;
+        public string originalMatName
+        {
+            get
+            {
+                return _originalMatName;
+            }
+            set
+            {
+                _originalMatName = value;
+                OnProperyChanged("originalMatName");
+            }
+        }
 
         public Element3D() : base()
         {
