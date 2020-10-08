@@ -12,10 +12,15 @@ namespace ImmersivePresentation
         public double yPosition { get; set; }
         public double zPosition { get; set; }
 
-        //The Scale describes how much of the Axis this element will cover in percentage (100 is the complete axis)
+        //The Scale describes the scale of the object in a room
         public double xScale { get; set; }
         public double yScale { get; set; }
         public double zScale { get; set; }
+
+        //The Scale describes the scale of the object in a room
+        public double xRotation { get; set; }
+        public double yRotation { get; set; }
+        public double zRotation { get; set; }
 
         public string relativePath { get; set; }
         public string filename { 
@@ -54,6 +59,10 @@ namespace ImmersivePresentation
             xScale = 20;
             yScale = 20;
             zScale = 20;
+            //Default Rotation
+            xRotation = 0;
+            yRotation = 0;
+            zRotation = 0;
         }
 
         public Element3D(string pRelativePath) : base()
@@ -67,6 +76,10 @@ namespace ImmersivePresentation
             xScale = 1;
             yScale = 1;
             zScale = 1;
+            //Default Rotation
+            xRotation = 0;
+            yRotation = 0;
+            zRotation = 0;
         }
 
         public Element3D(string pRelativePath, double pXPosition, double pYPosition, double pZPosition) : base()
@@ -80,6 +93,10 @@ namespace ImmersivePresentation
             xScale = 20;
             yScale = 20;
             zScale = 20;
+            //Default Rotation
+            xRotation = 0;
+            yRotation = 0;
+            zRotation = 0;
         }
 
         public Element3D(string pRelativePath, double pXPosition, double pYPosition, double pZPosition, double pXScale, double pYScale, double pZScale) : base()
@@ -93,6 +110,11 @@ namespace ImmersivePresentation
             xScale = pXScale;
             yScale = pYScale;
             zScale = pZScale;
+
+            //Default Rotation
+            xRotation = 0;
+            yRotation = 0;
+            zRotation = 0;
         }
 
     }
