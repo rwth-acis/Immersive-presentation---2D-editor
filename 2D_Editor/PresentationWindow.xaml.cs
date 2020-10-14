@@ -26,6 +26,7 @@ namespace _2D_Editor
             InitializeComponent();
             callerWindow = pCaller;
             presentationHandler = pPresentationHandler;
+            presentationHandler.presentationWindow = this;
 
             PreviewKeyDown += (s, e) => { 
                 if (e.Key == Key.Escape) Close();
@@ -38,6 +39,7 @@ namespace _2D_Editor
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            presentationHandler.stopPresentation();
             callerWindow.Show();
         }
         private void nextStage()

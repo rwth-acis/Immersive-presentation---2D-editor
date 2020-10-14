@@ -16,6 +16,7 @@ namespace _2D_Editor
     public class PresentationHandling
     {
         public MainWindow mainWindow;
+        public PresentationWindow presentationWindow;
         public Presentation openPresentation { get; set; }
         private Stage _selectedStage;
         public Stage SelectedStage {
@@ -117,6 +118,8 @@ namespace _2D_Editor
         private JsonSerializerSettings jsonSettings = new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.Auto };
 
         private CoordinatorConnection connection;
+
+        private PhotonClient photonClient;
         public PresentationHandling(CoordinatorConnection pConnection, MainWindow pMainWindow)
         {
             mainWindow = pMainWindow;
@@ -720,6 +723,8 @@ namespace _2D_Editor
             //Show the invitation Link
 
             //Join/Create the Photon Room
+            photonClient = new PhotonClient(this);
+            photonClient.Connect("1-13");
 
             //Setup PhotonRoom
 
@@ -728,17 +733,49 @@ namespace _2D_Editor
 
             //
         }
+
+        public void stopPresentation()
+        {
+            photonClient.Disconnect();
+        }
         public void nextPresentationStage()
         {
-            indexPresentationStage = indexPresentationStage + 1;
-            //Send new index in the Photon Room
-
+            indexPresentationStage = indexPresentationStage - 1;
+            if (indexPresentationStage + 1 >= 0 && indexPresentationStage + 1 < openPresentation.stages.Count)
+            {
+                //Send new index in the Photon Room
+                photonClient.setStageIndex(indexPresentationStage + 1);
+            }
         }
         public void previousPresentationStage()
         {
             indexPresentationStage = indexPresentationStage - 1;
-            //Send new index in the Photon Room
+            if (indexPresentationStage - 1 >= 0 && indexPresentationStage - 1 < openPresentation.stages.Count)
+            {
+                //Send new index in the Photon Room
+                photonClient.setStageIndex(indexPresentationStage - 1);
+            }
 
+        }
+        public void updatePresStage(int stageIndex)
+        {
+            indexPresentationStage = stageIndex;
+        }
+
+        public void MakeCursorWait(bool value)
+        {
+            if(presentationWindow != null)
+            {
+                if (value)
+                {
+                    presentationWindow.Cursor = Cursors.Wait;
+                }
+                else
+                {
+                    presentationWindow.Cursor = Cursors.Arrow;
+                }
+                
+            }
         }
     }
 }

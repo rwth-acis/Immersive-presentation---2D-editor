@@ -41,6 +41,9 @@
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Photon-DotNet">
+      <HintPath>..\Libs\Photon-DotNet.dll</HintPath>
+    </Reference>
     <Reference Include="RestSharp, Version=106.11.4.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.106.11.4\lib\net452\RestSharp.dll</HintPath>
     </Reference>
@@ -82,6 +85,22 @@
     <Compile Include="Converters\PercentageToAbsolute.cs" />
     <Compile Include="Converters\RelativePathToImageSource.cs" />
     <Compile Include="Converters\StringToFontsize.cs" />
+    <Compile Include="LoadbalancingAPI\AppSettings.cs" />
+    <Compile Include="LoadbalancingAPI\ConnectionHandler.cs" />
+    <Compile Include="LoadbalancingAPI\Extensions.cs" />
+    <Compile Include="LoadbalancingAPI\FriendInfo.cs" />
+    <Compile Include="LoadbalancingAPI\LoadBalancingClient.cs" />
+    <Compile Include="LoadbalancingAPI\LoadBalancingPeer.cs" />
+    <Compile Include="LoadbalancingAPI\PhotonPing.cs" />
+    <Compile Include="LoadbalancingAPI\PhotonPingClasses.cs" />
+    <Compile Include="LoadbalancingAPI\Player.cs" />
+    <Compile Include="LoadbalancingAPI\Region.cs" />
+    <Compile Include="LoadbalancingAPI\RegionHandler.cs" />
+    <Compile Include="LoadbalancingAPI\Room.cs" />
+    <Compile Include="LoadbalancingAPI\RoomInfo.cs" />
+    <Compile Include="LoadbalancingAPI\SupportLogger.cs" />
+    <Compile Include="LoadbalancingAPI\WebRpc.cs" />
+    <Compile Include="PhotonClient.cs" />
     <Compile Include="PresentationWindow.xaml.cs">
       <DependentUpon>PresentationWindow.xaml</DependentUpon>
     </Compile>
