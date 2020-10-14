@@ -51,6 +51,7 @@ namespace _2D_Editor
         // call this to connect to Photon
         public void Connect(string pRoomName)
         {
+            disconnectWanted = false;
             roomName = pRoomName;
             this.loadBalancingClient.AppId = "1f107329-3f6f-48fa-9218-23d6664a64ed";  // set your app id here
             this.loadBalancingClient.AppVersion = "1.0";  // set your app version here
