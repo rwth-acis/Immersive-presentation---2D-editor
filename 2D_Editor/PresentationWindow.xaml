@@ -10,8 +10,7 @@
         
         mc:Ignorable="d"
         Title="PresentationWindow" Height="450" Width="800"
-        WindowState="Maximized" WindowStyle="None"
-        Closing="Window_Closing">
+        WindowState="Maximized" WindowStyle="None">
     <Window.Resources>
         <converters:PercentageToAbsolute x:Key="RelativePosToAbsolutePos"/>
         <converters:RelativePathToImageSource x:Key="RelativePathToImageSource"/>

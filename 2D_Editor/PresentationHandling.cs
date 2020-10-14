@@ -718,13 +718,19 @@ namespace _2D_Editor
             saveOpenPresentation();
 
             //Get the invitation Link
-
-
+            PresentationStartResponse startRes = connection.startPresentation(openPresentation.presentationId);
+            if (startRes == null)
+            {
+                stopPresentation();
+                return;
+            }
             //Show the invitation Link
+            MessageBox.Show("Short Code: " + startRes.shortCode + "\n\n Invitation Link: \n" + startRes.invitationToken);
 
             //Join/Create the Photon Room
             photonClient = new PhotonClient(this);
-            photonClient.Connect("1-13");
+            MessageBox.Show(startRes.photonRoomName);
+            photonClient.Connect(startRes.photonRoomName);
 
             //Setup PhotonRoom
 
@@ -736,7 +742,12 @@ namespace _2D_Editor
 
         public void stopPresentation()
         {
-            photonClient.Disconnect();
+            if(photonClient != null)
+            {
+                photonClient.Disconnect();
+            }
+            presentationWindow.callerWindow.Show();
+            presentationWindow.Close();
         }
         public void nextPresentationStage()
         {

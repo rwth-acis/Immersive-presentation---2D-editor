@@ -35,6 +35,7 @@ namespace _2D_Editor
 
         ~PhotonClient()
         {
+            this.Disconnect();
             this.UnsubscribeFromCallbacks();
         }
 
@@ -96,6 +97,7 @@ namespace _2D_Editor
             EnterRoomParams enterRoomParams = new EnterRoomParams();
             enterRoomParams.RoomName = roomName;
             enterRoomParams.RoomOptions = new RoomOptions();
+            enterRoomParams.RoomOptions.MaxPlayers = 10;
             this.loadBalancingClient.OpCreateRoom(enterRoomParams);
         }
 
@@ -186,17 +188,17 @@ namespace _2D_Editor
 
         public void OnLeftRoom()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void OnPlayerEnteredRoom(Player newPlayer)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void OnPlayerLeftRoom(Player otherPlayer)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void OnRoomPropertiesUpdate(Hashtable propertiesThatChanged)

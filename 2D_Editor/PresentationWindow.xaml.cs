@@ -19,7 +19,7 @@ namespace _2D_Editor
     /// </summary>
     public partial class PresentationWindow : Window
     {
-        MainWindow callerWindow;
+        public MainWindow callerWindow;
         PresentationHandling presentationHandler;
         public PresentationWindow(MainWindow pCaller, PresentationHandling pPresentationHandler, int pStageCount)
         {
@@ -29,7 +29,7 @@ namespace _2D_Editor
             presentationHandler.presentationWindow = this;
 
             PreviewKeyDown += (s, e) => { 
-                if (e.Key == Key.Escape) Close();
+                if (e.Key == Key.Escape) presentationHandler.stopPresentation();
                 if (e.Key == Key.Left) previousStage();
                 if (e.Key == Key.Right) nextStage();
             };
@@ -37,11 +37,7 @@ namespace _2D_Editor
             presentationHandler.startPresentation(canvasPreview, pStageCount);
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            presentationHandler.stopPresentation();
-            callerWindow.Show();
-        }
+        
         private void nextStage()
         {
             presentationHandler.nextPresentationStage();

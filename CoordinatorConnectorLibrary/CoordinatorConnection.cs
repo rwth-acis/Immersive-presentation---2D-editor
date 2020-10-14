@@ -191,5 +191,51 @@ namespace CoordinatorConnectorLibrary
                 return "";
             }
         }
+
+        public PresentationStartResponse startPresentation(string pPresentationId)
+        {
+            //Build and execute Request
+            var request = new RestRequest("/presentation/start", Method.POST);
+            request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
+            request.AddHeader("Authorization", "Bearer " + token);
+            request.AddParameter("idpresentation", pPresentationId);
+            IRestResponse response = client.Execute(request);
+            if (!(response.StatusCode == HttpStatusCode.OK)) return null;
+
+            //Deserialize Response
+            try
+            {
+                PresentationStartResponse res = new PresentationStartResponse();
+                JObject output = JObject.Parse(response.Content);
+
+                JToken helpJToken;
+                if (!output.TryGetValue("photonRoomName", out helpJToken)) return null;
+                res.photonRoomName = helpJToken.ToString();
+                if (!output.TryGetValue("exp", out helpJToken)) return null;
+                long helpInt;
+                if (!long.TryParse(helpJToken.ToString(), out helpInt)) return null;
+                res.exp = helpInt;
+                if (!output.TryGetValue("shortCode", out helpJToken)) return null;
+                res.shortCode = helpJToken.ToString();
+                if (!output.TryGetValue("invitationToken", out helpJToken)) return null;
+                res.invitationToken = helpJToken.ToString();
+                if (!output.TryGetValue("message", out helpJToken)) return null;
+                res.message = helpJToken.ToString();
+                return res;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+    }
+
+    public class PresentationStartResponse
+    {
+        public string photonRoomName { get; set; }
+        public string shortCode { get; set; }
+        public string invitationToken { get; set; }
+        public long exp { get; set; }
+        public string message { get; set; }
     }
 }
