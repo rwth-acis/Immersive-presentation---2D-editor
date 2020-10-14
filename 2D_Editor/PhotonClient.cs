@@ -55,7 +55,7 @@ namespace _2D_Editor
             disconnectWanted = false;
             roomName = pRoomName;
             this.loadBalancingClient.AppId = "1f107329-3f6f-48fa-9218-23d6664a64ed";  // set your app id here
-            this.loadBalancingClient.AppVersion = "1.0";  // set your app version here
+            this.loadBalancingClient.AppVersion = "1.0_2.22";  // set your app version here
 
             // "eu" is the European region's token
             if (!this.loadBalancingClient.ConnectToRegionMaster("eu")) // can return false for errors
@@ -173,7 +173,7 @@ namespace _2D_Editor
 
         public void OnCreateRoomFailed(short returnCode, string message)
         {
-            throw new NotImplementedException();
+            MessageBox.Show(message);
         }
 
         public void OnJoinRoomFailed(short returnCode, string message)
