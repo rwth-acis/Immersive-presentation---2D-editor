@@ -106,7 +106,6 @@ namespace _2D_Editor
                 this.Visibility = Visibility.Hidden;
                 myMainWindow.Show();
             }
-            MessageBox.Show(downloadPath);
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
