@@ -19,8 +19,8 @@
             <ColumnDefinition Width="8*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="1" VerticalAlignment="Center">
-            <Border x:Name="loginForm" BorderThickness="1" Background="White" Visibility="Visible">
+        <DockPanel Grid.Column="1" VerticalAlignment="Center">
+            <Border x:Name="loginForm" BorderThickness="1" Background="White" Visibility="Visible" DockPanel.Dock="Top">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock FontSize="30">Login</TextBlock>
@@ -50,7 +50,7 @@
                     </Border>
                 </StackPanel>
             </Border>
-            <Border x:Name="registerForm" BorderThickness="1" Background="White" Visibility="Collapsed">
+            <Border x:Name="registerForm" BorderThickness="1" Background="White" Visibility="Collapsed" DockPanel.Dock="Top">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <TextBlock FontSize="30">Register</TextBlock>
@@ -87,21 +87,30 @@
                     </Border>
                 </StackPanel>
             </Border>
-            <Border x:Name="selectPresentation" BorderThickness="1" Margin="0, 30, 0, 0" Visibility="Collapsed">
-                <StackPanel>
-                    <TextBlock FontSize="20">Choose a presentation.</TextBlock>
-                    <Grid Margin="0, 10, 0, 0">
+            <Border x:Name="selectPresentation" BorderThickness="1" Margin="0, 30, 0, 0" Visibility="Collapsed" DockPanel.Dock="Top">
+                <DockPanel>
+                    <TextBlock FontSize="20" DockPanel.Dock="Top">Choose a presentation.</TextBlock>
+                    <Grid Margin="0, 10, 0, 0" DockPanel.Dock="Top">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
                         <Button Grid.Column="0" Content="New" Margin="5,0" Click="NewPres_Click" />
-                        <Button Grid.Column="1" Content="Open" Margin="5, 0" Click="OpenPres_Click" />
-                        <Button Grid.Column="2" Content="Download" Margin="5, 0" Click="DownloadButton_Click"/>
+                        <Button Grid.Column="1" Content="Open File" Margin="5, 0" Click="OpenPres_Click" />
+                        <Button Grid.Column="2" Content="Open From List" Margin="5, 0" Click="DownloadButton_Click"/>
                     </Grid>
-                </StackPanel>
+                    <ListView Name="downloadPresList">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <WrapPanel>
+                                    <TextBlock Text="{Binding name}" FontWeight="Bold" />
+                                </WrapPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </DockPanel>
             </Border>
-        </StackPanel>
+        </DockPanel>
     </Grid>
 </Window>

@@ -220,8 +220,8 @@ namespace _2D_Editor
                 string msg = connection.uploadPresentation(presentationSavingPath, openPresentation.presentationId);
                 if (msg == "")
                 {
-                    //Sucessfully uploaded
-                    mainWindow.StatsbarInfo.Text = "Sucessfully saved.";
+                    //Successfully uploaded
+                    mainWindow.StatsbarInfo.Text = "Successfully saved.";
                 }
                 else
                 {

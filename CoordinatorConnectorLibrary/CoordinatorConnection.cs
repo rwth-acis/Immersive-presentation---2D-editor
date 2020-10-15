@@ -7,6 +7,7 @@ using System.Net;
 using Newtonsoft.Json.Linq;
 using System.Numerics;
 using System.IO;
+using RestSharp.Extensions;
 
 namespace CoordinatorConnectorLibrary
 {
@@ -228,6 +229,37 @@ namespace CoordinatorConnectorLibrary
                 return null;
             }
         }
+    
+        public ListResponse loadPresentationList()
+        {
+            //Build and execute Request
+            var request = new RestRequest("/presentations", Method.GET);
+            request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
+            request.AddHeader("Authorization", "Bearer " + token);
+            IRestResponse response = client.Execute(request);
+            if (!(response.StatusCode == HttpStatusCode.OK)) return null;
+
+            ListResponse listresponse = JsonConvert.DeserializeObject<ListResponse>(response.Content);
+            return listresponse;
+        }
+        
+        public bool downloadPresentation(string path, string idpresentation)
+        {
+            //Build and execute Request
+            var request = new RestRequest(string.Format("/presentation/foreditor?idpresentation={0}", idpresentation), Method.GET);
+            request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
+            request.AddHeader("Authorization", "Bearer " + token);
+            //try
+            //{
+                byte[] fileBytes = client.DownloadData(request);
+                File.WriteAllBytes(path, fileBytes);
+                return true;
+            //}
+            //catch
+            //{
+            //    return false;
+            //}
+        }
     }
 
     public class PresentationStartResponse
@@ -237,5 +269,20 @@ namespace CoordinatorConnectorLibrary
         public string invitationToken { get; set; }
         public long exp { get; set; }
         public string message { get; set; }
+    }
+
+    public class PresentationElement
+    {
+        public string iduser { get; set; }
+        public string idpresentation { get; set; }
+        public string filepath { get; set; }
+        public object timeofcreation { get; set; }
+        public string name { get; set; }
+        public long? lastchange { get; set; }
+    }
+
+    public class ListResponse
+    {
+        public List<PresentationElement> presentations { get; set; }
     }
 }

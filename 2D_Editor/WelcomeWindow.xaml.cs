@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.IO;
 
 namespace _2D_Editor
 {
@@ -36,6 +37,9 @@ namespace _2D_Editor
                 {
                     loginForm.Visibility = Visibility.Collapsed;
                     selectPresentation.Visibility = Visibility.Visible;
+                    //start loading list
+                    ListResponse listres = connection.loadPresentationList();
+                    downloadPresList.ItemsSource = listres.presentations;
                 }
                 else
                 {
@@ -88,7 +92,21 @@ namespace _2D_Editor
 
         private void DownloadButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Not available yet");
+            //Determin position where to store the download
+            string downloadFolder = System.IO.Path.GetTempPath().ToString() + "ImPres\\download";
+            Directory.CreateDirectory(downloadFolder);
+            string downloadPath = downloadFolder + "\\presentationDownload.pres";
+            //Determin which presentation was selected
+            if (downloadPresList.SelectedIndex == -1) return;
+            //Download the presentation to the destination
+            if(connection.downloadPresentation(downloadPath, ((PresentationElement)downloadPresList.SelectedValue).idpresentation))
+            {
+                //Open the main window for editing the presentation
+                MainWindow myMainWindow = new MainWindow(this, connection, StartMode.Open, downloadPath);
+                this.Visibility = Visibility.Hidden;
+                myMainWindow.Show();
+            }
+            MessageBox.Show(downloadPath);
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
