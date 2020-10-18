@@ -93,11 +93,13 @@ namespace _2D_Editor
         /// <param name="roomName">The name of the room that will be joined or created</param>
         void MyCreateRoom(string roomName)
         {
+
+            //Create or join the room
             EnterRoomParams enterRoomParams = new EnterRoomParams();
             enterRoomParams.RoomName = roomName;
             enterRoomParams.RoomOptions = new RoomOptions();
             enterRoomParams.RoomOptions.MaxPlayers = 10;
-            this.loadBalancingClient.OpCreateRoom(enterRoomParams);
+            this.loadBalancingClient.OpJoinOrCreateRoom(enterRoomParams);
         }
 
         public void setStageIndex(int pStageIndex)
@@ -142,17 +144,17 @@ namespace _2D_Editor
 
         public void OnRegionListReceived(RegionHandler regionHandler)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void OnCustomAuthenticationResponse(Dictionary<string, object> data)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void OnCustomAuthenticationFailed(string debugMessage)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         void IConnectionCallbacks.OnDisconnected(DisconnectCause cause)
@@ -162,7 +164,7 @@ namespace _2D_Editor
 
         public void OnFriendListUpdate(List<FriendInfo> friendList)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void OnCreatedRoom()

@@ -89,18 +89,16 @@
             </Border>
             <Border x:Name="selectPresentation" BorderThickness="1" Margin="0, 30, 0, 0" Visibility="Collapsed" DockPanel.Dock="Top">
                 <DockPanel>
-                    <TextBlock FontSize="20" DockPanel.Dock="Top">Choose a presentation.</TextBlock>
-                    <Grid Margin="0, 10, 0, 0" DockPanel.Dock="Top">
+                    <Grid DockPanel.Dock="Top">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Button Grid.Column="0" Content="New" Margin="5,0" Click="NewPres_Click" />
-                        <Button Grid.Column="1" Content="Open File" Margin="5, 0" Click="OpenPres_Click" />
-                        <Button Grid.Column="2" Content="Open From List" Margin="5, 0" Click="DownloadButton_Click"/>
+                        <Button Content="New" Click="NewPres_Click" Grid.Column="0" Margin="0, 0, 5, 0"/>
+                        <Button Content="Load backup" Click="OpenPres_Click" Grid.Column="1" Margin="5, 0, 0, 0"/>
                     </Grid>
-                    <ListView Name="downloadPresList">
+                    <TextBlock FontSize="20" DockPanel.Dock="Top" Margin="0, 10, 0, 0">Open a presentation.</TextBlock>
+                    <ListView DockPanel.Dock="Top" Name="downloadPresList" Margin="0, 10, 0, 0">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <WrapPanel>
@@ -109,6 +107,7 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
+                    <Button DockPanel.Dock="Top" Content="Open" Click="DownloadButton_Click" Margin="0, 5, 0, 0" Height="30"/>
                 </DockPanel>
             </Border>
         </DockPanel>
