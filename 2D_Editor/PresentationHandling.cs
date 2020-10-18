@@ -751,20 +751,20 @@ namespace _2D_Editor
         }
         public void nextPresentationStage()
         {
-            indexPresentationStage = indexPresentationStage - 1;
             if (indexPresentationStage + 1 >= 0 && indexPresentationStage + 1 < openPresentation.stages.Count)
             {
                 //Send new index in the Photon Room
                 photonClient.setStageIndex(indexPresentationStage + 1);
+                //indexPresentationStage = indexPresentationStage + 1;
             }
         }
         public void previousPresentationStage()
         {
-            indexPresentationStage = indexPresentationStage - 1;
             if (indexPresentationStage - 1 >= 0 && indexPresentationStage - 1 < openPresentation.stages.Count)
             {
                 //Send new index in the Photon Room
                 photonClient.setStageIndex(indexPresentationStage - 1);
+                //indexPresentationStage = indexPresentationStage - 1;
             }
 
         }

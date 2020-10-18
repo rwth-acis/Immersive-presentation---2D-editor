@@ -79,7 +79,6 @@ namespace _2D_Editor
         void IConnectionCallbacks.OnConnectedToMaster()
         {
             // client is now connected to Photon Master Server and ready to create or join rooms
-            Console.WriteLine("Connected");
             MyCreateRoom(roomName);
         }
 
@@ -158,7 +157,7 @@ namespace _2D_Editor
 
         void IConnectionCallbacks.OnDisconnected(DisconnectCause cause)
         {
-            MessageBox.Show(cause.ToString());
+            //MessageBox.Show(cause.ToString());
         }
 
         public void OnFriendListUpdate(List<FriendInfo> friendList)
@@ -178,12 +177,12 @@ namespace _2D_Editor
 
         public void OnJoinRoomFailed(short returnCode, string message)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void OnJoinRandomFailed(short returnCode, string message)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void OnLeftRoom()
@@ -215,12 +214,12 @@ namespace _2D_Editor
 
         public void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void OnMasterClientSwitched(Player newMasterClient)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
     }
 }
