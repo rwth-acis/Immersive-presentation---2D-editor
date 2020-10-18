@@ -35,6 +35,8 @@ namespace _2D_Editor
             };
 
             presentationHandler.startPresentation(canvasPreview, pStageCount);
+
+            shortCode.Text = "shortCode: 1_14";
         }
 
         

@@ -724,12 +724,11 @@ namespace _2D_Editor
                 stopPresentation();
                 return;
             }
-            //Show the invitation Link
-            MessageBox.Show("Short Code: " + startRes.shortCode + "\n\n Invitation Link: \n" + startRes.invitationToken);
+            //Show the shortCode
+            presentationWindow.shortCode.Text = "Short Code: " + startRes.shortCode;
 
             //Join/Create the Photon Room
             photonClient = new PhotonClient(this);
-            MessageBox.Show(startRes.photonRoomName);
             photonClient.Connect(startRes.photonRoomName);
 
             //Setup PhotonRoom

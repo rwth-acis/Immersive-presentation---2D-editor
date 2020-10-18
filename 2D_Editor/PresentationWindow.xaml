@@ -18,7 +18,15 @@
         <converters:StringToFontsize x:Key="StringToFontsize"/>
     </Window.Resources>
     <Grid>
-        <Border Background="Black">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="90*"/>
+            <ColumnDefinition Width="10*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="95*"/>
+            <RowDefinition Height="5*"/>
+        </Grid.RowDefinitions>
+        <Border Background="Black" Grid.Row="0" Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2">
             <Viewbox Stretch="Uniform">
                 <Border BorderBrush="#808e9b" BorderThickness="0.5">
                     <ItemsControl x:Name="canvasPreview">
@@ -57,6 +65,60 @@
                     </ItemsControl>
                 </Border>
             </Viewbox>
+        </Border>
+        <Border x:Name="shortCodeBorder" Grid.Row="1" Grid.Column="1">
+            <Border.Background>
+                <SolidColorBrush x:Name="shortCodeBrush" Color="Black" Opacity="0.7"/>
+            </Border.Background>
+            <TextBlock x:Name="shortCode" VerticalAlignment="Center" HorizontalAlignment="Center" ToolTip="Use this code to join the presentation">
+                <TextBlock.Foreground>
+                    <SolidColorBrush x:Name="shortCodeTextBrush" Color="White" Opacity="1" />
+                </TextBlock.Foreground>
+            </TextBlock>
+            <Border.Triggers>
+                <EventTrigger RoutedEvent="Border.MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation 
+                                Storyboard.TargetName="shortCodeBrush"
+                                Storyboard.TargetProperty="(Brush.Opacity)" 
+                                From="0" To="0.7" Duration="0:0:1" AutoReverse="False"  />
+                            <DoubleAnimation 
+                                Storyboard.TargetName="shortCodeTextBrush"
+                                Storyboard.TargetProperty="(Brush.Opacity)" 
+                                From="0" To="1" Duration="0:0:1" AutoReverse="False"  />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="Border.MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation 
+                                Storyboard.TargetName="shortCodeBrush"
+                                Storyboard.TargetProperty="(Brush.Opacity)" 
+                                From="0.7" To="0" Duration="0:0:1" AutoReverse="False"  />
+                            <DoubleAnimation 
+                                Storyboard.TargetName="shortCodeTextBrush"
+                                Storyboard.TargetProperty="(Brush.Opacity)" 
+                                From="1" To="0" Duration="0:0:1" AutoReverse="False"  />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="Loaded">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation 
+                                Storyboard.TargetName="shortCodeBrush"
+                                Storyboard.TargetProperty="(Brush.Opacity)" 
+                                From="0.7" To="0" Duration="0:0:3" AutoReverse="False"  />
+                            <DoubleAnimation 
+                                Storyboard.TargetName="shortCodeTextBrush"
+                                Storyboard.TargetProperty="(Brush.Opacity)" 
+                                From="1" To="0" Duration="0:0:3" AutoReverse="False"  />
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Border.Triggers>
         </Border>
     </Grid>
 </Window>
