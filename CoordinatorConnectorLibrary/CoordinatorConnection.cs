@@ -8,6 +8,7 @@ using Newtonsoft.Json.Linq;
 using System.Numerics;
 using System.IO;
 using RestSharp.Extensions;
+using System.Threading.Tasks;
 
 namespace CoordinatorConnectorLibrary
 {
@@ -129,7 +130,7 @@ namespace CoordinatorConnectorLibrary
             
         }
 
-        public string uploadPresentation(string pPath, string pId)
+        public async Task<string> uploadPresentation(string pPath, string pId)
         {
             if (!checkExp()) return "Upload failed - Session expired.";
             if (!File.Exists(pPath)) return "File not found.";
@@ -138,7 +139,7 @@ namespace CoordinatorConnectorLibrary
             request.AddHeader("Authorization", "Bearer " + token);
             request.AddFile("presentation", pPath);
             request.AddParameter("idpresentation", pId);
-            IRestResponse response = client.Execute(request);
+            IRestResponse response = await client.ExecuteAsync(request);
             if ((response.StatusCode == HttpStatusCode.OK)) return "";
             Console.WriteLine("Upload Error by Parameters: " + pPath + " " + pId + " " + token);
             try

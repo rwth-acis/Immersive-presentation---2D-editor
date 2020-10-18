@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.IO.Compression;
 using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -201,11 +202,12 @@ namespace _2D_Editor
             createCleanDirectory(tempPresDir + tempSub3D + tempSubSubHandout);
         }
 
-        public void saveOpenPresentation()
+        public  async void saveOpenPresentation()
         {
             if(openPresentation != null)
             {
                 mainWindow.StatsbarInfo.Text = "Saving ...";
+                mainWindow.Cursor = Cursors.Wait;
                 //save the new presentation as json
                 //*dataSerializer.SerializeAsJson(openPresentation, tempPresDir + presentationJsonFilename);
                 File.WriteAllText(tempPresDir + presentationJsonFilename, JsonConvert.SerializeObject(openPresentation, jsonSettings));
@@ -213,26 +215,34 @@ namespace _2D_Editor
                 //save the ziped new presentation where the user wanted it to be
                 if (File.Exists(presentationSavingPath))
                 {
-                    //ToDo: make a backup
                     File.Delete(presentationSavingPath);
                 }
                 ZipFile.CreateFromDirectory(tempPresDir, presentationSavingPath);
-                string msg = connection.uploadPresentation(presentationSavingPath, openPresentation.presentationId);
+                string msg = await connection.uploadPresentation(presentationSavingPath, openPresentation.presentationId);
                 if (msg == "")
                 {
                     //Successfully uploaded
                     mainWindow.StatsbarInfo.Text = "Successfully saved.";
+                    mainWindow.Cursor = Cursors.Arrow;
+                    await Task.Delay(2000);
+                    mainWindow.StatsbarInfo.Text = "Ready";
                 }
                 else
                 {
                     //Error by uploading
                     mainWindow.StatsbarInfo.Text = "Error by saving: " + msg;
+                    mainWindow.Cursor = Cursors.Arrow;
+                    await Task.Delay(2000);
+                    mainWindow.StatsbarInfo.Text = "Ready";
                 }
+                mainWindow.Cursor = Cursors.Arrow;
             }
             else
             {
                 //No Persentation open
                 mainWindow.StatsbarInfo.Text = "Can not save - No presentation is open.";
+                await Task.Delay(2000);
+                mainWindow.StatsbarInfo.Text = "Ready";
             }
         }
 
