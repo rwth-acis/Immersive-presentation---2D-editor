@@ -278,7 +278,7 @@
                                         <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                             <!--<TextBlock Text="{Binding stageId}"/>-->
                                             <Viewbox Stretch="Uniform">
-                                                <ItemsControl x:Name="canvasPreview" ItemsSource="{Binding canvas.elements}">
+                                                <ItemsControl x:Name="stageCanvasPreview" ItemsSource="{Binding canvas.elements}">
                                                     <ItemsControl.Resources>
                                                         <DataTemplate DataType="{x:Type impres:Image2D}">
                                                             <Border BorderBrush="Blue" BorderThickness="{Binding highlighted, Converter={StaticResource BoolToThickness}}">
@@ -379,9 +379,10 @@
                             <Border Margin="5">
                                 <Image Source="Images/delete.png" Width="20" Height="20" MouseLeftButtonDown="sceneDelete3DElement_LeftMouseDown"/>
                             </Border>
+                            <Label>Scene</Label>
                         </WrapPanel>
                     </Border>
-                    <ListBox x:Name="sceneElemetsListbox" Grid.Row="1">
+                    <ListBox x:Name="sceneElemetsListbox" Grid.Row="1" AllowDrop="True" Drop="sceneElemetsListbox_Drop">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <WrapPanel>
@@ -419,9 +420,10 @@
                             <Border Margin="5">
                                 <Image Source="Images/delete.png" Width="20" Height="20" MouseLeftButtonDown="handoutDelete3DElement_LeftMouseDown"/>
                             </Border>
+                            <Label>Handout</Label>
                         </WrapPanel>
                     </Border>
-                    <ListBox x:Name="handoutElemetsListbox" Grid.Row="1">
+                    <ListBox x:Name="handoutElemetsListbox" Grid.Row="1" AllowDrop="True" Drop="handoutElemetsListbox_Drop">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <WrapPanel>

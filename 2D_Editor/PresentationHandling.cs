@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace _2D_Editor
 {
@@ -69,6 +71,22 @@ namespace _2D_Editor
         public ListBox WindowsHandoutListBox { get; set; }
         public ItemsControl WindowsCanvasPreview { get; set; }
         private ItemsControl _WindowsPropertyList;
+        public System.Windows.Controls.Canvas canvasElement
+        {
+            get
+            {
+                if(WindowsCanvasPreview != null)
+                {
+                    ItemsPresenter itemsPresenter = GetVisualChild<ItemsPresenter>(WindowsCanvasPreview);
+                    Panel itemsPanel = VisualTreeHelper.GetChild(itemsPresenter, 0) as Panel;
+                    return (System.Windows.Controls.Canvas) itemsPanel;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+        }
         public ItemsControl WindowsPropertyList
         {
             get
@@ -110,6 +128,7 @@ namespace _2D_Editor
                 return tempDirBase + tempSuffix;
             } } //Path where the presentation content is stored and the json of the presentation.
         public const string presentationJsonFilename = "presentation.json";
+        public const string tempSubCanvasImg = "CanvasImg\\";
         public const string tempSub2D = "2DMedia\\";
         public const string tempSub3D = "3DMedia\\";
         public const string tempSubSubScene = "Scene\\";
@@ -154,6 +173,27 @@ namespace _2D_Editor
             selectedElements = new ObservableCollection<Element>();
         }
 
+        private static T GetVisualChild<T>(DependencyObject parent) where T : Visual
+        {
+            T child = default(T);
+
+            int numVisuals = VisualTreeHelper.GetChildrenCount(parent);
+            for (int i = 0; i < numVisuals; i++)
+            {
+                Visual v = (Visual)VisualTreeHelper.GetChild(parent, i);
+                child = v as T;
+                if (child == null)
+                {
+                    child = GetVisualChild<T>(v);
+                }
+                if (child != null)
+                {
+                    break;
+                }
+            }
+            return child;
+        }
+
         public void createAndGetLocationOfNewPresentation()
         {
             //Open a SaveFileDialog to get the path where the new presentation should be stored
@@ -196,6 +236,7 @@ namespace _2D_Editor
             tempDirBase = Path.GetTempPath().ToString();
             Console.WriteLine(tempPresDir);
             createCleanDirectory(tempPresDir);
+            createCleanDirectory(tempPresDir + tempSubCanvasImg);
             createCleanDirectory(tempPresDir + tempSub2D);
             createCleanDirectory(tempPresDir + tempSub3D);
             createCleanDirectory(tempPresDir + tempSub3D + tempSubSubScene);
@@ -208,6 +249,10 @@ namespace _2D_Editor
             {
                 mainWindow.StatsbarInfo.Text = "Saving ...";
                 mainWindow.Cursor = Cursors.Wait;
+
+                //save all canvas as image
+                saveAllCanvasAsImage();
+
                 //save the new presentation as json
                 //*dataSerializer.SerializeAsJson(openPresentation, tempPresDir + presentationJsonFilename);
                 File.WriteAllText(tempPresDir + presentationJsonFilename, JsonConvert.SerializeObject(openPresentation, jsonSettings));
@@ -366,7 +411,9 @@ namespace _2D_Editor
             }
         }
 
-        //Scene 3D Elements
+        /// <summary>
+        /// Adds a 3D element to the scene of the currently selectes stage.
+        /// </summary>
         public void add3DElementToScene()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -418,6 +465,58 @@ namespace _2D_Editor
                 }
             }
         }
+        /// <summary>
+        /// Adds a 3D element to the scene of the currently selected stage
+        /// </summary>
+        /// <param name="pPath">Path of the obj file.</param>
+        public void add3DElementToScene(string pPath)
+        {
+            if (File.Exists(pPath))
+            {
+                string sourcePath = pPath;
+                string pathWithoutFilename = Path.GetDirectoryName(sourcePath);
+                string nameOfFile = Path.GetFileNameWithoutExtension(sourcePath);
+                string extension = Path.GetExtension(sourcePath);
+                string targetTepFolder = tempPresDir + tempSub3D + tempSubSubScene;
+                string relativeFolderPath = tempSub3D + tempSubSubScene;
+
+                string appendix = "";
+                int appendixCount = 0;
+                while (File.Exists(targetTepFolder + nameOfFile + appendix + extension))
+                {
+                    appendixCount = appendixCount + 1;
+                    appendix = "_" + appendixCount;
+                }
+                string availableNameOfFile = nameOfFile + appendix;
+
+
+                try
+                {
+                    File.Copy(sourcePath, targetTepFolder + availableNameOfFile + extension);
+                    Element3D newElement = new Element3D(relativeFolderPath + availableNameOfFile + extension);
+
+                    //Check for a materialfile (.mtl)
+                    string materialSourcePath = pathWithoutFilename + "\\" + nameOfFile + ".mtl";
+                    if (File.Exists(materialSourcePath))
+                    {
+                        File.Copy(materialSourcePath, targetTepFolder + nameOfFile + appendix + ".mtl");
+                        newElement.relativMaterialPath = relativeFolderPath + nameOfFile + appendix + ".mtl";
+                    }
+                    else
+                    {
+                        MessageBox.Show("We were unable to locate a material file (.mtl) automatically. Please add the material file by hand in the property section.");
+                    }
+
+                    SelectedStage.scene.elements.Add(newElement);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Sorry - We were not able to add this model.");
+                    Console.WriteLine(e);
+                    //ToDo show error in status bar
+                }
+            }
+        }
         public void delete3DElementFromScene()
         {
             if(WindowsSceneListBox.SelectedIndex >= 0)
@@ -440,7 +539,9 @@ namespace _2D_Editor
             }
         }
 
-        //Handout 3D Elements
+        /// <summary>
+        /// Adds a 3D element to the handout of the current 
+        /// </summary>
         public void add3DElementToHandout()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -449,6 +550,56 @@ namespace _2D_Editor
             if (openFileDialog.ShowDialog() == true)
             {
                 string sourcePath = openFileDialog.FileName.ToString();
+                string pathWithoutFilename = Path.GetDirectoryName(sourcePath);
+                string nameOfFile = Path.GetFileNameWithoutExtension(sourcePath);
+                string extension = Path.GetExtension(sourcePath);
+                string targetTepFolder = tempPresDir + tempSub3D + tempSubSubHandout;
+                string relativeFolderPath = tempSub3D + tempSubSubHandout;
+
+                string appendix = "";
+                int appendixCount = 0;
+                while (File.Exists(targetTepFolder + nameOfFile + appendix + extension))
+                {
+                    appendixCount = appendixCount + 1;
+                    appendix = "_" + appendixCount;
+                }
+                string availableNameOfFile = nameOfFile + appendix;
+
+                try
+                {
+                    File.Copy(sourcePath, targetTepFolder + availableNameOfFile + extension);
+                    Element3D newElement = new Element3D(relativeFolderPath + availableNameOfFile + extension);
+
+                    //Check for a materialfile (.mtl)
+                    string materialSourcePath = pathWithoutFilename + "\\" + nameOfFile + ".mtl";
+                    if (File.Exists(materialSourcePath))
+                    {
+                        File.Copy(materialSourcePath, targetTepFolder + nameOfFile + appendix + ".mtl");
+                        newElement.relativMaterialPath = relativeFolderPath + nameOfFile + appendix + ".mtl";
+                    }
+                    else
+                    {
+                        MessageBox.Show("We were unable to locate a material file (.mtl) automatically. Please add the material file by hand in the property section.");
+                    }
+
+                    SelectedStage.handout.elements.Add(newElement);
+                }
+                catch
+                {
+                    MessageBox.Show("Sorry - We were not able to add this model.");
+                    //ToDo show error in status bar
+                }
+            }
+        }
+        /// <summary>
+        /// Adds a 3D element to the handout of the currently selected stage.
+        /// </summary>
+        /// <param name="pPath">Path to the obj file.</param>
+        public void add3DElementToHandout(string pPath)
+        {
+            if (File.Exists(pPath))
+            {
+                string sourcePath = pPath;
                 string pathWithoutFilename = Path.GetDirectoryName(sourcePath);
                 string nameOfFile = Path.GetFileNameWithoutExtension(sourcePath);
                 string extension = Path.GetExtension(sourcePath);
@@ -836,6 +987,72 @@ namespace _2D_Editor
                 }
                 
             }
+        }
+
+        public void saveAllCanvasAsImage()
+        {
+            if(mainWindow != null)
+            {
+                ListBox stageListBox = mainWindow.stageList;
+
+                foreach(object item in stageListBox.Items)
+                {
+                    ListBoxItem myListBoxItem  = (ListBoxItem)(stageListBox.ItemContainerGenerator.ContainerFromItem(item));
+                    // save each canvas as an image
+                    //get the content presenter
+                    ContentPresenter myContentPresenter = FindVisualChild<ContentPresenter>(myListBoxItem);
+
+                    //Find stageCanvasPreview
+                    DataTemplate myDataTemplate = myContentPresenter.ContentTemplate;
+                    ItemsControl myItemsControl = (ItemsControl)myDataTemplate.FindName("stageCanvasPreview", myContentPresenter);
+
+                    ItemsPresenter itemsPresenter = GetVisualChild<ItemsPresenter>(myItemsControl);
+                    System.Windows.Controls.Canvas itemsPanel = VisualTreeHelper.GetChild(itemsPresenter, 0) as System.Windows.Controls.Canvas;
+
+                    string canvasSavingPath = tempPresDir + tempSubCanvasImg + stageListBox.Items.IndexOf(item) + ".png";
+                    //secure that all folders exist to support backwards compatibility
+                    Directory.CreateDirectory(tempPresDir + tempSubCanvasImg);
+                    saveCanvasToImage(canvasSavingPath, itemsPanel);
+                }
+            }
+        }
+
+        private void saveCanvasToImage(string pSavingPath, System.Windows.Controls.Canvas pCanvas)
+        {
+            Rect rect = new Rect(pCanvas.RenderSize);
+            RenderTargetBitmap rtb = new RenderTargetBitmap((int)rect.Right,
+              (int)rect.Bottom, 96d, 96d, System.Windows.Media.PixelFormats.Default);
+            rtb.Render(pCanvas);
+            //PNG is the used encoding here
+            BitmapEncoder pngEncoder = new PngBitmapEncoder();
+            pngEncoder.Frames.Add(BitmapFrame.Create(rtb));
+
+            System.IO.MemoryStream ms = new System.IO.MemoryStream();
+
+            pngEncoder.Save(ms);
+            ms.Close();
+            System.IO.File.WriteAllBytes(pSavingPath, ms.ToArray());
+            Console.WriteLine(pSavingPath);
+        }
+
+        private childItem FindVisualChild<childItem>(DependencyObject obj)
+        where childItem : DependencyObject
+        {
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(obj); i++)
+            {
+                DependencyObject child = VisualTreeHelper.GetChild(obj, i);
+                if (child != null && child is childItem)
+                {
+                    return (childItem)child;
+                }
+                else
+                {
+                    childItem childOfChild = FindVisualChild<childItem>(child);
+                    if (childOfChild != null)
+                        return childOfChild;
+                }
+            }
+            return null;
         }
     }
 }

@@ -355,6 +355,39 @@ namespace _2D_Editor
                 }
 			}
 		}
+
+		public static readonly List<string> ObjektExtensions = new List<string> { ".OBJ" };
+		private void sceneElemetsListbox_Drop(object sender, DragEventArgs e)
+        {
+			if (e.Data.GetDataPresent(DataFormats.FileDrop))
+			{
+				string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+				foreach (string file in files)
+				{
+					if (ObjektExtensions.Contains(System.IO.Path.GetExtension(file).ToUpperInvariant()))
+					{
+						presentationHandler.add3DElementToScene(file);
+					}
+				}
+			}
+		}
+
+        private void handoutElemetsListbox_Drop(object sender, DragEventArgs e)
+        {
+			if (e.Data.GetDataPresent(DataFormats.FileDrop))
+			{
+				string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+				foreach (string file in files)
+				{
+					if (ObjektExtensions.Contains(System.IO.Path.GetExtension(file).ToUpperInvariant()))
+					{
+						presentationHandler.add3DElementToHandout(file);
+					}
+				}
+			}
+		}
     }
 
 
