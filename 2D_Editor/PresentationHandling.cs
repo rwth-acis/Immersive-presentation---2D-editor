@@ -518,6 +518,9 @@ namespace _2D_Editor
             Text2D newText = new Text2D();
             SelectedStage.canvas.elements.Add(newText);
         }
+        /// <summary>
+        /// Adds an Image to the currently selected stage canvas
+        /// </summary>
         public void addNewImage()
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -526,6 +529,43 @@ namespace _2D_Editor
             if (openFileDialog.ShowDialog() == true)
             {
                 string sourcePath = openFileDialog.FileName.ToString();
+                string nameOfFile = Path.GetFileNameWithoutExtension(sourcePath);
+                string extension = Path.GetExtension(sourcePath);
+                string targetTepFolder = tempPresDir + tempSub2D;
+                string relativeFolderPath = tempSub2D;
+
+                string appendix = "";
+                int appendixCount = 0;
+                while (File.Exists(targetTepFolder + nameOfFile + appendix + extension))
+                {
+                    appendixCount = appendixCount + 1;
+                    appendix = "_" + appendixCount;
+                }
+                string availableNameOfFile = nameOfFile + appendix;
+
+
+                try
+                {
+                    File.Copy(sourcePath, targetTepFolder + availableNameOfFile + extension);
+                    Image2D newImage = new Image2D(relativeFolderPath + availableNameOfFile + extension);
+                    SelectedStage.canvas.elements.Add(newImage);
+                }
+                catch
+                {
+                    MessageBox.Show("Sorry - We were not able to add this image.");
+                    //ToDo show error in status bar
+                }
+            }
+        }
+        /// <summary>
+        /// Adds a given Image to the currently selected stage canvas.
+        /// </summary>
+        /// <param name="pPath">Path to the image file that should be added.</param>
+        public void addNewImage(string pPath)
+        {
+            if (File.Exists(pPath))
+            {
+                string sourcePath = pPath;
                 string nameOfFile = Path.GetFileNameWithoutExtension(sourcePath);
                 string extension = Path.GetExtension(sourcePath);
                 string targetTepFolder = tempPresDir + tempSub2D;

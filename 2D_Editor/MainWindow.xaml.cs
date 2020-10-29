@@ -4,6 +4,7 @@ using ImmersivePresentation;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -336,6 +337,23 @@ namespace _2D_Editor
         {
 			presentationHandler.remove2DElementFromCanvas((Element2D)((Button)sender).Tag);
 
+		}
+
+		public static readonly List<string> ImageExtensions = new List<string> { ".JPG", ".JPE", ".BMP", ".GIF", ".PNG" };
+		private void canvasPreview_Drop(object sender, DragEventArgs e)
+        {
+			if (e.Data.GetDataPresent(DataFormats.FileDrop))
+			{
+				string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+				foreach(string file in files)
+                {
+					if (ImageExtensions.Contains(System.IO.Path.GetExtension(file).ToUpperInvariant()))
+					{
+						presentationHandler.addNewImage(file);
+					}
+                }
+			}
 		}
     }
 
