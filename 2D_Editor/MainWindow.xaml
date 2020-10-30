@@ -30,6 +30,7 @@
         <converters:RelativePathToImageSource x:Key="RelativePathToImageSource"/>
         <converters:BoolToThickness x:Key="BoolToThickness"/>
         <converters:StringToFontsize x:Key="StringToFontsize"/>
+        <converters:BoolToVisibility x:Key="BoolToVisibillity"/>
     </Window.Resources>
 
     <DockPanel Background="#FFF5F5F6">
@@ -281,22 +282,18 @@
                                                 <ItemsControl x:Name="stageCanvasPreview" ItemsSource="{Binding canvas.elements}">
                                                     <ItemsControl.Resources>
                                                         <DataTemplate DataType="{x:Type impres:Image2D}">
-                                                            <Border BorderBrush="Blue" BorderThickness="{Binding highlighted, Converter={StaticResource BoolToThickness}}">
-                                                                <Image Width="{Binding xScale, Converter={StaticResource RelativePosToAbsolutePos}, ConverterParameter=1920}" 
+                                                            <Image Width="{Binding xScale, Converter={StaticResource RelativePosToAbsolutePos}, ConverterParameter=1920}" 
                                                                     Height="{Binding yScale, Converter={StaticResource RelativePosToAbsolutePos}, ConverterParameter=1080}" 
                                                                     Source="{Binding relativeImageSource, Converter={StaticResource RelativePathToImageSource}}"
                                                                     Stretch="Fill"
                                                                     Tag="{Binding }"/>
-                                                            </Border>
                                                         </DataTemplate>
                                                         <DataTemplate DataType="{x:Type impres:Text2D}">
-                                                            <Border BorderBrush="Blue" BorderThickness="{Binding highlighted, Converter={StaticResource BoolToThickness}}">
-                                                                <Label Content="{Binding content}" 
+                                                            <Label Content="{Binding content}" 
                                                                     Canvas.Left="{Binding xPosition, Converter={StaticResource RelativePosToAbsolutePos}, ConverterParameter=1920}" 
                                                                     Canvas.Top="{Binding yPosition, Converter={StaticResource RelativePosToAbsolutePos}, ConverterParameter=1080}"
                                                                     FontSize="{Binding fontsize}"
                                                                     Tag="{Binding }"/>
-                                                            </Border>
                                                         </DataTemplate>
                                                     </ItemsControl.Resources>
                                                     <ItemsControl.ItemsPanel>
@@ -327,15 +324,25 @@
                         <ItemsControl x:Name="canvasPreview" AllowDrop="True" Drop="canvasPreview_Drop">
                             <ItemsControl.Resources>
                                 <DataTemplate DataType="{x:Type impres:Image2D}">
-                                    <Border BorderBrush="Blue" BorderThickness="{Binding highlighted, Converter={StaticResource BoolToThickness}}">
-                                        <Image Width="{Binding xScale, Converter={StaticResource RelativePosToAbsolutePos}, ConverterParameter=1920}" 
-                                           Height="{Binding yScale, Converter={StaticResource RelativePosToAbsolutePos}, ConverterParameter=1080}" 
-                                           Source="{Binding relativeImageSource, Converter={StaticResource RelativePathToImageSource}}"
-                                           Stretch="Fill"
-                                           Tag="{Binding }"
-                                           MouseLeftButtonDown="canvasImage_LeftMouseDown"
-                                           />
-                                    </Border>
+                                    <Canvas>
+                                        <Border BorderBrush="Blue" BorderThickness="{Binding highlighted, Converter={StaticResource BoolToThickness}}">
+                                            <Image Width="{Binding xScale, Converter={StaticResource RelativePosToAbsolutePos}, ConverterParameter=1920}" 
+                                                Height="{Binding yScale, Converter={StaticResource RelativePosToAbsolutePos}, ConverterParameter=1080}" 
+                                                Source="{Binding relativeImageSource, Converter={StaticResource RelativePathToImageSource}}"
+                                                Stretch="Fill"
+                                                Tag="{Binding }"
+                                                Cursor="Hand"
+                                                MouseLeftButtonDown="canvasImage_LeftMouseDown"
+                                                />
+                                        </Border>
+                                        <Rectangle Tag="{Binding }" 
+                                                   Canvas.Left="{Binding xScale, Converter={StaticResource RelativePosToAbsolutePos}, ConverterParameter=1920}"
+                                                   Canvas.Top="{Binding yScale, Converter={StaticResource RelativePosToAbsolutePos}, ConverterParameter=1080}"
+                                                   Width="30" Height="30" 
+                                                   Fill="Blue" Visibility="{Binding highlighted, Converter={StaticResource BoolToVisibillity}}" 
+                                                   Cursor="SizeNWSE"
+                                                   MouseLeftButtonDown="Rectangle_MouseLeftButtonDown"/>
+                                    </Canvas>
                                 </DataTemplate>
                                 <DataTemplate DataType="{x:Type impres:Text2D}">
                                     <Border BorderBrush="Blue" BorderThickness="{Binding highlighted, Converter={StaticResource BoolToThickness}}">
@@ -350,7 +357,7 @@
                             </ItemsControl.Resources>
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <Canvas Background="#ffffff" Width="1920" Height="1080" MouseLeftButtonDown="PreviewCanvas_LeftMouseDown"></Canvas>
+                                    <Canvas Background="#ffffff" Width="1920" Height="1080" MouseLeftButtonDown="PreviewCanvas_LeftMouseDown" MouseMove="Canvas_MouseMove" MouseUp="Canvas_MouseUp"></Canvas>
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemContainerStyle>

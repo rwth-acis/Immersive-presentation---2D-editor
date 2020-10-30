@@ -58,7 +58,22 @@ namespace _2D_Editor
 
 		public WelcomeWindow callerWindow;
 
-        public MainWindow(WelcomeWindow pCallerWindow)
+		public bool moveImage = false;
+		public bool moveLabel = false;
+		public bool scaleImageCorner = false;
+		public Image2D movingImage;
+		public Image movingImageElement;
+		public Text2D movingLabel;
+		public Label movingLabelElement;
+		public bool firstClick = true;
+		public double startImagePositionX;
+		public double startImagePositionY;
+		public double startImageScaleX;
+		public double startImageScaleY;
+		public double startMousePositionX;
+		public double startMousePositionY;
+
+		public MainWindow(WelcomeWindow pCallerWindow)
         {
             InitializeComponent();
 			callerWindow = pCallerWindow;
@@ -300,7 +315,25 @@ namespace _2D_Editor
         {
 			presentationHandler.canvas2DElementSelected(((Image)sender).Tag);
 			e.Handled = true;
-        }
+
+			if (firstClick)
+			{
+				Cursor = Cursors.Hand;
+				moveImage = true;
+				firstClick = false;
+				movingImageElement = (Image)sender;
+				movingImage = (Image2D)movingImageElement.Tag;
+				GeneralTransform transform = movingImageElement.TransformToAncestor(movingImageElement.Parent as Visual);
+				Point StartPoint = transform.Transform(new Point(0, 0));
+				startImagePositionX = StartPoint.X;
+				startImagePositionX = StartPoint.Y;
+
+				Point RelativeMousePoint = Mouse.GetPosition(movingImageElement);
+				startMousePositionX = RelativeMousePoint.X;
+				startMousePositionY = RelativeMousePoint.Y;
+				movingImageElement.RenderTransform = new TranslateTransform();
+			}
+		}
 
         private void PreviewCanvas_LeftMouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -311,6 +344,24 @@ namespace _2D_Editor
         {
 			presentationHandler.canvas2DElementSelected(((Label)sender).Tag);
 			e.Handled = true;
+
+			if (firstClick)
+			{
+				Cursor = Cursors.Hand;
+				moveLabel = true;
+				firstClick = false;
+				movingLabelElement = (Label)sender;
+				movingLabel = (Text2D)movingLabelElement.Tag;
+				GeneralTransform transform = movingLabelElement.TransformToAncestor(movingLabelElement.Parent as Visual);
+				Point StartPoint = transform.Transform(new Point(0, 0));
+				startImagePositionX = StartPoint.X;
+				startImagePositionX = StartPoint.Y;
+
+				Point RelativeMousePoint = Mouse.GetPosition(movingLabelElement);
+				startMousePositionX = RelativeMousePoint.X;
+				startMousePositionY = RelativeMousePoint.Y;
+				movingLabelElement.RenderTransform = new TranslateTransform();
+			}
 		}
 
         private void PropertyEditorImageSource_Clicked(object sender, RoutedEventArgs e)
@@ -388,6 +439,83 @@ namespace _2D_Editor
 				}
 			}
 		}
+
+        private void Canvas_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (moveImage)
+            {
+				Point MousePoint = Mouse.GetPosition(canvasPreview);
+				double DistanceFromStartX = MousePoint.X - startImagePositionX - startMousePositionX;
+				double DistanceFromStartY = MousePoint.Y - startImagePositionY - startMousePositionY;
+
+				double absolutePositionX = startImagePositionX + DistanceFromStartX;
+				double absolutePositionY = startImagePositionY + DistanceFromStartY;
+				movingImage.xPosition = absolutePositionX / 1920 * 100;
+				movingImage.yPosition = absolutePositionY / 1080 * 100;
+			} else if (scaleImageCorner)
+            {
+				Point MousePoint = Mouse.GetPosition(canvasPreview);
+				if (MousePoint.X > 1920) MousePoint.X = 1920;
+				if (MousePoint.X < 0) MousePoint.X = 0;
+				if (MousePoint.Y > 1080) MousePoint.Y = 1080;
+				if (MousePoint.Y < 0) MousePoint.Y = 0;
+
+				double DistanceFromStartX = MousePoint.X - startMousePositionX;
+				if ((DistanceFromStartX / 1920 * 100) < (-1 * startImageScaleX)) DistanceFromStartX = 0;
+				double DistanceFromStartY = MousePoint.Y - startMousePositionY;
+				if ((DistanceFromStartY / 1080 * 100) < (-1 * startImageScaleY)) DistanceFromStartY = 0;
+
+				movingImage.xScale = startImageScaleX + ((DistanceFromStartX / 1920 * 100));
+				movingImage.yScale = startImageScaleY + ((DistanceFromStartY / 1080 * 100));
+			} else if (moveLabel)
+            {
+				Point MousePoint = Mouse.GetPosition(canvasPreview);
+				double DistanceFromStartX = MousePoint.X - startImagePositionX - startMousePositionX;
+				double DistanceFromStartY = MousePoint.Y - startImagePositionY - startMousePositionY;
+
+				double absolutePositionX = startImagePositionX + DistanceFromStartX;
+				double absolutePositionY = startImagePositionY + DistanceFromStartY;
+				movingLabel.xPosition = absolutePositionX / 1920 * 100;
+				movingLabel.yPosition = absolutePositionY / 1080 * 100;
+			}
+		}
+
+        private void Canvas_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (moveImage || scaleImageCorner || moveLabel)
+            {
+				Cursor = Cursors.Arrow;
+				firstClick = true;
+				moveImage = false;
+				moveLabel = false;
+				scaleImageCorner = false;
+			}
+        }
+
+        private void Rectangle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+			e.Handled = true;
+
+            if (firstClick)
+            {
+				Cursor = Cursors.SizeNWSE;
+				firstClick = false;
+				scaleImageCorner = true;
+				Rectangle helpRec = (Rectangle)sender;
+				movingImage = (Image2D)helpRec.Tag;
+				GeneralTransform transform = movingImageElement.TransformToAncestor(movingImageElement.Parent as Visual);
+				Point StartPoint = transform.Transform(new Point(0, 0));
+				startImagePositionX = StartPoint.X;
+				startImagePositionX = StartPoint.Y;
+				startImageScaleX = movingImage.xScale;
+				startImageScaleY = movingImage.yScale;
+
+				Point RelativeMousePoint = Mouse.GetPosition(canvasPreview);
+				startMousePositionX = RelativeMousePoint.X;
+				startMousePositionY = RelativeMousePoint.Y;
+				movingImageElement.RenderTransform = new TranslateTransform();
+			}
+        }
     }
 
 
