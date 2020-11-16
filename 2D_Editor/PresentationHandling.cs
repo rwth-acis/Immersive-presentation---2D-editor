@@ -1020,8 +1020,8 @@ namespace _2D_Editor
         private void saveCanvasToImage(string pSavingPath, System.Windows.Controls.Canvas pCanvas)
         {
             Rect rect = new Rect(pCanvas.RenderSize);
-            RenderTargetBitmap rtb = new RenderTargetBitmap((int)rect.Right,
-              (int)rect.Bottom, 96d, 96d, System.Windows.Media.PixelFormats.Default);
+            RenderTargetBitmap rtb = new RenderTargetBitmap((int)(rect.Right * 0.5),
+              (int)(rect.Bottom * 0.5), 48d, 48d, System.Windows.Media.PixelFormats.Default);
             rtb.Render(pCanvas);
             //PNG is the used encoding here
             BitmapEncoder pngEncoder = new PngBitmapEncoder();

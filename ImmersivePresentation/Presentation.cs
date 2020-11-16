@@ -13,7 +13,6 @@ namespace ImmersivePresentation
         //the path where the resulting presentation file will be saved
         public string filepath { get; set; }
         //in tempFilePath the presentation will create a folder that will be exported as a ziped file to the filepath when it is saved
-        //ToDo: maybe not needed because stored in the editor
         private string tempFilePath { get; set; }
         public DateTime timeOfCreation { get; set; }
         public ObservableCollection<Stage> stages { get; set; }

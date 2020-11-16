@@ -8,7 +8,7 @@
         xmlns:converters="clr-namespace:_2D_Editor.Converters"
         xmlns:local="clr-namespace:_2D_Editor"
         mc:Ignorable="d"
-        Title="WelcomeWindow" Height="450" Width="800"
+        Title="2D Editor" Height="450" Width="800"
         Icon="Images/icon.png">
     <Window.Resources>
         <converters:BoolToVisibility x:Key="BoolToVisibillity"/>
