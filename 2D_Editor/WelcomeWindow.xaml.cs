@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.IO;
+using IdentityModel.OidcClient;
 
 namespace _2D_Editor
 {
@@ -22,7 +23,7 @@ namespace _2D_Editor
     /// </summary>
     public partial class WelcomeWindow : Window
     {
-
+        private OidcClient _oidcClient = null;
         private bool _loggedIn;
         public bool loggedIn
         {
@@ -208,6 +209,42 @@ namespace _2D_Editor
             }
 
             Cursor = Cursors.Arrow;
+        }
+
+        private async void LoginLearningLayers(object sender, RoutedEventArgs e)
+        {
+            var options = new OidcClientOptions()
+            {
+                Authority = "https://demo.identityserver.io/",
+                ClientId = "interactive.public",
+                Scope = "openid profile email",
+                RedirectUri = "http://127.0.0.1/sample-wpf-app",
+                Browser = new WpfEmbeddedBrowser()
+            };
+
+            _oidcClient = new OidcClient(options);
+
+            LoginResult result;
+            try
+            {
+                result = await _oidcClient.LoginAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Unexpected Error: {ex.Message}");
+                return;
+            }
+
+            if (result.IsError)
+            {
+                Console.WriteLine(result.Error == "UserCancel" ? "The sign-in window was closed before authorization was completed." : result.Error);
+            }
+            else
+            {
+                var name = result.User.Identity.Name;
+                Console.WriteLine($"Hello {name}");
+                MessageBox.Show("Sucessfully Logged in as {name}. But this is just a demo.");
+            }
         }
     }
 }

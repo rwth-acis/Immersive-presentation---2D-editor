@@ -45,6 +45,7 @@
                     <PasswordBox x:Name="inputPassword" />
                     <CheckBox x:Name="inputRemember" Margin="0, 10, 0, 0">Remember Me</CheckBox>
                     <Button Margin="0, 20, 0, 0" Click="LoginButton_Click">Login</Button>
+                    <Button Margin="0, 20, 0, 0" Click="LoginLearningLayers">Learning Layers Login</Button>
                     <Border x:Name="loadingSpinner" Width="30" Margin="0, 10, 0, 0" Visibility="Hidden">
                         <fa:ImageAwesome Icon="Spinner" Spin="True" SpinDuration="4"/>
                     </Border>
