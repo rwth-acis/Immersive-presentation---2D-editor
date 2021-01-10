@@ -338,3 +338,7 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+2D_Editor/.env
+2D_Editor/App.config
+2D_Editor/App.config
+2D_Editor/App.config

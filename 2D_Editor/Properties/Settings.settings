@@ -11,5 +11,11 @@
     <Setting Name="userRemember" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="OIDCclientID" Type="System.String" Scope="User">
+      <Value Profile="(Default)">test</Value>
+    </Setting>
+    <Setting Name="OIDCclientSecret" Type="System.String" Scope="User">
+      <Value Profile="(Default)">test2</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

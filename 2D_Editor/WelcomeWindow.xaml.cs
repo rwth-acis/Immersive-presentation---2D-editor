@@ -213,10 +213,21 @@ namespace _2D_Editor
 
         private async void LoginLearningLayers(object sender, RoutedEventArgs e)
         {
+            //var options = new OidcClientOptions()
+            //{
+            //    Authority = "https://demo.identityserver.io/",
+            //    ClientId = "interactive.public",
+            //    Scope = "openid profile email",
+            //    RedirectUri = "http://127.0.0.1/sample-wpf-app",
+            //    Browser = new WpfEmbeddedBrowser()
+            //};
+            string envClientID = Environment.GetEnvironmentVariable("OIDCCLIENTID");
+            string envClientSecret = Environment.GetEnvironmentVariable("OIDCCLIENTSECRET");
             var options = new OidcClientOptions()
             {
-                Authority = "https://demo.identityserver.io/",
-                ClientId = "interactive.public",
+                Authority = "https://api.learning-layers.eu/o/oauth2/",
+                ClientId = envClientID,
+                ClientSecret = envClientSecret,
                 Scope = "openid profile email",
                 RedirectUri = "http://127.0.0.1/sample-wpf-app",
                 Browser = new WpfEmbeddedBrowser()
@@ -242,8 +253,8 @@ namespace _2D_Editor
             else
             {
                 var name = result.User.Identity.Name;
-                Console.WriteLine($"Hello {name}");
-                MessageBox.Show("Sucessfully Logged in as {name}. But this is just a demo.");
+                //Console.WriteLine($"Hello {name}");
+                MessageBox.Show($"Sucessfully Logged in as {name}. But this is just a demo.");
             }
         }
     }
