@@ -25,7 +25,7 @@ namespace _2D_Editor
             {
                 Width = 900,
                 Height = 625,
-                Title = "IdentityServer Demo Login"
+                Title = "IdentityServer Login"
             };
 
             // Note: Unfortunately, WebBrowser is very limited and does not give sufficient information for 

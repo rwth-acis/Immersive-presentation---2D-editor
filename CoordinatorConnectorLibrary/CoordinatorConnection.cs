@@ -84,7 +84,43 @@ namespace CoordinatorConnectorLibrary
             {
                 return false;
             }
-        }    
+        }
+
+        public bool loginLearningLayers(string pEmail)
+        {
+            email = pEmail;
+            //Build and execute Request
+            var request = new RestRequest("/auth/openid", Method.POST);
+            request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
+            request.AddParameter("email", email.ToString());
+            IRestResponse response = client.Execute(request);
+            if (!(response.StatusCode == HttpStatusCode.OK)) return false;
+
+            //Deserialize Response
+            try
+            {
+
+                JObject output = JObject.Parse(response.Content);
+
+                JToken helpJToken;
+                if (!output.TryGetValue("token", out helpJToken)) return false;
+                token = helpJToken.ToString();
+                if (!output.TryGetValue("exp", out helpJToken)) return false;
+                long helpInt;
+                if (!long.TryParse(helpJToken.ToString(), out helpInt)) return false;
+                tokenExp = FromUnixTimeMilliSek(helpInt);
+                if (!output.TryGetValue("user", out helpJToken)) return false;
+                JObject user = JObject.Parse(helpJToken.ToString());
+                if (!user.TryGetValue("iduser", out helpJToken)) return false;
+                if (!int.TryParse(helpJToken.ToString(), out iduser)) return false;
+                loggedIn = true;
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         public void logout()
         {
             loggedIn = false;

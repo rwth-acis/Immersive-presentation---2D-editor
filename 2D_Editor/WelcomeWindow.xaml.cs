@@ -221,8 +221,8 @@ namespace _2D_Editor
             //    RedirectUri = "http://127.0.0.1/sample-wpf-app",
             //    Browser = new WpfEmbeddedBrowser()
             //};
-            string envClientID = Environment.GetEnvironmentVariable("OIDCCLIENTID");
-            string envClientSecret = Environment.GetEnvironmentVariable("OIDCCLIENTSECRET");
+            string envClientID = Properties.Settings.Default.OIDCclientID;
+            string envClientSecret = Properties.Settings.Default.OIDCclientSecret;
             var options = new OidcClientOptions()
             {
                 Authority = "https://api.learning-layers.eu/o/oauth2/",
@@ -253,9 +253,32 @@ namespace _2D_Editor
             else
             {
                 var name = result.User.Identity.Name;
+                string email = "";
+                var claimList = result.User.Claims.ToList();
+                foreach(System.Security.Claims.Claim claim in claimList)
+                {
+                    if(claim.Type == "email")
+                    {
+                        email = claim.Value;
+                        break;
+                    }
+                }
                 //Console.WriteLine($"Hello {name}");
-                MessageBox.Show($"Sucessfully Logged in as {name}. But this is just a demo.");
+                //MessageBox.Show($"Sucessfully Logged in as {name}. With Email: {email}  - But this is just a demo.");
+                //Register/Login the authenthicated user
+                if (connection.loginLearningLayers(email))
+                {
+                    loggedIn = true;
+                }
+                else
+                {
+                    loggedIn = false;
+                    errorMessage.Text = "Invalid Login Data.";
+                    errorBox.Visibility = Visibility.Visible;
+                }
             }
+            Cursor = Cursors.Arrow;
+            loadingSpinner.Visibility = Visibility.Hidden;
         }
     }
 }
