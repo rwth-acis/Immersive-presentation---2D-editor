@@ -61,7 +61,7 @@ namespace _2D_Editor.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("test")]
+        [global::System.Configuration.DefaultSettingValueAttribute("8185c0e6-8d7c-4690-8238-c7194a8f65d3")]
         public string OIDCclientID {
             get {
                 return ((string)(this["OIDCclientID"]));
@@ -73,7 +73,8 @@ namespace _2D_Editor.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("test2")]
+        [global::System.Configuration.DefaultSettingValueAttribute("AMWt_PCXU6R0-oTAYSVLVaCXEL_Dut8Vs7XlA7PBtjfekPLiMwB0es6JTpGnqxVR9L-0plJ79N0ZVFrlX" +
+            "1BfYmY")]
         public string OIDCclientSecret {
             get {
                 return ((string)(this["OIDCclientSecret"]));

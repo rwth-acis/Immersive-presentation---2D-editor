@@ -253,6 +253,7 @@ namespace _2D_Editor
             else
             {
                 var name = result.User.Identity.Name;
+                var accessToken = result.AccessToken;
                 string email = "";
                 var claimList = result.User.Claims.ToList();
                 foreach(System.Security.Claims.Claim claim in claimList)
@@ -266,7 +267,7 @@ namespace _2D_Editor
                 //Console.WriteLine($"Hello {name}");
                 //MessageBox.Show($"Sucessfully Logged in as {name}. With Email: {email}  - But this is just a demo.");
                 //Register/Login the authenthicated user
-                if (connection.loginLearningLayers(email))
+                if (connection.loginLearningLayers(email, accessToken))
                 {
                     loggedIn = true;
                 }

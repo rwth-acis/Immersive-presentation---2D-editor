@@ -86,13 +86,14 @@ namespace CoordinatorConnectorLibrary
             }
         }
 
-        public bool loginLearningLayers(string pEmail)
+        public bool loginLearningLayers(string pEmail, string pAccessToken)
         {
             email = pEmail;
             //Build and execute Request
             var request = new RestRequest("/auth/openid", Method.POST);
             request.AddHeader("Content-Type", "application/x-www-form-urlencoded");
             request.AddParameter("email", email.ToString());
+            request.AddParameter("accesstoken", pAccessToken.ToString());
             IRestResponse response = client.Execute(request);
             if (!(response.StatusCode == HttpStatusCode.OK)) return false;
 

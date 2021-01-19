@@ -12,10 +12,10 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="OIDCclientID" Type="System.String" Scope="User">
-      <Value Profile="(Default)">test</Value>
+      <Value Profile="(Default)">8185c0e6-8d7c-4690-8238-c7194a8f65d3</Value>
     </Setting>
     <Setting Name="OIDCclientSecret" Type="System.String" Scope="User">
-      <Value Profile="(Default)">test2</Value>
+      <Value Profile="(Default)">AMWt_PCXU6R0-oTAYSVLVaCXEL_Dut8Vs7XlA7PBtjfekPLiMwB0es6JTpGnqxVR9L-0plJ79N0ZVFrlX1BfYmY</Value>
     </Setting>
   </Settings>
 </SettingsFile>
