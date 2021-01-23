@@ -30,7 +30,7 @@ namespace CoordinatorConnectorLibrary
         }
         public CoordinatorConnection()
         {
-            client = new RestClient("http://binarybros.de");
+            client = new RestClient("https://cloud19.dbis.rwth-aachen.de");
             //ToDo: set a good timeout value
             client.Timeout = -1;
             loggedIn = false;
