@@ -50,6 +50,7 @@ For the 3D Editor
 
 - Clone the [repository](https://github.com/rwth-acis/Immersive-presentation---Backend-Coordinator) to a server that fullfills all prerequisites.
 - Create a .env file in the project folder and set the following Environment variables:
+
 Environment Variable | Value or description
 -------------------- | --------------------
 PRODUCTION | if in production environment 1 else 0
