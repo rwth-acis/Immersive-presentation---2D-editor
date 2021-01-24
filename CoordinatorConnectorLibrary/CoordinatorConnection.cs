@@ -14,6 +14,7 @@ namespace CoordinatorConnectorLibrary
 {
     public class CoordinatorConnection
     {
+        public const string BACKENDADDR = "https://cloud19.dbis.rwth-aachen.de";
         private string email;
         private string password;
         private int iduser;
@@ -30,7 +31,7 @@ namespace CoordinatorConnectorLibrary
         }
         public CoordinatorConnection()
         {
-            client = new RestClient("https://cloud19.dbis.rwth-aachen.de");
+            client = new RestClient(BACKENDADDR);
             //ToDo: set a good timeout value
             client.Timeout = -1;
             loggedIn = false;
