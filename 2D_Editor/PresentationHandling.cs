@@ -1,9 +1,15 @@
 ﻿using CoordinatorConnectorLibrary;
+//using Gnostice.Converter;
+//using Gnostice.Documents;
 using ImmersivePresentation;
 using Microsoft.Win32;
 using Newtonsoft.Json;
+using Spire.Pdf;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.IO.Compression;
 using System.Net.Http.Headers;
@@ -13,6 +19,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+//using Gnostice.PDFOne;
 
 namespace _2D_Editor
 {
@@ -123,6 +130,10 @@ namespace _2D_Editor
         public string presentationSavingPath { get; set; }
         public string presentationName { get; set; }
         public string tempDirBase { get; set; } //Path to the start of the temporary folder of the actual windows user 
+        public string templocalImageStorage { get
+            {
+                return tempDirBase + "ImPres\\localImageStorage\\";
+            } }
         public const string tempSuffix = "ImPres\\presentation\\";
         public string tempPresDir { get {
                 return tempDirBase + tempSuffix;
@@ -235,12 +246,14 @@ namespace _2D_Editor
         {
             tempDirBase = Path.GetTempPath().ToString();
             Console.WriteLine(tempPresDir);
+            //createCleanDirectory(templocalImageStorage);
             createCleanDirectory(tempPresDir);
             createCleanDirectory(tempPresDir + tempSubCanvasImg);
             createCleanDirectory(tempPresDir + tempSub2D);
             createCleanDirectory(tempPresDir + tempSub3D);
             createCleanDirectory(tempPresDir + tempSub3D + tempSubSubScene);
             createCleanDirectory(tempPresDir + tempSub3D + tempSubSubHandout);
+            DirectoryInfo di = Directory.CreateDirectory(templocalImageStorage);
         }
 
         public  async void saveOpenPresentation()
@@ -745,6 +758,49 @@ namespace _2D_Editor
                 }
             }
         }
+        public void addNewBackgroundImage(string pPath, int pStageIndex)
+        {
+            if(pStageIndex >= openPresentation.stages.Count)
+            {
+                Console.WriteLine("Can not add background. Index of stage to high.");
+                return;
+            }
+
+            if (File.Exists(pPath))
+            {
+                string sourcePath = pPath;
+                string nameOfFile = Path.GetFileNameWithoutExtension(sourcePath);
+                string extension = Path.GetExtension(sourcePath);
+                string targetTepFolder = tempPresDir + tempSub2D;
+                string relativeFolderPath = tempSub2D;
+
+                string appendix = "";
+                int appendixCount = 0;
+                while (File.Exists(targetTepFolder + nameOfFile + appendix + extension))
+                {
+                    appendixCount = appendixCount + 1;
+                    appendix = "_" + appendixCount;
+                }
+                string availableNameOfFile = nameOfFile + appendix;
+
+
+                try
+                {
+                    File.Copy(sourcePath, targetTepFolder + availableNameOfFile + extension);
+                    Image2D newImage = new Image2D(relativeFolderPath + availableNameOfFile + extension);
+                    newImage.xPosition = 0;
+                    newImage.yPosition = 0;
+                    newImage.xScale = 100;
+                    newImage.yScale = 100;
+                    openPresentation.stages[pStageIndex].canvas.elements.Insert(0, newImage);
+                }
+                catch
+                {
+                    MessageBox.Show("Sorry - We were not able to add this image.");
+                    //ToDo show error in status bar
+                }
+            }
+        }
         public void canvas2DElementSelected(object element)
         {
             //select the concrete Type of Element
@@ -1054,5 +1110,62 @@ namespace _2D_Editor
             }
             return null;
         }
+
+        public void importPDF()
+        {
+            //let user select one pdf
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Multiselect = false;
+            openFileDialog.Filter = "PDF files (*.pdf)|*.pdf|All files (*.*)|*.*";
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            if (openFileDialog.ShowDialog() == true)
+            {
+                if(openFileDialog.FileNames.Length >= 2)
+                {
+                    MessageBox.Show("Please only select one PDF.");
+                }
+
+                string pdfPath = openFileDialog.FileName;
+
+                PdfDocument pdf = new PdfDocument();
+                pdf.LoadFromFile(pdfPath);
+
+                BitmapSource source;
+                Bitmap bmp;
+
+                for(int i = 0; i < pdf.Pages.Count; i++)
+                {
+                    string tempFileStorage = templocalImageStorage + "background-" + i + ".png";
+                    Directory.CreateDirectory(templocalImageStorage);
+                    bmp = (Bitmap)pdf.SaveAsImage(i);
+                    bmp.Save(tempFileStorage, ImageFormat.Png);
+                    Console.WriteLine(tempFileStorage);
+                    //Add image to stage i
+                    if (i < openPresentation.stages.Count)
+                    {
+                        addNewBackgroundImage(tempFileStorage, i);
+                        //addNewImage(tempFileStorage);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+
+        private Bitmap SourceToBitmap(BitmapSource source)
+        {
+            Bitmap bmp;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                PngBitmapEncoder encoder = new PngBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(source));
+                encoder.Save(ms);
+                bmp = new Bitmap(ms);
+            }
+            return bmp;
+        }
+
     }
 }

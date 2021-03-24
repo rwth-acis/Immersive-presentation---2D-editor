@@ -22,6 +22,7 @@
         <CommandBinding Command="Copy" CanExecute="CopyCommand_CanExecute" Executed="CopyCommand_Executed"/>
         <CommandBinding Command="Paste" CanExecute="PasteCommand_CanExecute" Executed="PasteCommand_Executed"/>
         <CommandBinding Command="local:CustomCommands.Present" CanExecute="PresentCommand_CanExecute" Executed="PresentCommand_Executed"/>
+        <CommandBinding Command="local:CustomCommands.ImportPDF" CanExecute="ImportPDFCommand_CanExecute" Executed="ImportPDFCommand_Executed"/>
         <CommandBinding Command="local:CustomCommands.PresentProperties" CanExecute="PresentPropertiesCommand_CanExecute" Executed="PresentPropertiesCommand_Executed"/>
         <CommandBinding Command="Help" CanExecute="HelpCommand_CanExecute" Executed="HelpCommand_Executed"/>
     </Window.CommandBindings>
@@ -48,6 +49,7 @@
                 <MenuItem Command="Cut"/>
                 <MenuItem Command="Copy"/>
                 <MenuItem Command="Paste"/>
+                <MenuItem Command="local:CustomCommands.ImportPDF" />
             </MenuItem>
             <MenuItem Header="Present">
                 <MenuItem Command="local:CustomCommands.Present"/>

@@ -213,6 +213,16 @@ namespace _2D_Editor
 			presentationWindow.Show();
 			this.Hide();
 		}
+		//Import PDF Command
+		private void ImportPDFCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = true;
+		}
+
+		private void ImportPDFCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			presentationHandler.importPDF();
+		}
 		//presentProperties Command
 		private void PresentPropertiesCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
 		{
@@ -550,6 +560,17 @@ namespace _2D_Editor
 				new InputGestureCollection()
 				{
 					new KeyGesture(Key.P, ModifierKeys.Control | ModifierKeys.Shift)
+				}
+			);
+
+		public static readonly RoutedUICommand ImportPDF = new RoutedUICommand
+			(
+				"Import PDF",
+				"Import a PDF",
+				typeof(CustomCommands),
+				new InputGestureCollection()
+				{
+					new KeyGesture(Key.I, ModifierKeys.Control)
 				}
 			);
 	}
