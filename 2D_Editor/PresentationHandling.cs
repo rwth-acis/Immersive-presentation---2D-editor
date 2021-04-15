@@ -19,6 +19,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using PdfiumViewer;
 //using Gnostice.PDFOne;
 
 namespace _2D_Editor
@@ -1127,7 +1128,11 @@ namespace _2D_Editor
 
                 string pdfPath = openFileDialog.FileName;
 
-                PdfDocument pdf = new PdfDocument();
+                //Spire Pdf
+                if (false)
+                {
+
+                Spire.Pdf.PdfDocument pdf = new Spire.Pdf.PdfDocument();
                 pdf.LoadFromFile(pdfPath);
 
                 BitmapSource source;
@@ -1151,6 +1156,38 @@ namespace _2D_Editor
                         break;
                     }
                 }
+
+                }
+
+                //PdfiumViewer
+                //The pdfium.dll must be in the Debug folder
+                //The version that should be used is the x86 noV8 noxfa version
+                //The dll is available at https://github.com/pvginkel/PdfiumBuild/blob/master/Builds/2018-04-08/PdfiumViewer-x86-no_v8-no_xfa/pdfium.dll
+
+                PdfiumViewer.PdfDocument myPdfiumPdf = PdfiumViewer.PdfDocument.Load(pdfPath);
+
+                BitmapSource sourcefium;
+                Bitmap bmpfium;
+
+                for (int i = 0; i < myPdfiumPdf.PageCount; i++)
+                {
+                    string tempFileStorage = templocalImageStorage + "background-" + i + ".png";
+                    Directory.CreateDirectory(templocalImageStorage);
+                    bmpfium = (Bitmap)myPdfiumPdf.Render(i, 300, 300, false);
+                    bmpfium.Save(tempFileStorage, ImageFormat.Png);
+                    Console.WriteLine(tempFileStorage);
+                    //Add image to stage i
+                    if (i < openPresentation.stages.Count)
+                    {
+                        addNewBackgroundImage(tempFileStorage, i);
+                        //addNewImage(tempFileStorage);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
             }
         }
 
