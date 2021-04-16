@@ -19,9 +19,29 @@ namespace _2D_Editor
     /// </summary>
     public partial class PDFImportDialog : Window
     {
+        PresentationHandling presHandling;
+        string pdfpath;
+
         public PDFImportDialog()
         {
             InitializeComponent();
+        }
+
+        public PDFImportDialog(PresentationHandling pPresHandling)
+        {
+            presHandling = pPresHandling;
+        }
+
+        private void ShowAdvanced(object sender, MouseButtonEventArgs e)
+        {
+            advancedPDFImportSettings.Visibility = Visibility.Visible;
+        }
+
+        private void SelectPdfFile(object sender, RoutedEventArgs e)
+        {
+
+
+            showSelection.Text = "";
         }
     }
 }
