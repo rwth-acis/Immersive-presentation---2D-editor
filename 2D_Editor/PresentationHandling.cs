@@ -4,7 +4,6 @@
 using ImmersivePresentation;
 using Microsoft.Win32;
 using Newtonsoft.Json;
-using Spire.Pdf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,7 +18,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-//using Gnostice.PDFOne;
+using PdfiumViewer;
 
 namespace _2D_Editor
 {
@@ -1127,18 +1126,22 @@ namespace _2D_Editor
 
                 string pdfPath = openFileDialog.FileName;
 
-                PdfDocument pdf = new PdfDocument();
-                pdf.LoadFromFile(pdfPath);
+                //PdfiumViewer
+                //The pdfium.dll must be in the Debug folder
+                //The version that should be used is the x86 noV8 noxfa version
+                //The dll is available at https://github.com/pvginkel/PdfiumBuild/blob/master/Builds/2018-04-08/PdfiumViewer-x86-no_v8-no_xfa/pdfium.dll
 
-                BitmapSource source;
-                Bitmap bmp;
+                PdfiumViewer.PdfDocument myPdfiumPdf = PdfiumViewer.PdfDocument.Load(pdfPath);
 
-                for(int i = 0; i < pdf.Pages.Count; i++)
+                BitmapSource sourcefium;
+                Bitmap bmpfium;
+
+                for (int i = 0; i < myPdfiumPdf.PageCount; i++)
                 {
                     string tempFileStorage = templocalImageStorage + "background-" + i + ".png";
                     Directory.CreateDirectory(templocalImageStorage);
-                    bmp = (Bitmap)pdf.SaveAsImage(i);
-                    bmp.Save(tempFileStorage, ImageFormat.Png);
+                    bmpfium = (Bitmap)myPdfiumPdf.Render(i, 300, 300, false);
+                    bmpfium.Save(tempFileStorage, ImageFormat.Png);
                     Console.WriteLine(tempFileStorage);
                     //Add image to stage i
                     if (i < openPresentation.stages.Count)
@@ -1151,6 +1154,7 @@ namespace _2D_Editor
                         break;
                     }
                 }
+
             }
         }
 
