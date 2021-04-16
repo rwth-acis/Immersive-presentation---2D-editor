@@ -1110,35 +1110,29 @@ namespace _2D_Editor
 
         public void importPDF()
         {
-            //let user select one pdf
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Multiselect = false;
-            openFileDialog.Filter = "PDF files (*.pdf)|*.pdf|All files (*.*)|*.*";
-            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            if (openFileDialog.ShowDialog() == true)
+            PDFImportDialog pdfImportDialog = new PDFImportDialog(this);
+            pdfImportDialog.Show();
+        }
+
+        public void performImportPdf(string pPath, int pDPI, Tuple<int, int>[] matching)
+        {
+            if (!File.Exists(pPath)) return;
+
+            //PdfiumViewer
+            //The pdfium.dll must be in the Debug folder
+            //The version that should be used is the x86 noV8 noxfa version
+            //The dll is available at https://github.com/pvginkel/PdfiumBuild/blob/master/Builds/2018-04-08/PdfiumViewer-x86-no_v8-no_xfa/pdfium.dll
+            PdfiumViewer.PdfDocument myPdfiumPdf = PdfiumViewer.PdfDocument.Load(pPath);
+
+            Bitmap bmpfium;
+
+            if(matching == null)
             {
-                if(openFileDialog.FileNames.Length >= 2)
-                {
-                    MessageBox.Show("Please only select one PDF.");
-                }
-
-                string pdfPath = openFileDialog.FileName;
-
-                //PdfiumViewer
-                //The pdfium.dll must be in the Debug folder
-                //The version that should be used is the x86 noV8 noxfa version
-                //The dll is available at https://github.com/pvginkel/PdfiumBuild/blob/master/Builds/2018-04-08/PdfiumViewer-x86-no_v8-no_xfa/pdfium.dll
-
-                PdfiumViewer.PdfDocument myPdfiumPdf = PdfiumViewer.PdfDocument.Load(pdfPath);
-
-                BitmapSource sourcefium;
-                Bitmap bmpfium;
-
                 for (int i = 0; i < myPdfiumPdf.PageCount; i++)
                 {
                     string tempFileStorage = templocalImageStorage + "background-" + i + ".png";
                     Directory.CreateDirectory(templocalImageStorage);
-                    bmpfium = (Bitmap)myPdfiumPdf.Render(i, 300, 300, false);
+                    bmpfium = (Bitmap)myPdfiumPdf.Render(i, pDPI, pDPI, false);
                     bmpfium.Save(tempFileStorage, ImageFormat.Png);
                     Console.WriteLine(tempFileStorage);
                     //Add image to stage i
@@ -1152,8 +1146,27 @@ namespace _2D_Editor
                         break;
                     }
                 }
-
             }
+            else
+            {
+                int help = 0;
+                foreach(Tuple<int, int> tup in matching)
+                {
+                    if (tup.Item1 >= myPdfiumPdf.PageCount) continue;
+                    if (tup.Item1 < 0) continue;
+                    if (tup.Item2 >= openPresentation.stages.Count) continue;
+                    if (tup.Item2 < 0) continue;
+
+                    string tempFileStorage = templocalImageStorage + "background-" + help + ".png";
+                    Directory.CreateDirectory(templocalImageStorage);
+                    bmpfium = (Bitmap)myPdfiumPdf.Render(tup.Item1, pDPI, pDPI, false);
+                    bmpfium.Save(tempFileStorage, ImageFormat.Png);
+                    Console.WriteLine(tempFileStorage);
+                    //Add image to stage
+                    addNewBackgroundImage(tempFileStorage, tup.Item2);
+                }
+            }
+            
         }
 
         private Bitmap SourceToBitmap(BitmapSource source)

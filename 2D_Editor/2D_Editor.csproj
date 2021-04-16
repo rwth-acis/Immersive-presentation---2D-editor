@@ -204,6 +204,9 @@
     <Compile Include="LoadbalancingAPI\RoomInfo.cs" />
     <Compile Include="LoadbalancingAPI\SupportLogger.cs" />
     <Compile Include="LoadbalancingAPI\WebRpc.cs" />
+    <Compile Include="PDFImportDialog.xaml.cs">
+      <DependentUpon>PDFImportDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PhotonClient.cs" />
     <Compile Include="PresentationWindow.xaml.cs">
       <DependentUpon>PresentationWindow.xaml</DependentUpon>
@@ -236,6 +239,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PDFImportDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PresentationWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
