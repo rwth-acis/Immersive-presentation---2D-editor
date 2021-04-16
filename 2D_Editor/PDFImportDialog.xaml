@@ -1,0 +1,39 @@
+﻿<Window x:Class="_2D_Editor.PDFImportDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:_2D_Editor"
+        mc:Ignorable="d"
+        Title="PDFImportDialog" Height="450" Width="800">
+    <Grid Margin="0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="8*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <DockPanel Grid.Column="1" VerticalAlignment="Top">
+            <Border x:Name="basicView" BorderThickness="1" Background="White" Visibility="Visible" DockPanel.Dock="Top" Margin="0 20 0 0">
+                <StackPanel>
+                    <TextBlock FontSize="30">Import PDF</TextBlock>
+                    <Separator/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                            <TextBlock Grid.Column="1" Margin="0, 10, 0, 0">Selected File:</TextBlock>
+                            <TextBlock Margin="20, 10, 0, 0">No Selection</TextBlock>
+                        </StackPanel>
+                        <Button Grid.Column="1" Margin="0, 10, 0, 0" Padding="30 10" >Select PDF</Button>
+                    </Grid>
+                    
+                </StackPanel>
+            </Border>
+            <Border x:Name="advancedView" BorderThickness="1" Background="White" Visibility="Visible" DockPanel.Dock="Top">
+
+            </Border>
+        </DockPanel>
+    </Grid>
+</Window>

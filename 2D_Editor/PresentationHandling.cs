@@ -1,6 +1,4 @@
 ﻿using CoordinatorConnectorLibrary;
-//using Gnostice.Converter;
-//using Gnostice.Documents;
 using ImmersivePresentation;
 using Microsoft.Win32;
 using Newtonsoft.Json;
