@@ -78,24 +78,6 @@
     <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
       <HintPath>..\packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
     </Reference>
-    <Reference Include="Gnostice.Converter, Version=21.1.870.2167, Culture=neutral, PublicKeyToken=fc8cb3ab6a24df63, processorArchitecture=MSIL">
-      <HintPath>..\packages\Gnostice.DocumentStudio.Converter.21.1.870\lib\net45\Gnostice.Converter.dll</HintPath>
-    </Reference>
-    <Reference Include="Gnostice.Core, Version=21.1.870.2167, Culture=neutral, PublicKeyToken=fc8cb3ab6a24df63, processorArchitecture=MSIL">
-      <HintPath>..\packages\Gnostice.DocumentStudio.Foundation.21.1.870\lib\net45\Gnostice.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Gnostice.Documents, Version=21.1.870.2167, Culture=neutral, PublicKeyToken=fc8cb3ab6a24df63, processorArchitecture=MSIL">
-      <HintPath>..\packages\Gnostice.DocumentStudio.Foundation.21.1.870\lib\net45\Gnostice.Documents.dll</HintPath>
-    </Reference>
-    <Reference Include="Gnostice.Graphics.GDIPlus, Version=21.1.870.2167, Culture=neutral, PublicKeyToken=fc8cb3ab6a24df63, processorArchitecture=MSIL">
-      <HintPath>..\packages\Gnostice.DocumentStudio.Foundation.21.1.870\lib\net45\Gnostice.Graphics.GDIPlus.dll</HintPath>
-    </Reference>
-    <Reference Include="Gnostice.Graphics.Skia, Version=21.1.870.2167, Culture=neutral, PublicKeyToken=fc8cb3ab6a24df63, processorArchitecture=MSIL">
-      <HintPath>..\packages\Gnostice.DocumentStudio.Foundation.21.1.870\lib\net45\Gnostice.Graphics.Skia.dll</HintPath>
-    </Reference>
-    <Reference Include="Gnostice.ImageEngine, Version=21.1.870.2167, Culture=neutral, PublicKeyToken=fc8cb3ab6a24df63, processorArchitecture=MSIL">
-      <HintPath>..\packages\Gnostice.DocumentStudio.Foundation.21.1.870\lib\net45\Gnostice.ImageEngine.dll</HintPath>
-    </Reference>
     <Reference Include="IdentityModel, Version=4.1.0.0, Culture=neutral, PublicKeyToken=e7877f4675df049f, processorArchitecture=MSIL">
       <HintPath>..\packages\IdentityModel.4.1.0\lib\net472\IdentityModel.dll</HintPath>
     </Reference>
@@ -149,12 +131,6 @@
     </Reference>
     <Reference Include="RestSharp, Version=106.11.4.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.106.11.4\lib\net452\RestSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="Spire.License, Version=1.3.8.40, Culture=neutral, PublicKeyToken=b1144360237c8b3f, processorArchitecture=MSIL">
-      <HintPath>..\packages\Spire.PDF.7.3.3\lib\net40\Spire.License.dll</HintPath>
-    </Reference>
-    <Reference Include="Spire.Pdf, Version=7.3.3.0, Culture=neutral, PublicKeyToken=663f351905198cb3, processorArchitecture=MSIL">
-      <HintPath>..\packages\Spire.PDF.7.3.3\lib\net40\Spire.Pdf.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">

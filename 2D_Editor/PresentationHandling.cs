@@ -4,7 +4,6 @@
 using ImmersivePresentation;
 using Microsoft.Win32;
 using Newtonsoft.Json;
-using Spire.Pdf;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,7 +19,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using PdfiumViewer;
-//using Gnostice.PDFOne;
 
 namespace _2D_Editor
 {
@@ -1127,37 +1125,6 @@ namespace _2D_Editor
                 }
 
                 string pdfPath = openFileDialog.FileName;
-
-                //Spire Pdf
-                if (false)
-                {
-
-                Spire.Pdf.PdfDocument pdf = new Spire.Pdf.PdfDocument();
-                pdf.LoadFromFile(pdfPath);
-
-                BitmapSource source;
-                Bitmap bmp;
-
-                for(int i = 0; i < pdf.Pages.Count; i++)
-                {
-                    string tempFileStorage = templocalImageStorage + "background-" + i + ".png";
-                    Directory.CreateDirectory(templocalImageStorage);
-                    bmp = (Bitmap)pdf.SaveAsImage(i);
-                    bmp.Save(tempFileStorage, ImageFormat.Png);
-                    Console.WriteLine(tempFileStorage);
-                    //Add image to stage i
-                    if (i < openPresentation.stages.Count)
-                    {
-                        addNewBackgroundImage(tempFileStorage, i);
-                        //addNewImage(tempFileStorage);
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-
-                }
 
                 //PdfiumViewer
                 //The pdfium.dll must be in the Debug folder
