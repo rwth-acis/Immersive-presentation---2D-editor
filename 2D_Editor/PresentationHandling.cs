@@ -1114,7 +1114,16 @@ namespace _2D_Editor
             pdfImportDialog.Show();
         }
 
-        public void performImportPdf(string pPath, int pDPI, Tuple<int, int>[] matching)
+
+        /// <summary>
+        /// Imports a pdf as Images into the presentation.
+        /// </summary>
+        /// <param name="pPath">Filepath of the pdf.</param>
+        /// <param name="pDPI">DPI used to render the images.</param>
+        /// <param name="pdfStart">Index of the first pdf page that should be imported.</param>
+        /// <param name="stageStart">Index of the first stage that should contain an image.</param>
+        /// <param name="pdfCount">Total number of pages to import.</param>
+        public void performImportPdf(string pPath, int pDPI, int pdfStart = 0, int stageStart = 0, int pdfCount = -1)
         {
             if (!File.Exists(pPath)) return;
 
@@ -1123,51 +1132,31 @@ namespace _2D_Editor
             //The version that should be used is the x86 noV8 noxfa version
             //The dll is available at https://github.com/pvginkel/PdfiumBuild/blob/master/Builds/2018-04-08/PdfiumViewer-x86-no_v8-no_xfa/pdfium.dll
             PdfiumViewer.PdfDocument myPdfiumPdf = PdfiumViewer.PdfDocument.Load(pPath);
-
+            if (pdfCount == -1) pdfCount = myPdfiumPdf.PageCount;
             Bitmap bmpfium;
 
-            if(matching == null)
+            for (int i = 0; i < pdfCount; i++)
             {
-                for (int i = 0; i < myPdfiumPdf.PageCount; i++)
-                {
-                    string tempFileStorage = templocalImageStorage + "background-" + i + ".png";
-                    Directory.CreateDirectory(templocalImageStorage);
-                    bmpfium = (Bitmap)myPdfiumPdf.Render(i, pDPI, pDPI, false);
-                    bmpfium.Save(tempFileStorage, ImageFormat.Png);
-                    Console.WriteLine(tempFileStorage);
-                    //Add image to stage i
-                    if (i < openPresentation.stages.Count)
-                    {
-                        addNewBackgroundImage(tempFileStorage, i);
-                        //addNewImage(tempFileStorage);
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-            }
-            else
-            {
-                int help = 0;
-                foreach(Tuple<int, int> tup in matching)
-                {
-                    if (tup.Item1 >= myPdfiumPdf.PageCount) continue;
-                    if (tup.Item1 < 0) continue;
-                    if (tup.Item2 >= openPresentation.stages.Count) continue;
-                    if (tup.Item2 < 0) continue;
+                if (pdfStart + i >= myPdfiumPdf.PageCount) break;
 
-                    string tempFileStorage = templocalImageStorage + "background-" + help + ".png";
-                    Directory.CreateDirectory(templocalImageStorage);
-                    bmpfium = (Bitmap)myPdfiumPdf.Render(tup.Item1, pDPI, pDPI, false);
-                    bmpfium.Save(tempFileStorage, ImageFormat.Png);
-                    Console.WriteLine(tempFileStorage);
-                    //Add image to stage
-                    addNewBackgroundImage(tempFileStorage, tup.Item2);
+                string tempFileStorage = templocalImageStorage + "background-" + (pdfStart + i) + ".png";
+                Directory.CreateDirectory(templocalImageStorage);
+                bmpfium = (Bitmap)myPdfiumPdf.Render(pdfStart + i, pDPI, pDPI, false);
+                bmpfium.Save(tempFileStorage, ImageFormat.Png);
+                Console.WriteLine(tempFileStorage);
+                //Add image to stage i
+                if ( stageStart + i < openPresentation.stages.Count)
+                {
+                    addNewBackgroundImage(tempFileStorage, stageStart + i);
+                    //addNewImage(tempFileStorage);
+                }
+                else
+                {
+                    break;
                 }
             }
-            
         }
+        
 
         private Bitmap SourceToBitmap(BitmapSource source)
         {

@@ -84,29 +84,27 @@ namespace _2D_Editor
             {
                 try
                 {
-                    string input = inputImportMapping.Text;
-                    input = input.Replace("(", String.Empty);
-                    input = input.Replace(")", String.Empty);
-                    string[] inputArr = input.Split(',');
+                    int pdfStart = Convert.ToInt32(inputFirstPdf.Text);
+                    int stageStart = Convert.ToInt32(inputFirstStage.Text);
+                    int numberOfPages = Convert.ToInt32(inputPdfCount.Text);
 
-                    Tuple<int, int>[] matching = new Tuple<int, int>[Convert.ToInt32(inputArr.Length / 2)];
-                    for(int i = 0; i < inputArr.Length; i = i + 2)
-                    {
-                        matching[Convert.ToInt32(i / 2)] = new Tuple<int, int>(Convert.ToInt32(inputArr[i]) - 1, Convert.ToInt32(inputArr[i + 1]) - 1); //-1 to convert numbres to indexes
-                    }
+                    //Convert page and stage number to indexes
+                    pdfStart--;
+                    stageStart--;
 
-                    presHandling.performImportPdf(pdfpath, dpi, matching);
+
+                    presHandling.performImportPdf(pdfpath, dpi, pdfStart, stageStart, numberOfPages);
                     this.Close();
 
                 }
                 catch
                 {
-                    MessageBox.Show("The mapping string has not the correct format.");
+                    MessageBox.Show("The input strings for the advanced settings have not the correct format. Only integers are allowed.");
                 }
             }
             else
             {
-                presHandling.performImportPdf(pdfpath, dpi, null);
+                presHandling.performImportPdf(pdfpath, dpi);
                 this.Close();
             }
         }
