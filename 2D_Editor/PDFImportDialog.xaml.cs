@@ -86,7 +86,7 @@ namespace _2D_Editor
                 {
                     int pdfStart = Convert.ToInt32(inputFirstPdf.Text);
                     int stageStart = Convert.ToInt32(inputFirstStage.Text);
-                    int numberOfPages = Convert.ToInt32(inputPdfCount.Text);
+                    int numberOfPages = Convert.ToInt32(inputLastPdf.Text) - pdfStart + 1;
 
                     //Convert page and stage number to indexes
                     pdfStart--;

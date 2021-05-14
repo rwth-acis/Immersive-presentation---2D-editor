@@ -373,6 +373,14 @@ namespace _2D_Editor
             openPresentation.stages.Insert(indexOfSelectedStage + 1, newStage);
             SelectedStage = newStage;
         }
+
+        public void addNewStage(int index)
+        {
+            if (index > openPresentation.stages.Count) return;
+            Stage newStage = new Stage("DemoName");
+            openPresentation.stages.Insert(index, newStage);
+        }
+
         public void deleteSelectedStage()
         {
             //check if there are stages remaining
@@ -1152,7 +1160,12 @@ namespace _2D_Editor
                 }
                 else
                 {
-                    break;
+                    //add new stage and then add image
+                    while(stageStart + i >= openPresentation.stages.Count)
+                    {
+                        addNewStage(openPresentation.stages.Count);
+                    }
+                    addNewBackgroundImage(tempFileStorage, stageStart + i);
                 }
             }
         }

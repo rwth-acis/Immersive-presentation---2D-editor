@@ -39,7 +39,7 @@
                         <Grid Margin="0 0 0 10">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
@@ -52,8 +52,8 @@
                             <CheckBox x:Name="checkBoxIndividualMapping" Grid.Row="0" Grid.Column="0">Define individual mapping: </CheckBox>
                             <TextBlock Grid.Row="1" Grid.Column="1" Margin="10 0 0 0">The first page of  the pdf to consider:</TextBlock>
                             <TextBox Grid.Row="1" Grid.Column="2" x:Name="inputFirstPdf" Margin="10 0 0 5"/>
-                            <TextBlock Grid.Row="2" Grid.Column="1" Margin="10 0 0 0" >Number of total pdf pages to import:</TextBlock>
-                            <TextBox Grid.Row="2" Grid.Column="2" x:Name="inputPdfCount" Margin="10 0 0 5"/>
+                            <TextBlock Grid.Row="2" Grid.Column="1" Margin="10 0 0 0" >The last page of the pdf to import:</TextBlock>
+                            <TextBox Grid.Row="2" Grid.Column="2" x:Name="inputLastPdf" Margin="10 0 0 5"/>
                             <TextBlock Grid.Row="3" Grid.Column="1" Margin="10 0 0 0" >Stage number to map the first pdf page to:</TextBlock>
                             <TextBox Grid.Row="3" Grid.Column="2" x:Name="inputFirstStage" Margin="10 0 0 0"/>
                             <CheckBox x:Name="checkBoxIndividualDPI" Grid.Row="4" Grid.Column="0" Margin="0 10 0 0">Define individual dpi</CheckBox>
