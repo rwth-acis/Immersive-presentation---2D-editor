@@ -4,23 +4,20 @@ using System.Text;
 
 namespace ImmersivePresentation
 {
-    class PDFElement:Image2D
+    public class PDFElement:Image2D
     {
-
-        public bool useIndividualMapping;
-        public int firstPDFPage;
-        public int lastPDFPage;
-        public int firstStageNumber;
-        public bool useIndividualDPI;
+        public int pdfId;
+        public int pdfStart;
+        public int stageStart;
+        public int pdfCount;
         public int dpi;
 
-        public PDFElement(double pXPosition, double pYPosition, double pXScale, double pYScale, bool useIndividualMapping, int firstPDFPage, int lastPDFPage, int firstStageNumber, bool useIndividualDPI, int dpi) :base(pXPosition, pYPosition, pXScale, pYScale)
+        public PDFElement(int id, string pRelativeImageSource, double pXPosition, double pYPosition, double pXScale, double pYScale, int pdfStart, int stageStart, int pdfCount, int dpi) :base(pRelativeImageSource, pXPosition, pYPosition, pXScale, pYScale)
         {
-            this.useIndividualMapping = useIndividualMapping;
-            this.firstPDFPage = firstPDFPage;
-            this.lastPDFPage = lastPDFPage;
-            this.firstStageNumber = firstStageNumber;
-            this.useIndividualDPI = useIndividualDPI;
+            this.pdfId = id;
+            this.pdfStart = pdfStart;
+            this.stageStart = stageStart;
+            this.pdfCount = pdfCount;
             this.dpi = dpi;
         }
     }

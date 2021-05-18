@@ -763,7 +763,7 @@ namespace _2D_Editor
                 }
             }
         }
-        public void addNewBackgroundImage(string pPath, int pStageIndex)
+        public void addNewBackgroundImage(string pPath, int pStageIndex, int pdfId, int pdfStart, int stageStart, int pdfCount, int dpi)
         {
             if(pStageIndex >= openPresentation.stages.Count)
             {
@@ -792,12 +792,8 @@ namespace _2D_Editor
                 try
                 {
                     File.Copy(sourcePath, targetTepFolder + availableNameOfFile + extension);
-                    Image2D newImage = new Image2D(relativeFolderPath + availableNameOfFile + extension);
-                    newImage.xPosition = 0;
-                    newImage.yPosition = 0;
-                    newImage.xScale = 100;
-                    newImage.yScale = 100;
-                    openPresentation.stages[pStageIndex].canvas.elements.Insert(0, newImage);
+                    PDFElement newPdfElem = new PDFElement(pdfId, relativeFolderPath + availableNameOfFile + extension, 0, 0, 100, 100, pdfStart, stageStart, pdfCount, dpi);
+                    openPresentation.stages[pStageIndex].canvas.elements.Insert(0, newPdfElem);
                 }
                 catch
                 {
@@ -892,6 +888,77 @@ namespace _2D_Editor
                 {
                     File.Delete(tempPresDir + oldRelativePath);
                 }
+            }
+        }
+
+        public void PDFUpdate_complete(PDFElement pdfElem)
+        {
+            //ask for new pdf version
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == true)
+            {
+                RemovePDFComplete(pdfElem);
+                performImportPdf(openFileDialog.FileName, pdfElem.dpi, pdfElem.pdfStart, pdfElem.stageStart, pdfElem.pdfCount);
+            }
+        }
+
+        public void PDFRemove_after(PDFElement pdfElem)
+        {
+            RemoveAndSwitchOnGivenElement(pdfElem, false);
+        }
+
+        public void PDFRemove_before(PDFElement pdfElem)
+        {
+            RemoveAndSwitchOnGivenElement(pdfElem, true);
+        }
+
+        private void RemoveAndSwitchOnGivenElement(PDFElement switchElement, bool deleteBeforeFound)
+        {
+            bool delete = deleteBeforeFound;
+            for (int i = 0; i < openPresentation.stages.Count; i++){
+                Stage stage = openPresentation.stages[i];
+                for(int j = 0; j < stage.canvas.elements.Count; j++)
+                {
+                    Element elem = stage.canvas.elements[j];
+                    if(elem is PDFElement)
+                    {
+                        PDFElement pdf = (PDFElement)elem;
+                        if(pdf == switchElement)
+                        {
+                            delete = !delete;
+                            continue;
+                        }
+                        if(delete && (pdf.pdfId == switchElement.pdfId)) //only remove pdf elements that were added in the same import
+                        {
+                            removeRessources(pdf);
+                            openPresentation.stages[i].canvas.elements.RemoveAt(j);
+                        }
+                    }
+                }
+
+            }
+        }
+
+        private void RemovePDFComplete(PDFElement exampleElement)
+        {
+            bool delete = true;
+            for (int i = 0; i < openPresentation.stages.Count; i++)
+            {
+                Stage stage = openPresentation.stages[i];
+                for (int j = 0; j < stage.canvas.elements.Count; j++)
+                {
+                    Element elem = stage.canvas.elements[j];
+                    if (elem is PDFElement)
+                    {
+                        PDFElement pdf = (PDFElement)elem;
+                        if (delete && (pdf.pdfId == exampleElement.pdfId)) //only remove pdf elements that were added in the same import
+                        {
+                            removeRessources(pdf);
+                            openPresentation.stages[i].canvas.elements.RemoveAt(j);
+                        }
+                    }
+                }
+
             }
         }
 
@@ -1143,6 +1210,10 @@ namespace _2D_Editor
             if (pdfCount == -1) pdfCount = myPdfiumPdf.PageCount;
             Bitmap bmpfium;
 
+            // add new highest pdfid
+            int pdfID = openPresentation.highestPdfId + 1;
+            openPresentation.highestPdfId += 1;
+
             for (int i = 0; i < pdfCount; i++)
             {
                 if (pdfStart + i >= myPdfiumPdf.PageCount) break;
@@ -1155,7 +1226,7 @@ namespace _2D_Editor
                 //Add image to stage i
                 if ( stageStart + i < openPresentation.stages.Count)
                 {
-                    addNewBackgroundImage(tempFileStorage, stageStart + i);
+                    addNewBackgroundImage(tempFileStorage, stageStart + i, pdfID, pdfStart, stageStart, pdfCount, pDPI);
                     //addNewImage(tempFileStorage);
                 }
                 else
@@ -1165,7 +1236,7 @@ namespace _2D_Editor
                     {
                         addNewStage(openPresentation.stages.Count);
                     }
-                    addNewBackgroundImage(tempFileStorage, stageStart + i);
+                    addNewBackgroundImage(tempFileStorage, stageStart + i, pdfID, pdfStart, stageStart, pdfCount, pDPI);
                 }
             }
         }
