@@ -71,5 +71,12 @@ namespace ImmersivePresentation
             yScale = pYScale;
         }
 
+        public Image2D(string pRelativeImageSource, double pXPosition, double pYPosition, double pXScale, double pYScale) : base(pXPosition, pYPosition)
+        {
+            xScale = pXScale;
+            yScale = pYScale;
+            relativeImageSource = pRelativeImageSource;
+        }
+
     }
 }

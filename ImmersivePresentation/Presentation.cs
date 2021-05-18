@@ -15,6 +15,10 @@ namespace ImmersivePresentation
         //in tempFilePath the presentation will create a folder that will be exported as a ziped file to the filepath when it is saved
         private string tempFilePath { get; set; }
         public DateTime timeOfCreation { get; set; }
+        /// <summary>
+        /// Contains the highest id a pdf element has. This allows to derive the next unique id without goint through all 2D elements
+        /// </summary>
+        public int highestPdfId { get; set; }
         public ObservableCollection<Stage> stages { get; set; }
 
         public Presentation()
@@ -29,7 +33,7 @@ namespace ImmersivePresentation
             //Initialize all parameters
             name = pPresentationName;
             timeOfCreation = DateTime.Now;
-
+            highestPdfId = 0;
             //Create a new Stage
             stages = new ObservableCollection<Stage>();
             stages.Add(new Stage(presentationId + "-1"));

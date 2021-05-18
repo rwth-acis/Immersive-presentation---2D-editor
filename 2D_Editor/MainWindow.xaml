@@ -108,6 +108,41 @@
                         <ScrollViewer VerticalScrollBarVisibility="Auto">
                             <ItemsControl x:Name="propertiesEditingList">
                                 <ItemsControl.Resources>
+                                    <DataTemplate DataType="{x:Type impres:PDFElement}">
+                                        <Border BorderBrush="Black" BorderThickness="1">
+                                            <StackPanel Margin="5">
+                                                <Label>X Position</Label>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBox Text="{Binding xPosition, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.0}}" MinWidth="100"/>
+                                                    <Label>%</Label>
+                                                </StackPanel>
+                                                <Separator/>
+                                                <Label>Y Position</Label>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBox Text="{Binding yPosition, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.0}}" MinWidth="100"/>
+                                                    <Label>%</Label>
+                                                </StackPanel>
+                                                <Separator/>
+                                                <Label>X Scale</Label>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBox Text="{Binding xScale, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.0}}" MinWidth="100"/>
+                                                    <Label>%</Label>
+                                                </StackPanel>
+                                                <Separator/>
+                                                <Label>YScale</Label>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBox Text="{Binding yScale, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.0}}" MinWidth="100"/>
+                                                    <Label>%</Label>
+                                                </StackPanel>
+                                                <Label>PDF Related Actions</Label>
+                                                <Button Tag="{Binding }" Click="PropertyEditorPDFUpdate_complete_Clicked" Margin="0, 5">Update complete imported PDF</Button>
+                                                <Button Tag="{Binding }" Click="PropertyEditorPDFRemove_before_Clicked" Margin="0, 5">Delete imported PDF before this stage</Button>
+                                                <Button Tag="{Binding }" Click="PropertyEditorPDFRemove_after_Clicked" Margin="0, 5">Delete imported PDF after this stage</Button>
+                                                <Separator/>
+                                                <Button Tag="{Binding }" Click="Remove2DElementClicked">Remove Element</Button>
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
                                     <DataTemplate DataType="{x:Type impres:Image2D}">
                                         <Border BorderBrush="Black" BorderThickness="1">
                                             <StackPanel Margin="5">
@@ -283,6 +318,13 @@
                                             <Viewbox Stretch="Uniform">
                                                 <ItemsControl x:Name="stageCanvasPreview" ItemsSource="{Binding canvas.elements}">
                                                     <ItemsControl.Resources>
+                                                        <DataTemplate DataType="{x:Type impres:PDFElement}">
+                                                            <Image Width="{Binding xScale, Converter={StaticResource RelativePosToAbsolutePos}, ConverterParameter=1920}" 
+                                                                    Height="{Binding yScale, Converter={StaticResource RelativePosToAbsolutePos}, ConverterParameter=1080}" 
+                                                                    Source="{Binding relativeImageSource, Converter={StaticResource RelativePathToImageSource}}"
+                                                                    Stretch="Fill"
+                                                                    Tag="{Binding }"/>
+                                                        </DataTemplate>
                                                         <DataTemplate DataType="{x:Type impres:Image2D}">
                                                             <Image Width="{Binding xScale, Converter={StaticResource RelativePosToAbsolutePos}, ConverterParameter=1920}" 
                                                                     Height="{Binding yScale, Converter={StaticResource RelativePosToAbsolutePos}, ConverterParameter=1080}" 

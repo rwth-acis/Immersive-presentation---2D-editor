@@ -379,7 +379,22 @@ namespace _2D_Editor
 			presentationHandler.changeImageSource((Image2D)((Button)sender).Tag);
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+		private void PropertyEditorPDFUpdate_complete_Clicked(object sender, RoutedEventArgs e)
+		{
+			presentationHandler.PDFUpdate_complete((PDFElement)((Button)sender).Tag);
+		}
+
+		private void PropertyEditorPDFRemove_after_Clicked(object sender, RoutedEventArgs e)
+		{
+			presentationHandler.PDFRemove_after((PDFElement)((Button)sender).Tag);
+		}
+
+		private void PropertyEditorPDFRemove_before_Clicked(object sender, RoutedEventArgs e)
+		{
+			presentationHandler.PDFRemove_before((PDFElement)((Button)sender).Tag);
+		}
+
+		private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
 			callerWindow.Close();
         }
