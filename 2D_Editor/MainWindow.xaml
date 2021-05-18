@@ -134,11 +134,10 @@
                                                     <TextBox Text="{Binding yScale, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0:0.0}}" MinWidth="100"/>
                                                     <Label>%</Label>
                                                 </StackPanel>
-                                                <Label>PDF Related Setting</Label>
-                                                <Button Tag="{Binding }" Click="PropertyEditorPDFUpdate_complete_Clicked">Update complete imported PDF</Button>
-                                                <Button Tag="{Binding }" Click="PropertyEditorPDFRemove_before_Clicked">Delete imported PDF before this one</Button>
-                                                <Button Tag="{Binding }" Click="PropertyEditorPDFRemove_after_Clicked">Delete imported PDF after this one</Button>
-                                                <Separator/>
+                                                <Label>PDF Related Actions</Label>
+                                                <Button Tag="{Binding }" Click="PropertyEditorPDFUpdate_complete_Clicked" Margin="0, 5">Update complete imported PDF</Button>
+                                                <Button Tag="{Binding }" Click="PropertyEditorPDFRemove_before_Clicked" Margin="0, 5">Delete imported PDF before this stage</Button>
+                                                <Button Tag="{Binding }" Click="PropertyEditorPDFRemove_after_Clicked" Margin="0, 5">Delete imported PDF after this stage</Button>
                                                 <Separator/>
                                                 <Button Tag="{Binding }" Click="Remove2DElementClicked">Remove Element</Button>
                                             </StackPanel>
