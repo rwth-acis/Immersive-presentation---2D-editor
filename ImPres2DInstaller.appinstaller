@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<AppInstaller
+	Uri="file:///C:/Users/lukas/OneDrive/Desktop/ImPres2DInstaller.appinstaller"
+	Version="1.1.3.0" xmlns="http://schemas.microsoft.com/appx/appinstaller/2017/2">
+	<MainBundle
+		Name="06c58344-e137-4259-95c7-3205123b5ad3"
+		Version="1.1.3.0"
+		Publisher="CN=Lukas Liss"
+		Uri="file:///C:/Users/lukas/OneDrive/Desktop/ImPres2DInstaller_1.1.3.0_Test/ImPres2DInstaller_1.1.3.0_x86_x64.msixbundle" />
+	<UpdateSettings>
+		<OnLaunch
+			HoursBetweenUpdateChecks="0" />
+	</UpdateSettings>
+</AppInstaller>
