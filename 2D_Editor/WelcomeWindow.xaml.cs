@@ -233,7 +233,6 @@ namespace _2D_Editor
                 Browser = new WpfEmbeddedBrowser()
         };
             options.Policy.Discovery.ValidateIssuerName = false;
-            //options.Policy.Discovery.ValidateEndpoints = false;
             options.Policy.Discovery.AdditionalEndpointBaseAddresses.Add("https://api.learning-layers.eu/auth/realms/main");
 
             _oidcClient = new OidcClient(options);
