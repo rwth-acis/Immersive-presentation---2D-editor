@@ -231,7 +231,9 @@ namespace _2D_Editor
                 Scope = "openid profile email",
                 RedirectUri = "http://127.0.0.1/sample-wpf-app",
                 Browser = new WpfEmbeddedBrowser()
-            };
+        };
+            options.Policy.Discovery.ValidateIssuerName = false;
+            options.Policy.Discovery.ValidateEndpoints = false;
 
             _oidcClient = new OidcClient(options);
 
