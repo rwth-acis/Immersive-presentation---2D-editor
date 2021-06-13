@@ -1,5 +1,17 @@
 # ImPres - An Immersive Presentation System
 
+## Installation
+There exist a easy installer that can be used to install the 2D editor on any Windows x86 or x64 system.
+But before you can use the installer you first need to install a certificate that allows installers signed by us to install software on your PC.
+- First download the certificate [here](https://rwth-acis.github.io/Immersive-presentation---2D-editor/ImPres2DInstaller_1.1.5.0_Test/ImPres2DInstaller_1.1.5.0_x86_x64.cer).
+- Then double click the downloaded certificate.
+- Select to install the certificate for the local maschine.
+- Select the "Place the certificate in the following store" option.
+- Browse and select the "Trusted Root Certificate Authorities" folders.
+- But instead of selecting the option to automatically
+
+After installing the certificate you can simply visit [the download page](https://rwth-acis.github.io/Immersive-presentation---2D-editor/). 
+
 ## System Functionalities
 The Impres Systems allows users to create and present 3D presentations.
 Those presentations can contain 2D content (presented on the so-called "canvas") and 3D content.
