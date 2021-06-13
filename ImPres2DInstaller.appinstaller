@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <AppInstaller
 	Uri="https://rwth-acis.github.io/Immersive-presentation---2D-editor/ImPres2DInstaller.appinstaller"
-	Version="1.1.4.0" xmlns="http://schemas.microsoft.com/appx/appinstaller/2017/2">
+	Version="1.1.5.0" xmlns="http://schemas.microsoft.com/appx/appinstaller/2017/2">
 	<MainBundle
 		Name="06c58344-e137-4259-95c7-3205123b5ad3"
-		Version="1.1.4.0"
+		Version="1.1.5.0"
 		Publisher="CN=Lukas Liss"
-		Uri="https://rwth-acis.github.io/Immersive-presentation---2D-editor/ImPres2DInstaller_1.1.4.0_Test/ImPres2DInstaller_1.1.4.0_x86_x64.msixbundle" />
+		Uri="https://rwth-acis.github.io/Immersive-presentation---2D-editor/ImPres2DInstaller_1.1.5.0_Test/ImPres2DInstaller_1.1.5.0_x86_x64.msixbundle" />
 	<UpdateSettings>
 		<OnLaunch
 			HoursBetweenUpdateChecks="0" />
