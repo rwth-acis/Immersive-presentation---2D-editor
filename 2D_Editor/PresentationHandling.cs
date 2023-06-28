@@ -1122,10 +1122,20 @@ namespace _2D_Editor
             if(mainWindow != null)
             {
                 ListBox stageListBox = mainWindow.stageList;
-
+                //deactive virtualizing, otherwise canvases that were not viewed before are not generated
+                VirtualizingStackPanel.SetIsVirtualizing(stageListBox, false);
                 foreach(object item in stageListBox.Items)
                 {
+                    //get the UIElement as ListBoxItem
                     ListBoxItem myListBoxItem  = (ListBoxItem)(stageListBox.ItemContainerGenerator.ContainerFromItem(item));
+                    if(myListBoxItem == null)
+                    {
+                        //generate the UIElement if it has not yet been generated
+                        stageListBox.UpdateLayout();
+                        
+                        //get the UIElement as ListBoxItem
+                        myListBoxItem  = (ListBoxItem)(stageListBox.ItemContainerGenerator.ContainerFromItem(item));
+                    }
                     // save each canvas as an image
                     //get the content presenter
                     ContentPresenter myContentPresenter = FindVisualChild<ContentPresenter>(myListBoxItem);
@@ -1142,6 +1152,8 @@ namespace _2D_Editor
                     Directory.CreateDirectory(tempPresDir + tempSubCanvasImg);
                     saveCanvasToImage(canvasSavingPath, itemsPanel);
                 }
+                //active virtualizing again for better performance 
+                VirtualizingStackPanel.SetIsVirtualizing(stageListBox, true);
             }
         }
 
