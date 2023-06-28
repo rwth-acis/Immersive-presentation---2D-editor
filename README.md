@@ -1,11 +1,11 @@
 # ImPres - An Immersive Presentation System
 
 ## Installation
-There exist a easy installer that can be used to install the 2D editor on any Windows x86 or x64 system.
+There exist an easy installer that can be used to install the 2D editor on any Windows x86 or x64 system.
 But before you can use the installer you first need to install a certificate that allows installers signed by us to install software on your PC.
 - First download the certificate [here](https://rwth-acis.github.io/Immersive-presentation---2D-editor/ImPres2DInstaller_1.1.5.0_Test/ImPres2DInstaller_1.1.5.0_x86_x64.cer).
-- Then double click on the downloaded certificate.
-- Select to install the certificate for the local maschine or the current user.
+- Then double-click on the downloaded certificate.
+- Select to install the certificate for the local machine or the current user.
 - Select the "Place the certificate in the following store" option.
 - Browse and select the "Trusted Root Certificate Authorities" folders.
 - After clicking the "Next" button you will be informed on the security risk that is connected to installing a new certificate.
@@ -28,17 +28,17 @@ This repository contains the 2D Editor for the presentations.
 
 The 3D editor part can be found in [this repository](https://github.com/rwth-acis/Immersive-presentation---3D-editor).
 
-The backend that connects all parts can be found in [this repository](https://github.com/rwth-acis\Immersive-presentation---Backend-Coordinator).
+The backend that connects all parts can be found in [this repository](https://github.com/rwth-acis/Immersive-presentation---Backend-Coordinator).
 
 ## Getting started
 
 First, the backend should be up and running at a specified `<backend-addr>`.
-Then the two editors (the (2D editor](https://github.com/rwth-acis/Immersive-presentation---2D-editor) and the [3D editor](https://github.com/rwth-acis/Immersive-presentation---3D-editor) can be initialized.)
+Then the two editors (the [2D editor](https://github.com/rwth-acis/Immersive-presentation---2D-editor) and the [3D editor](https://github.com/rwth-acis/Immersive-presentation---3D-editor) can be initialized.)
 As all architecture parts are needed, the getting started section of all architecture parts, each covers the same complete setup process for all parts.
 
 ### Prerequisites
 A MySQL Database which can be accessed by the backend
-- MySQL database that uses the schema defined in the `<databasesetup.sql>` file in the [backend repository](https://github.com/rwth-acis\Immersive-presentation---Backend-Coordinator).
+- MySQL database that uses the schema defined in the `<databasesetup.sql>` file in the [backend repository](https://github.com/rwth-acis/Immersive-presentation---Backend-Coordinator).
 - User with the necessary login credentials that can be used by the backend to connect to the database.
 
 For the backend
